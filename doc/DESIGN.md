@@ -26,7 +26,7 @@ The classes and public methods relevant to each are:
 ## User Interface:
 To start off the program, a display window will display a menu in which the various options for the simulation are detailed. The simulation will start at the selection of a simulation type by the user, which can be done by selecting a file from a drop-down menu. This file will tell the program which simulation to run, and which rules the simulation are to be followed as this file will contain all pertinent information. Once a file has been selected, the user can then press the RUN button to initiate the simulation which will work by forcing the GUI class to create a simulation. At any point, the user can pause the simulation by pressing the STOP button, which will tell the GUI class to stop calling step() functions on the simulation. However, during the simulation, the screen will display the current status of the simulation and will update periodically according to rules set forth in the GUI class. A picture of the the initial design for the window is shown below. 
 
-![Second Image](IMAGE_TEMP2.jpg?raw=true, "User Interface Design")
+![Second Image](IMAGE_TEMP_2.jpg?raw=true, "User Interface Design")
 
 NOT INCLUDED IN DRAWING : Popup appears if user enters name of file not found in any of the project directories.
 	
