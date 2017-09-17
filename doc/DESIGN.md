@@ -7,19 +7,19 @@ In this program, we are trying to create a simulation of cellular automata. The 
 The design is divided into three major parts: the user interface, the simulation, and interaction with files. The GUI stores a Simulation object and has access to the Cells that are storing data. Different rules are represented by subclasses of the abstract Cell class, which will handle stepping and updating differently. The GUI calls on the FileHandler to construct a 2D array of Cells (based on a user selection of Simulation) from an XML file, then the GUI constructs a Simulation and passes in the array. A picture of the interaction between classes is given below. 
 The classes and public methods relevant to each are:
 * class FileHandler
-** public static Cell[][] read(String fileName)
-** public static void save(Cell[][] cells, String fileName)
+    * public static Cell[][] read(String fileName)
+    * public static void save(Cell[][] cells, String fileName)
 * abstract class Cell
-** public void step(List<Cell> neighborhood)
-** public void update()
-** public Node getImage()
-** protected Object getState()
+    * public void step(List<Cell> neighborhood)
+    * public void update()
+    * public Node getImage()
+    * protected Object getState()
 * class Simulation
-** public Simulation(Cell[][] cells)
-** private Cell[][]
-** Public void step()
+    * public Simulation(Cell[][] cells)
+    * private Cell[][]
+    * Public void step()
 * public class GUI
-** public GUI()
+    * public GUI()
 
 	
 ## User Interface:
@@ -29,32 +29,29 @@ NOT INCLUDED IN DRAWING : Popup appears if user enters name of file not found in
 	
 ## Design Details:
 * Cell -
-** Since cell is an abstract class, we will have subclasses of cell representing each different simulation possible (i.e. SegregationCell, FireCell, PredPreyCell). These individual implementations of the cells will contain the state data which is unique to each of the different simulations, such as the rules for cell transformation, and each unique state the cell can be in during the specific simulation.
-** Each subclass of the Cell class will contain the logic necessary for updating itself, and will have access to the state of each of the cells surrounding it. When the Simulation object calls the step() method, the cell calculates what it will change to after it updates its state, and stores it in an instance variable. Then, accessing these instance variables, all of the cells will simultaneously transform into the states that they stored in their instance variables.
-** Cell step(List<Cell>neighborhood) evaluates the condition of all of the cells surrounding it, and determines what the next state of the cell will be.
-** Cell update() simply changes the cell from its current state to the state which was determined in the step() method.
-** Node getImage() returns a node to the GUI, so that the GUI can display the node. The logic for what is returned is determined in each subclass of cell.
- 
+    * Since cell is an abstract class, we will have subclasses of cell representing each different simulation possible (i.e. SegregationCell, FireCell, PredPreyCell). These individual implementations of the cells will contain the state data which is unique to each of the different simulations, such as the rules for cell transformation, and each unique state the cell can be in during the specific simulation.
+    * Each subclass of the Cell class will contain the logic necessary for updating itself, and will have access to the state of each of the cells surrounding it. When the Simulation object calls the step() method, the cell calculates what it will change to after it updates its state, and stores it in an instance variable. Then, accessing these instance variables, all of the cells will simultaneously transform into the states that they stored in their instance variables.
+    * Cell step(List<Cell>neighborhood) evaluates the condition of all of the cells surrounding it, and determines what the next state of the cell will be.
+    * Cell update() simply changes the cell from its current state to the state which was determined in the step() method.
+    * Node getImage() returns a node to the GUI, so that the GUI can display the node. The logic for what is returned is determined in each subclass of cell.
 * FileHandler -
-** The FileHandler class will be responsible for extracting the data from an XML file. With the data in the XML file, this class will be able to create a 2D array of cells by calling the cell constructors. This array of cells will then be sent to the GUI in order to begin the simulation. This class will have two main methods, read(String fileName) which will take the file and return an array of cells, and save(Cell[][] cells, String fileName), which will take this array of cells and save it to a file. 
-
+    * The FileHandler class will be responsible for extracting the data from an XML file. With the data in the XML file, this class will be able to create a 2D array of cells by calling the cell constructors. This array of cells will then be sent to the GUI in order to begin the simulation. This class will have two main methods, read(String fileName) which will take the file and return an array of cells, and save(Cell[][] cells, String fileName), which will take this array of cells and save it to a file. 
 * Simulation - 
-** The Simulation is responsible for handling each step by stepping then updating each Cell. It may be needed to handle special cases where Cells require distant information, like in the Segregation Simulation where Cells can move to random empty locations in the array. 
-
+    * The Simulation is responsible for handling each step by stepping then updating each Cell. It may be needed to handle special cases where Cells require distant information, like in the Segregation Simulation where Cells can move to random empty locations in the array. 
 * GUI - 
-** The “highest” class in the program. It constructs and calls on the other classes and takes user input as needed. 
+    * The “highest” class in the program. It constructs and calls on the other classes and takes user input as needed. 
 
 ### Use Cases:
 * Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
-** The Game of Life rules would need to be encoded into a subclass of Cell. This subclass’s step method would count the number of living cells around it and decide its new state. This would be stored until update is called, at which point it would change to this new state. 
+    * The Game of Life rules would need to be encoded into a subclass of Cell. This subclass’s step method would count the number of living cells around it and decide its new state. This would be stored until update is called, at which point it would change to this new state. 
 * Apply the rules to an edge cell: set the next state of a cell to live by counting its number of neighbors using the Game of Life rules for a cell on the edge (i.e., with some of its neighbors missing)
-** Since we would already encode the Game of Life rules into the specific subclass of cell, and the cells step based upon their neighbors (which are also cells) being given to them in a List, we would simply encode missing neighbors as being null objects in the List, which the Game of Life logic in the cell would interpret as the cell being on the side of the simulation.
+    * Since we would already encode the Game of Life rules into the specific subclass of cell, and the cells step based upon their neighbors (which are also cells) being given to them in a List, we would simply encode missing neighbors as being null objects in the List, which the Game of Life logic in the cell would interpret as the cell being on the side of the simulation.
 * Move to the next generation: update all cells in a simulation from their current state to their next state and display the result graphically
-** In order to update the current generation of cells, the GUI class will call step() on the Simulation class, which will in turn tell the cells to update themselves according to the rules set forth. However, the cells will update themselves in a two-part manner, first by determining what their next state will be and then by changing every cell’s state at the same time after all determinations have been made. The GUI will update the images displayed accordingly. 
+    * In order to update the current generation of cells, the GUI class will call step() on the Simulation class, which will in turn tell the cells to update themselves according to the rules set forth. However, the cells will update themselves in a two-part manner, first by determining what their next state will be and then by changing every cell’s state at the same time after all determinations have been made. The GUI will update the images displayed accordingly. 
 * Set a simulation parameter: set the value of a parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
-** The FileHandler will already be constructing the cells, so if a subclass (FireCell, in the case of probCatch) takes in a value as a parameter, the FileHandler will pass that value to each cell it constructs. 
+    * The FileHandler will already be constructing the cells, so if a subclass (FireCell, in the case of probCatch) takes in a value as a parameter, the FileHandler will pass that value to each cell it constructs. 
 * Switch simulations: use the GUI to change the current simulation from Game of Life to Wator
-** The GUI will allow you to type and select another XML file which you can then choose and begin to run. This lets you change the simulation without closing and re-opening a different GUI to continue looking at cool simulations.
+    * The GUI will allow you to type and select another XML file which you can then choose and begin to run. This lets you change the simulation without closing and re-opening a different GUI to continue looking at cool simulations.
 
 ## Design Considerations:
 
