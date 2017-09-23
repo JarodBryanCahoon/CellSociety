@@ -21,5 +21,10 @@
         * In this case an error pop-up will occur, telling the user to input a valid string
     2. The user submits a stirng which is the name of the file
         * The GUI takes this string, verifies that it is non-null, and passes it along to the XMLReader to create the cells.
-    3. 
+    3. The user decides to pause the simulation at a certain step.
+    4. The user decides to reset the animation.
+    5. The user decides to export the current state of the simulation as an XML file
+
+* I am most excited to work on the problem of having a grid of cells with a set size, regardless of the number of cells.
+* This is also the problem I am worried about working on most, as it seems hard to code in the instance that the size of the grid grows.
     
