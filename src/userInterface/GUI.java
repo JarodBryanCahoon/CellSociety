@@ -12,39 +12,49 @@ public class GUI extends Application{
 	public static final double BUTTON_MAX_WIDTH = 120;
 	public static final double GRID_SIZE = 300;
 	
+	private int gridWidth;
+	private int gridHeight;
 	private Stage mainStage;
 	private Scene mainScene;
-	private BorderPane Pane;
+	private BorderPane guiLayout;
 	private GridPane cellGrid;
 	private TextField inputField;
 	
 	@Override
-	private void start(Stage pStage) throws Exception {
+	public void start(Stage pStage) throws Exception {
 		setMain(pStage);
-		
+		initializeCellGrid();
 	}
-
+	
+	/**
+	 * Sets the main stage with title and Appropriate panes
+	 * @param pStage Main stage upon which the Animation and scenes will be placed
+	 */
 	private void setMain(Stage pStage) {
 		mainStage = pStage;
 		mainStage.setTitle("Cell Society Simulation");
-		setCellGrid();
-		setBorderPane();
-		mainScene = new Scene(Pane, 650, 650);
+		setLayout();
+		mainScene = new Scene(guiLayout, 650, 650);
 		mainStage.setScene(mainScene);
 		mainStage.show();
 	}
-
-	private void setBorderPane() {
-		Pane = new BorderPane();
+	
+	
+	/**
+	 * Adds all appropriate widgets to the main GUI (Buttons, Labels, TextBoxes, etc) except for the GridPane containing the cells,
+	 * which is handled by a different method which requires more information.
+	 */
+	private void setLayout() {
+		guiLayout = new BorderPane();
 		HBox topBox = new HBox();
 		topBox.setPadding(new Insets(15, 12, 15, 12));
 		topBox.setSpacing(30);
-		Pane.setTop(topBox);
+		guiLayout.setTop(topBox);
 		
 		VBox leftSideBox = new VBox();
 		leftSideBox.setPadding(new Insets(10));
 		leftSideBox.setSpacing(13);
-		Pane.setLeft(leftSideBox);
+		guiLayout.setLeft(leftSideBox);
 		
 		Button playButton = new Button("Play");
 		Button pauseButton = new Button("Pause (inactive)");
@@ -62,19 +72,42 @@ public class GUI extends Application{
 		inputField = new TextField();
 		inputField.setPrefWidth(300);
 		inputField.setFocusTraversable(false);
-		inputField.setPromptText("For instance \"GOLSim.xml\"");
-		Pane.setTop(topBox);
-		Pane.setCenter(cellGrid);
-		Pane.setBottom(null);
-		Pane.setRight(null);
+		inputField.setPromptText("Not currently working");
+		guiLayout.setTop(topBox);
+		
 		
 		topBox.getChildren().addAll(insLabel, inputField);
 	}
 	
-	private void setCellGrid() {
+	/**
+	 * Initialized the gridPane to be of the appropriate size, with the appropriate number of cells
+	 */
+	private void initializeCellGrid() {
 		cellGrid = new GridPane();
-		cellGrid.setPrefHeight(GRID_SIZE);
-		cellGrid.setPrefWidth(GRID_SIZE);
+		cellGrid.setGridLinesVisible(true);
+		int rows = 20;
+		int cols = 20;
+		
+		for(int i = 0; i < rows; i++) {
+			ColumnConstraints colConst = new ColumnConstraints();
+            colConst.setPercentWidth(100.0 / cols);
+            cellGrid.getColumnConstraints().add(colConst);
+		}
+		for(int i = 0; i < cols; i++) {
+			RowConstraints rowConst = new RowConstraints();
+            rowConst.setPercentHeight(100.0 / rows);
+            cellGrid.getRowConstraints().add(rowConst);
+		}
+		
+		
+		for(int i = 0; i < cols; i++) {
+			for(int j = 0; j < rows; j++) {
+				Button b = new Button(String.format("%d, %d",i,j));
+				cellGrid.add(b, i, j);
+			}
+		}
+		
+		guiLayout.setCenter(cellGrid);
 	}
 	
 	public static void main(String[] args) {
