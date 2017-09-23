@@ -1,9 +1,16 @@
-package cellsociety_team01;
+package simulations;
 
+import cells.Cell;
+import grids.AbstractGrid;
+
+/**
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public class Simulation {
-	AbstractGrid cells;
+	protected AbstractGrid cells;
 	
-	public Simulation(SquareGrid cells) {
+	public Simulation(AbstractGrid cells) {
 		this.cells = cells;
 	}
 
@@ -12,10 +19,13 @@ public class Simulation {
 			cells.get(i).step(cells.getNeighbors(i));
 		for(Cell cell:cells)
 			cell.update();
-		
 	}
 	
 	public String toString() {
 		return cells.toString();
+	}
+	
+	public AbstractGrid getCells() {
+		return cells;
 	}
 }

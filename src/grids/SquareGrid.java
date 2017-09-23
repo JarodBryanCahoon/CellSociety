@@ -1,10 +1,16 @@
-package cellsociety_team01;
+package grids;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import cells.Cell;
+
+/**
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public class SquareGrid extends AbstractGrid{
 	private Cell[][] cells;
 	
@@ -32,7 +38,14 @@ public class SquareGrid extends AbstractGrid{
 		return cells.length*cells[0].length;
 	}
 	
-	@SuppressWarnings("unchecked")
+	public int getWidth() {
+		return cells[0].length;
+	}
+	
+	public int getHeight() {
+		return cells.length;
+	}
+	
 	public Cell get(int row, int col) {
 		try {
 			return cells[row][col];
@@ -74,7 +87,6 @@ public class SquareGrid extends AbstractGrid{
 				return row < cells.length;
 			}
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public Cell next() {
 				Cell next = cells[row][col];
