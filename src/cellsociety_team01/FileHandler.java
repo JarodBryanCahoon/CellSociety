@@ -71,8 +71,8 @@ public class FileHandler {
 				}
 				if(simulation.equals("Wator")) {
 					sharkLife = Double.parseDouble(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
-					sharkSpawn = Double.parseDouble(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
-					fishSpawn = Double.parseDouble(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
+					sharkSpawn = Double.parseDouble(eElement.getElementsByTagName("sharkSpawn").item(0).getTextContent());
+					fishSpawn = Double.parseDouble(eElement.getElementsByTagName("fishSpawn").item(0).getTextContent());
 					initial.add(sharkLife);
 					initial.add(sharkSpawn);
 					initial.add(fishSpawn);
