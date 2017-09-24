@@ -5,6 +5,8 @@ import java.util.ResourceBundle;
 import cellsociety_team01.*;
 import grids.AbstractGrid;
 import grids.SquareGrid;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -20,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import simulations.Simulation;
 
 
@@ -32,6 +35,8 @@ public class GUI extends Application{
 	public static final Color[] COLORS = {Color.WHITE, Color.TURQUOISE, Color.DARKBLUE};
 	
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
+	private Timeline myAnimation;
+	private double updateRate = .5;
 	private Simulation currentSim;
 	private SquareCellDisplay imageGrid;
 	private int gridRows;
@@ -60,7 +65,10 @@ public class GUI extends Application{
 		mainStage.setScene(mainScene);
 		mainStage.show();
 		
-		
+		KeyFrame frame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+		myAnimation = new Timeline();
+		myAnimation.setCycleCount(Timeline.INDEFINITE);
+		myAnimation.getKeyFrames().add(frame);
 	}
 	
 	
@@ -78,8 +86,19 @@ public class GUI extends Application{
 		guiLayout.setLeft(leftSideBox);
 		
 		Button playButton = new Button(GuiText.getString("PlayButton"));
+		playButton.setOnAction((event) -> {
+			myAnimation.play();
+		});
+		
 		Button pauseButton = new Button(GuiText.getString("PauseButton"));
+		pauseButton.setOnAction((event) -> {
+			myAnimation.pause();
+		});
+		
 		Button stepButton = new Button(GuiText.getString("StepButton"));
+		stepButton.setOnAction((event) -> {
+			this.update();
+		}); 
 		
 		playButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		pauseButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
@@ -115,9 +134,22 @@ public class GUI extends Application{
 	 * @param s Name of the file
 	 */
 	private void loadFile(String s) {
-		guiLayout.setCenter(null);
-		currentSim = FileHandler.fileReader(s);
-		imageGrid = new SquareCellDisplay((SquareGrid)currentSim.getGrid(), COLORS);
+		//guiLayout.setCenter(null);
+		
+		//try {
+			//currentSim = FileHandler.fileReader(s);
+		//} catch (Exception e) {
+			//e.printStackTrace();
+
+		//}
+		System.out.println(s);
+		//imageGrid = new SquareCellDisplay((SquareGrid)currentSim.getGrid(), COLORS);
+	}
+	
+	private void update() {
+		System.out.println("Im working!!!!1!");
+		//currentSim.step();
+		//imageGrid.update();
 	}
 	
 	/**
@@ -126,24 +158,24 @@ public class GUI extends Application{
 	private void initializeCellGrid() {
 		cellGrid = new GridPane();
 		cellGrid.setGridLinesVisible(true);
-		Rectangle[][] images = imageGrid.constructImages();
-		gridRows = images.length;
-		gridCols = images[0].length;
+		//Rectangle[][] images = imageGrid.constructImages();
+		//gridRows = images.length;
+		//gridCols = images[0].length;
 		
-		for(int i = 0; i < gridCols; i++) {
-			ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(100.0 / gridCols);
-            cellGrid.getColumnConstraints().add(colConst);
-		}
-		for(int i = 0; i < gridRows; i++) {
-			RowConstraints rowConst = new RowConstraints();
-            rowConst.setPercentHeight(100.0 / gridRows);
-            cellGrid.getRowConstraints().add(rowConst);
-		}
+		//for(int i = 0; i < gridCols; i++) {
+			//ColumnConstraints colConst = new ColumnConstraints();
+            //colConst.setPercentWidth(100.0 / gridCols);
+            //cellGrid.getColumnConstraints().add(colConst);
+		//}
+		//for(int i = 0; i < gridRows; i++) {
+			//RowConstraints rowConst = new RowConstraints();
+            //rowConst.setPercentHeight(100.0 / gridRows);
+            //cellGrid.getRowConstraints().add(rowConst);
+		//}
 		
 		for(int i = 0; i < gridRows; i++) {
 			for(int j = 0; j <gridCols; j++) {
-				cellGrid.add(images[i][j], j, i);
+				//cellGrid.add(images[i][j], j, i);
 			}
 		}
 		
