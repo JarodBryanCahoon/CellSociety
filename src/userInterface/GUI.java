@@ -2,7 +2,9 @@ package userInterface;
 
 import java.util.ResourceBundle;
 
-import cellsociety_team01.FileHandler;
+import cellsociety_team01.*;
+import grids.AbstractGrid;
+import grids.SquareGrid;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -15,7 +17,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import simulations.Simulation;
 
 
 public class GUI extends Application{
@@ -24,11 +29,13 @@ public class GUI extends Application{
 	public static final double GUI_SIZE = 650;
 	public static final double BUTTON_VERTICAL_SHIFT = 320;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
+	public static final Color[] COLORS = {Color.WHITE, Color.TURQUOISE, Color.DARKBLUE};
 	
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
-	private FileHandler fileReader;
-	private int gridWidth;
-	private int gridHeight;
+	private Simulation currentSim;
+	private SquareCellDisplay imageGrid;
+	private int gridRows;
+	private int gridCols;
 	private Stage mainStage;
 	private Scene mainScene;
 	private BorderPane guiLayout;
@@ -98,10 +105,15 @@ public class GUI extends Application{
 		topBox.getChildren().addAll(insLabel, inputField);
 	}
 	
+	/**
+	 * Retrieves the data from the XML file specified by the reader, starts a simulation with the information, and then returns 
+	 * and array of cell images to the GUI
+	 * @param s Name of the file
+	 */
 	private void loadFile(String s) {
 		guiLayout.setCenter(null);
-		fileReader = new FileHandler(s);
-		
+		currentSim = FileHandler.fileReader(s);
+		imageGrid = new SquareCellDisplay((SquareGrid)currentSim.getGrid(), COLORS);
 	}
 	
 	/**
@@ -110,20 +122,26 @@ public class GUI extends Application{
 	private void initializeCellGrid() {
 		cellGrid = new GridPane();
 		cellGrid.setGridLinesVisible(true);
-		int rows = 2;
-		int cols = 2;
+		Rectangle[][] images = imageGrid.constructImages();
+		gridRows = images.length;
+		gridCols = images[0].length;
 		
-		for(int i = 0; i < rows; i++) {
+		for(int i = 0; i < gridCols; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(100.0 / cols);
+            colConst.setPercentWidth(100.0 / gridCols);
             cellGrid.getColumnConstraints().add(colConst);
 		}
-		for(int i = 0; i < rows; i++) {
+		for(int i = 0; i < gridRows; i++) {
 			RowConstraints rowConst = new RowConstraints();
-            rowConst.setPercentHeight(100.0 / rows);
+            rowConst.setPercentHeight(100.0 / gridRows);
             cellGrid.getRowConstraints().add(rowConst);
 		}
 		
+		for(int i = 0; i < gridRows; i++) {
+			for(int j = 0; j <gridCols; j++) {
+				cellGrid.add(images[i][j], j, i);
+			}
+		}
 		
 		guiLayout.setCenter(cellGrid);
 	}
