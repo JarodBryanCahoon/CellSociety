@@ -7,20 +7,21 @@ import org.xml.sax.SAXException;
 
 import cells.FireCell;
 import cellsociety_team01.Initializer;
+import grids.AbstractGrid;
 import grids.SquareGrid;
 import simulations.Simulation;
 import cellsociety_team01.FileHandler;
 
 public class Main {
-	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+	public static void main(String[] args) throws Exception {
 		// Currently for testing
 		testFireSimulation();
 	}
 	
 	
-	private static void testFireSimulation() throws ParserConfigurationException, SAXException, IOException {
-		SquareGrid cells = new FileHandler().fileReader("data\\Fire.xml");
-		Simulation sim = new Simulation(cells);
+	private static void testFireSimulation() throws Exception {
+		Simulation sim = new FileHandler().fileReader("data\\Fire.xml");
+		AbstractGrid cells = sim.getCells();
 		System.out.println(cells);
 		sim.step();
 		System.out.println(cells);
