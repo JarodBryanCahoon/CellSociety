@@ -11,6 +11,9 @@ import javafx.scene.layout.*;
 public class GUI extends Application{
 	public static final double BUTTON_MAX_WIDTH = 120;
 	public static final double GRID_SIZE = 300;
+	public static final double GUI_SIZE = 650;
+	public static final double BUTTON_VERTICAL_SHIFT = 320;
+	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	
 	private int gridWidth;
 	private int gridHeight;
@@ -34,7 +37,7 @@ public class GUI extends Application{
 		mainStage = pStage;
 		mainStage.setTitle("Cell Society Simulation");
 		setLayout();
-		mainScene = new Scene(guiLayout, 650, 650);
+		mainScene = new Scene(guiLayout, GUI_SIZE, GUI_SIZE);
 		mainStage.setScene(mainScene);
 		mainStage.show();
 	}
@@ -60,9 +63,9 @@ public class GUI extends Application{
 		Button pauseButton = new Button("Pause (inactive)");
 		Button stepButton = new Button("Step (inactive)");
 		
-		playButton.setTranslateY(320);
-		pauseButton.setTranslateY(320);
-		stepButton.setTranslateY(320);
+		playButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
+		pauseButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
+		stepButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		playButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		pauseButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		stepButton.setMaxWidth(BUTTON_MAX_WIDTH);
@@ -70,10 +73,12 @@ public class GUI extends Application{
 		
 		Label insLabel = new Label("Enter Name of XML File: ");
 		inputField = new TextField();
-		inputField.setPrefWidth(300);
+		inputField.setPrefWidth(TEXT_FIELD_PREF_WIDTH);
 		inputField.setFocusTraversable(false);
 		inputField.setPromptText("Not currently working");
 		guiLayout.setTop(topBox);
+		//guiLayout.setBottom(null);
+		//guiLayout.setRight(null);
 		
 		
 		topBox.getChildren().addAll(insLabel, inputField);
@@ -85,27 +90,20 @@ public class GUI extends Application{
 	private void initializeCellGrid() {
 		cellGrid = new GridPane();
 		cellGrid.setGridLinesVisible(true);
-		int rows = 20;
-		int cols = 20;
+		int rows = 10;
+		int cols = 10;
 		
 		for(int i = 0; i < rows; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
             colConst.setPercentWidth(100.0 / cols);
             cellGrid.getColumnConstraints().add(colConst);
 		}
-		for(int i = 0; i < cols; i++) {
+		for(int i = 0; i < rows; i++) {
 			RowConstraints rowConst = new RowConstraints();
             rowConst.setPercentHeight(100.0 / rows);
             cellGrid.getRowConstraints().add(rowConst);
 		}
 		
-		
-		for(int i = 0; i < cols; i++) {
-			for(int j = 0; j < rows; j++) {
-				Button b = new Button(String.format("%d, %d",i,j));
-				cellGrid.add(b, i, j);
-			}
-		}
 		
 		guiLayout.setCenter(cellGrid);
 	}
