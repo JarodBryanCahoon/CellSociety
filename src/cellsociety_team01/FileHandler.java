@@ -68,11 +68,18 @@ public class FileHandler {
 			}
 		}
 		SquareGrid cells = arrayCreator();
+		//Will probably change if tree to something more flexible
 		if(simulation.equals("Fire")) {
-		for(int i = 0; i < cells.getSize(); i++) {
-			cells.set(new FireCell(FireCell.TREE, probCatch), i);
+			for(int i = 0; i < cells.getSize(); i++) {
+				cells.set(new FireCell(FireCell.TREE, probCatch), i);
+			}
+			cells.set(new FireCell(FireCell.BURNING, probCatch), 13);
 		}
-		cells.set(new FireCell(FireCell.BURNING, probCatch), 13);
+		if(simulation.equals("Life")) {
+			for(int i = 0; i < cells.getSize(); i++) {
+				cells.set(new LifeCell(LifeCell.LIVING), i);
+			}
+			cells.set(new LifeCell(LifeCell.DEAD), 13);
 		}
 		return cells;
 	}
