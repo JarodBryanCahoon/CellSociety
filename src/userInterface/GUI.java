@@ -63,11 +63,12 @@ public class GUI extends Application{
 		mainStage.setTitle(GuiText.getString("GuiTitle"));
 		setLayout();
 		mainScene = new Scene(guiLayout, GUI_SIZE, GUI_SIZE);
+		mainScene.getStylesheets().add(getClass().getResource("CellSociety.css").toExternalForm());
 		mainStage.setScene(mainScene);
 		mainStage.show();
 		
 		myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
-		myAnimation = new Timeline();
+		myAnimation = new Timeline();//
 		myAnimation.setCycleCount(Timeline.INDEFINITE);
 		myAnimation.getKeyFrames().add(myFrame);
 	}
