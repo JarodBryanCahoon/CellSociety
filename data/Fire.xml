@@ -3,6 +3,6 @@
 	<simulation>Fire</simulation>
     <rows>10</rows>
     <columns>10</columns>
-    <probCatch>1</probCatch>
+    <probCatch>0.8</probCatch>
 </Simulation>
    

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Simulation SimulationType="Wator">
+	<simulation>Wator</simulation>
+    <rows>10</rows>
+    <columns>10</columns>
+    <sharkLife>**</sharkLife>
+    <sharkSpawn>**</sharkSpawn>
+    <fishSpawn>**</fishSpawn>
+</Simulation>

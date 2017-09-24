@@ -30,9 +30,10 @@ public class FileHandler {
 	private static String simulation;
 	private static int rows;
 	private static int columns;
-	private static int probCatch;
+	private static double probCatch;
 	private static int state;
 	private static String fileName;
+	private static double threshold;
 	
 	public FileHandler() {
 		
@@ -58,16 +59,21 @@ public class FileHandler {
 				rows = Integer.parseInt(eElement.getElementsByTagName("rows").item(0).getTextContent());
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
 				if(simulation.equals("Fire")) {
-					probCatch = Integer.parseInt(eElement.getElementsByTagName("probCatch").item(0).getTextContent())/2;
+					probCatch = Double.parseDouble(eElement.getElementsByTagName("probCatch").item(0).getTextContent());
+				}
+				if(simulation.equals("Seg")) {
+					threshold = Double.parseDouble(eElement.getElementsByTagName("threshold").item(0).getTextContent());
 				}
 				
 			}
 		}
 		SquareGrid cells = arrayCreator();
+		if(simulation.equals("Fire")) {
 		for(int i = 0; i < cells.getSize(); i++) {
-			cells.set(new FireCell(FireCell.TREE, .8), i);
+			cells.set(new FireCell(FireCell.TREE, probCatch), i);
 		}
-		cells.set(new FireCell(FireCell.BURNING, .8), 13);
+		cells.set(new FireCell(FireCell.BURNING, probCatch), 13);
+		}
 		return cells;
 	}
 

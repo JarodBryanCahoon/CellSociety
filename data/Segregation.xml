@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Simulation SimulationType="Seg">
+	<simulation>Seg</simulation>
+    <rows>10</rows>
+    <columns>10</columns>
+    <threshold>0.3</threshold>
+</Simulation>

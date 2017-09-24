@@ -14,13 +14,6 @@ import cellsociety_team01.FileHandler;
 public class Main {
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		// Currently for testing
-		try { // Expected Null pointer
-			new Initializer("Fire").getCell(FireCell.TREE, .5).step(null);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(FireCell.class.getName());
 		testFireSimulation();
 	}
 	
