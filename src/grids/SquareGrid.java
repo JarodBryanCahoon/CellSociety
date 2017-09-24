@@ -9,81 +9,89 @@ import java.util.ResourceBundle;
 import cells.Cell;
 
 /**
+ * Represents a 2D square grid of cells
+ * 
  * @author Ian Eldridge-Allegra
  *
  */
-public class SquareGrid extends AbstractGrid{
+public class SquareGrid extends AbstractGrid {
 	private Cell[][] cells;
 	private ResourceBundle errors = ResourceBundle.getBundle("resources/ErrorBundle");
-	
+
+	/**
+	 * @param rows
+	 *            height
+	 * @param cols
+	 *            width
+	 */
 	public SquareGrid(int rows, int cols) {
 		cells = new Cell[rows][cols];
 	}
-	
+
 	@Override
 	public Cell get(int index) {
-		return get(index/cells[0].length, index%cells[0].length);
-	}
-	
-	@Override
-	public void set(Cell input, int index) {
-		set(input, index/cells[0].length, index%cells[0].length);
-	}
-	
-	@Override
-	public List<Cell> getNeighbors(int index){
-		return getNeighbors(index/cells[0].length, index%cells[0].length);
+		return get(index / cells[0].length, index % cells[0].length);
 	}
 
 	@Override
-	public int getSize(){
-		return cells.length*cells[0].length;
+	public void set(Cell input, int index) {
+		set(input, index / cells[0].length, index % cells[0].length);
 	}
-	
+
+	@Override
+	public List<Cell> getNeighbors(int index) {
+		return getNeighbors(index / cells[0].length, index % cells[0].length);
+	}
+
+	@Override
+	public int getSize() {
+		return cells.length * cells[0].length;
+	}
+
 	public int getWidth() {
 		return cells[0].length;
 	}
-	
+
 	public int getHeight() {
 		return cells.length;
 	}
-	
+
 	public Cell get(int row, int col) {
 		try {
 			return cells[row][col];
-		}catch(ArrayIndexOutOfBoundsException e) {
-			return null; //Intentionally treats out of bounds as null cells
-		} catch(NullPointerException e) {
-			throw new NullPointerException("SGGetError");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null; // Intentionally treats out of bounds as null cells
+		} catch (NullPointerException e) {
+			throw new NullPointerException(errors.getString("SGGetError"));
 		}
 	}
-	
+
 	public void set(Cell input, int row, int col) {
 		try {
 			cells[row][col] = input;
-		}catch(ArrayIndexOutOfBoundsException e) {
+		} catch (ArrayIndexOutOfBoundsException e) {
 			e.printStackTrace();
 			throw new IndexOutOfBoundsException(String.format(errors.getString("SGSetError"), row, col));
 		}
 	}
-	
-	public List<Cell> getNeighbors(int row, int col){
+
+	public List<Cell> getNeighbors(int row, int col) {
 		List<Cell> neighbors = new ArrayList<Cell>();
-		for(int r = 0; r < 3; r++) {
-			for(int c = 0; c < 3; c++) {
-				if(r != 1 || c != 1)
-					neighbors.add(get(row-1+r, col-1+c));
+		for (int r = 0; r < 3; r++) {
+			for (int c = 0; c < 3; c++) {
+				if (r != 1 || c != 1)
+					neighbors.add(get(row - 1 + r, col - 1 + c));
 			}
 		}
 		return neighbors;
 	}
-	
+
 	@Override
 	public Iterator<Cell> iterator() {
 		return new Iterator<Cell>() {
 			private int row = 0;
 			private int col = 0;
-			
+
 			@Override
 			public boolean hasNext() {
 				return row < cells.length;
@@ -93,16 +101,16 @@ public class SquareGrid extends AbstractGrid{
 			public Cell next() {
 				Cell next = cells[row][col];
 				col++;
-				if(col == cells[0].length) {
+				if (col == cells[0].length) {
 					col = 0;
 					row++;
 				}
 				return next;
 			}
-			
+
 		};
 	}
-	
+
 	public String toString() {
 		return Arrays.deepToString(cells);
 	}

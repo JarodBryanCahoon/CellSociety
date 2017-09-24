@@ -13,11 +13,18 @@ public class SquareCellDisplay{
 	private Rectangle[][] images;
 	private Color[] colors;
 	
+	/**
+	 * @param cells The cells to display
+	 * @param colors Possible colors to use
+	 */
 	public SquareCellDisplay(SquareGrid cells, Color[] colors) {
 		this.cells = cells;
 		this.colors = colors;
 	}
 	
+	/**
+	 * @return An array of Rectangles representing states of cells by colors
+	 */
 	public Rectangle[][] constructImages(){
 		images = new Rectangle[cells.getHeight()][cells.getWidth()];
 		for(int row = 0; row < cells.getHeight(); row++) {
@@ -28,10 +35,17 @@ public class SquareCellDisplay{
 		return images;
 	}
 	
+	/**
+	 * @param cell 
+	 * @return Color of cell, based on state
+	 */
 	private Color toColor(Cell cell) {
 		return colors[cell.getState()];
 	}
 
+	/**
+	 * Updates the images
+	 */
 	public void update() {
 		for(int row = 0; row < cells.getHeight(); row++) {
 			for(int col = 0; col < cells.getWidth(); col++) {
