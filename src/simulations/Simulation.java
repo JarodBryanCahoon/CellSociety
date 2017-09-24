@@ -25,7 +25,7 @@ public class Simulation {
 		return cells.toString();
 	}
 	
-	public AbstractGrid getCells() {
+	public AbstractGrid getGrid() {
 		return cells;
 	}
 }
