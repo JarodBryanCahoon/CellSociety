@@ -5,7 +5,7 @@ import java.util.List;
 
 import cells.Cell;
 import cells.SegCell;
-import grids.SquareGrid;
+import grids.AbstractGrid;
 
 /**
  * @author Ian Eldridge-Allegra
@@ -13,7 +13,7 @@ import grids.SquareGrid;
  */
 public class SegSimulation extends Simulation {
 
-	public SegSimulation(SquareGrid cells) {
+	public SegSimulation(AbstractGrid cells) {
 		super(cells);
 	}
 

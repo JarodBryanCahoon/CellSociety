@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import cells.WatorCell;
+import grids.AbstractGrid;
 import grids.WatorGrid;
 
 /**
@@ -12,7 +13,7 @@ import grids.WatorGrid;
  *
  */
 public class WatorSimulation extends Simulation {
-	public WatorSimulation(WatorGrid cells) {
+	public WatorSimulation(AbstractGrid cells) {
 		super(cells);
 	}
 	

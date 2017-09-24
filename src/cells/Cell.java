@@ -20,7 +20,7 @@ public abstract class Cell{
 		state = nextState;
 	}
 	
-	protected int getState() {
+	public int getState() {
 		return state;
 	}
 	
