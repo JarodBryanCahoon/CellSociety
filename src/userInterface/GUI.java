@@ -36,6 +36,7 @@ public class GUI extends Application{
 	
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
+	private KeyFrame myFrame;
 	private double updateRate = .5;
 	private Simulation currentSim;
 	private SquareCellDisplay imageGrid;
@@ -65,10 +66,10 @@ public class GUI extends Application{
 		mainStage.setScene(mainScene);
 		mainStage.show();
 		
-		KeyFrame frame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+		myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
 		myAnimation = new Timeline();
 		myAnimation.setCycleCount(Timeline.INDEFINITE);
-		myAnimation.getKeyFrames().add(frame);
+		myAnimation.getKeyFrames().add(myFrame);
 	}
 	
 	
@@ -100,13 +101,56 @@ public class GUI extends Application{
 			this.update();
 		}); 
 		
+		Button speedyButton = new Button(GuiText.getString("SpeedyButton"));
+		speedyButton.setOnAction((event) -> {
+			if(updateRate > .5) {
+				updateRate = .5;
+				myAnimation.stop();
+				myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+				myAnimation.getKeyFrames().clear();
+				myAnimation.getKeyFrames().add(myFrame);
+				myAnimation.play();
+			}
+			else {
+				updateRate = .25;
+				myAnimation.stop();
+				myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+				myAnimation.getKeyFrames().clear();
+				myAnimation.getKeyFrames().add(myFrame);
+				myAnimation.play();
+			}
+		});
+		Button slowButton = new Button(GuiText.getString("SlowButton"));
+		slowButton.setOnAction((event) -> {
+			if(updateRate < .5) {
+				updateRate = .5;
+				myAnimation.stop();
+				myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+				myAnimation.getKeyFrames().clear();
+				myAnimation.getKeyFrames().add(myFrame);
+				myAnimation.play();
+			}
+			else {
+				updateRate = 1;
+				myAnimation.stop();
+				myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+				myAnimation.getKeyFrames().clear();
+				myAnimation.getKeyFrames().add(myFrame);
+				myAnimation.play();
+			}
+		});
+		
 		playButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		pauseButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		stepButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
+		speedyButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
+		slowButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		playButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		pauseButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		stepButton.setMaxWidth(BUTTON_MAX_WIDTH);
-		leftSideBox.getChildren().addAll(playButton, pauseButton, stepButton);
+		speedyButton.setMaxWidth(BUTTON_MAX_WIDTH);
+		slowButton.setMaxWidth(BUTTON_MAX_WIDTH);
+		leftSideBox.getChildren().addAll(playButton, speedyButton, slowButton, pauseButton, stepButton);
 		
 		HBox topBox = new HBox();
 		topBox.setPadding(new Insets(15, 12, 15, 12));
@@ -147,7 +191,8 @@ public class GUI extends Application{
 	}
 	
 	private void update() {
-		System.out.println("Im working!!!!1!");
+		System.out.println(updateRate);
+		
 		//currentSim.step();
 		//imageGrid.update();
 	}
