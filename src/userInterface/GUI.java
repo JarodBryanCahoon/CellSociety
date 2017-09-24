@@ -165,8 +165,7 @@ public class GUI extends Application{
 			loadFile(inputField.getText());
 		});
 		guiLayout.setTop(topBox);
-		//guiLayout.setBottom(null);
-		//guiLayout.setRight(null);
+	
 		
 		
 		topBox.getChildren().addAll(insLabel, inputField, submitButton);
@@ -178,16 +177,15 @@ public class GUI extends Application{
 	 * @param s Name of the file
 	 */
 	private void loadFile(String s) {
-		//guiLayout.setCenter(null);
+		guiLayout.setCenter(null);
 		
-		//try {
-			//currentSim = FileHandler.fileReader(s);
-		//} catch (Exception e) {
-			//e.printStackTrace();
+		try {
+			currentSim = FileHandler.fileReader(s);
+		} catch (Exception e) {
+			e.printStackTrace();
 
-		//}
-		System.out.println(s);
-		//imageGrid = new SquareCellDisplay((SquareGrid)currentSim.getGrid(), COLORS);
+		}
+		imageGrid = new SquareCellDisplay((SquareGrid)currentSim.getGrid(), COLORS);
 	}
 	
 	private void update() {
@@ -203,24 +201,24 @@ public class GUI extends Application{
 	private void initializeCellGrid() {
 		cellGrid = new GridPane();
 		cellGrid.setGridLinesVisible(true);
-		//Rectangle[][] images = imageGrid.constructImages();
-		//gridRows = images.length;
-		//gridCols = images[0].length;
+		Rectangle[][] images = imageGrid.constructImages();
+		gridRows = images.length;
+		gridCols = images[0].length;
 		
-		//for(int i = 0; i < gridCols; i++) {
-			//ColumnConstraints colConst = new ColumnConstraints();
-            //colConst.setPercentWidth(100.0 / gridCols);
-            //cellGrid.getColumnConstraints().add(colConst);
-		//}
-		//for(int i = 0; i < gridRows; i++) {
-			//RowConstraints rowConst = new RowConstraints();
-            //rowConst.setPercentHeight(100.0 / gridRows);
-            //cellGrid.getRowConstraints().add(rowConst);
-		//}
+		for(int i = 0; i < gridCols; i++) {
+			ColumnConstraints colConst = new ColumnConstraints();
+            colConst.setPercentWidth(100.0 / gridCols);
+            cellGrid.getColumnConstraints().add(colConst);
+		}
+		for(int i = 0; i < gridRows; i++) {
+			RowConstraints rowConst = new RowConstraints();
+            rowConst.setPercentHeight(100.0 / gridRows);
+            cellGrid.getRowConstraints().add(rowConst);
+		}
 		
 		for(int i = 0; i < gridRows; i++) {
 			for(int j = 0; j <gridCols; j++) {
-				//cellGrid.add(images[i][j], j, i);
+				cellGrid.add(images[i][j], j, i);
 			}
 		}
 		
