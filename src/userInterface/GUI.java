@@ -1,11 +1,14 @@
 package userInterface;
 
+import java.util.ResourceBundle;
+
 import javafx.application.*;
 import javafx.geometry.Insets;
 import javafx.stage.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import java.util.ResourceBundle;
 
 
 public class GUI extends Application{
@@ -15,6 +18,7 @@ public class GUI extends Application{
 	public static final double BUTTON_VERTICAL_SHIFT = 320;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	
+	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private int gridWidth;
 	private int gridHeight;
 	private Stage mainStage;
@@ -35,11 +39,13 @@ public class GUI extends Application{
 	 */
 	private void setMain(Stage pStage) {
 		mainStage = pStage;
-		mainStage.setTitle("Cell Society Simulation");
+		mainStage.setTitle(GuiText.getString("GuiTitle"));
 		setLayout();
 		mainScene = new Scene(guiLayout, GUI_SIZE, GUI_SIZE);
 		mainStage.setScene(mainScene);
 		mainStage.show();
+		
+		
 	}
 	
 	
@@ -59,9 +65,9 @@ public class GUI extends Application{
 		leftSideBox.setSpacing(13);
 		guiLayout.setLeft(leftSideBox);
 		
-		Button playButton = new Button("Play");
-		Button pauseButton = new Button("Pause (inactive)");
-		Button stepButton = new Button("Step (inactive)");
+		Button playButton = new Button(GuiText.getString("PlayButton"));
+		Button pauseButton = new Button(GuiText.getString("PauseButton"));
+		Button stepButton = new Button(GuiText.getString("StepButton"));
 		
 		playButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		pauseButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
@@ -71,11 +77,11 @@ public class GUI extends Application{
 		stepButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		leftSideBox.getChildren().addAll(playButton, pauseButton, stepButton);
 		
-		Label insLabel = new Label("Enter Name of XML File: ");
+		Label insLabel = new Label(GuiText.getString("XmlLabel"));
 		inputField = new TextField();
 		inputField.setPrefWidth(TEXT_FIELD_PREF_WIDTH);
 		inputField.setFocusTraversable(false);
-		inputField.setPromptText("Not currently working");
+		inputField.setPromptText(GuiText.getString("PromptText"));
 		guiLayout.setTop(topBox);
 		//guiLayout.setBottom(null);
 		//guiLayout.setRight(null);
