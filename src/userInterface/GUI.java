@@ -70,10 +70,7 @@ public class GUI extends Application{
 	 */
 	private void setLayout() {
 		guiLayout = new BorderPane();
-		HBox topBox = new HBox();
-		topBox.setPadding(new Insets(15, 12, 15, 12));
-		topBox.setSpacing(30);
-		guiLayout.setTop(topBox);
+		
 		
 		VBox leftSideBox = new VBox();
 		leftSideBox.setPadding(new Insets(10));
@@ -92,17 +89,24 @@ public class GUI extends Application{
 		stepButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		leftSideBox.getChildren().addAll(playButton, pauseButton, stepButton);
 		
+		HBox topBox = new HBox();
+		topBox.setPadding(new Insets(15, 12, 15, 12));
+		topBox.setSpacing(30);
 		Label insLabel = new Label(GuiText.getString("XmlLabel"));
 		inputField = new TextField();
 		inputField.setPrefWidth(TEXT_FIELD_PREF_WIDTH);
 		inputField.setFocusTraversable(false);
 		inputField.setPromptText(GuiText.getString("PromptText"));
+		Button submitButton = new Button(GuiText.getString("SubmitButton"));
+		submitButton.setOnAction((event) -> {
+			loadFile(inputField.getText());
+		});
 		guiLayout.setTop(topBox);
 		//guiLayout.setBottom(null);
 		//guiLayout.setRight(null);
 		
 		
-		topBox.getChildren().addAll(insLabel, inputField);
+		topBox.getChildren().addAll(insLabel, inputField, submitButton);
 	}
 	
 	/**
