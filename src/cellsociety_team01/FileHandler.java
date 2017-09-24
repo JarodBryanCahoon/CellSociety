@@ -1,23 +1,22 @@
 package cellsociety_team01;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-  
+
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import grids.AbstractGrid;
 import grids.SquareGrid;
 import simulations.Simulation;
-
-// test
- 
-// test comment  
 
 
 public class FileHandler {
@@ -34,6 +33,9 @@ public class FileHandler {
 	private static double fishSpawn;
 	private static ArrayList initial = new ArrayList();
 	private static Object[] argumentArray;
+	
+	private static String[] locations;
+
 	public FileHandler() {	
 	}
 	
@@ -53,17 +55,19 @@ public class FileHandler {
 				Element eElement = (Element) nNode;
 				simulation = eElement.getElementsByTagName("simulation").item(0).getTextContent();
 				state = Integer.parseInt(eElement.getElementsByTagName("state").item(0).getTextContent());
-				initial.add(state);
 				rows = Integer.parseInt(eElement.getElementsByTagName("rows").item(0).getTextContent());
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
-				
+				locations = eElement.getElementsByTagName("locations").item(0).getTextContent().split(",");
+				initial.add(0);
 				if(simulation.equals("Fire")) {
 					probCatch = Double.parseDouble(eElement.getElementsByTagName("probCatch").item(0).getTextContent());
 					initial.add(probCatch);
+
 				}
 				if(simulation.equals("Seg")) {
 					threshold = Double.parseDouble(eElement.getElementsByTagName("threshold").item(0).getTextContent());
 					initial.add(threshold);
+				
 				}
 				if(simulation.equals("Wator")) {
 					sharkLife = Double.parseDouble(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
@@ -74,32 +78,25 @@ public class FileHandler {
 					initial.add(fishSpawn);
 				}
 				
+				
 			}
 		}
 		
 		argumentArray = initial.toArray();
-		SquareGrid cells = arrayCreator();
+		AbstractGrid cells = arrayCreator();
 		//Will probably change if tree to something more flexible
 		Simulation sim = new Simulation(cells);
 		return sim;
 	}
 
-	public static SquareGrid arrayCreator() throws Exception {
+	public static AbstractGrid arrayCreator() throws Exception {
 		
-		
-		try {
-			new Initializer(simulation).getCell(1, .5);
-		} catch (Exception e) {
-			// will fix
-			e.printStackTrace();
-		}
-		
-		SquareGrid cellArray = new SquareGrid(rows, columns);
+		AbstractGrid cellArray = new SquareGrid(rows, columns);
 		
 		for(int i = 0; i < cellArray.getSize(); i++) {
-			cellArray.set(new Initializer(simulation).getCell(argumentArray), i);
+			argumentArray[0] = Integer.parseInt(locations[i]);
+					cellArray.set(new Initializer(simulation).getCell(argumentArray), i);
 		}
-		cellArray.set(new Initializer(simulation).getCell(2, 0.8), 13);
 		
 		return cellArray;
 	}
