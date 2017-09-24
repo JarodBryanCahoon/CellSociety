@@ -27,10 +27,9 @@ import simulations.Simulation;
 
 
 public class GUI extends Application{
-	public static final double BUTTON_MAX_WIDTH = 120;
+	public static final double BUTTON_MAX_WIDTH = 170;
 	public static final double GRID_SIZE = 300;
 	public static final double GUI_SIZE = 650;
-	public static final double BUTTON_VERTICAL_SHIFT = 320;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	public static final Color[] COLORS = {Color.WHITE, Color.TURQUOISE, Color.DARKBLUE};
 	
@@ -51,7 +50,7 @@ public class GUI extends Application{
 	@Override
 	public void start(Stage pStage) throws Exception {
 		setMain(pStage);
-		initializeCellGrid();
+		//initializeCellGrid();
 	}
 	
 	/**
@@ -140,14 +139,6 @@ public class GUI extends Application{
 				myAnimation.play();
 			}
 		});
-		
-		/*
-		playButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
-		pauseButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
-		stepButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
-		speedyButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
-		slowButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
-		*/
 		playButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		pauseButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		stepButton.setMaxWidth(BUTTON_MAX_WIDTH);
@@ -166,6 +157,7 @@ public class GUI extends Application{
 		Button submitButton = new Button(GuiText.getString("SubmitButton"));
 		submitButton.setOnAction((event) -> {
 			loadFile(inputField.getText());
+			initializeCellGrid();
 		});
 		guiLayout.setTop(topBox);
 		
@@ -179,22 +171,22 @@ public class GUI extends Application{
 	 * @param s Name of the file
 	 */
 	private void loadFile(String s) {
-		//guiLayout.setCenter(null);
+		guiLayout.setCenter(null);
 		
-		//try {
-			//currentSim = FileHandler.fileReader(s);
-		//} catch (Exception e) {
-			//e.printStackTrace();
+		try {
+			currentSim = FileHandler.fileReader(s);
+		} catch (Exception e) {
+			e.printStackTrace();
 
-		//}
-		//imageGrid = new SquareCellDisplay((SquareGrid)currentSim.getGrid(), COLORS);
+		}
+		imageGrid = new SquareCellDisplay((SquareGrid)currentSim.getGrid(), COLORS);
 	}
 	
 	private void update() {
 		System.out.println(updateRate);
 		
-		//currentSim.step();
-		//imageGrid.update();
+		currentSim.step();
+		imageGrid.update();
 	}
 	
 	/**
@@ -204,9 +196,9 @@ public class GUI extends Application{
 		cellGrid = new GridPane();
 		cellGrid.setPadding(new Insets(10, 10, 10, 10));
 		cellGrid.setGridLinesVisible(true);
-		//Rectangle[][] images = imageGrid.constructImages();
-		gridRows = 30;
-		gridCols = 30;
+		Rectangle[][] images = imageGrid.constructImages();
+		gridRows = images.length;
+		gridCols = images[0].length;
 		
 		for(int i = 0; i < gridCols; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
@@ -221,7 +213,8 @@ public class GUI extends Application{
 		
 		for(int i = 0; i < gridRows; i++) {
 			for(int j = 0; j <gridCols; j++) {
-				//cellGrid.add(images[i][j], j, i);
+				cellGrid.add(images[i][j], j, i);
+				System.out.println("Cell "+ i+j+1 + "has been added");
 			}
 		}
 		
