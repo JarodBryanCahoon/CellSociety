@@ -21,7 +21,7 @@ public class Main {
 	
 	private static void testFireSimulation() throws Exception {
 		Simulation sim = new FileHandler().fileReader("data\\Fire.xml");
-		AbstractGrid cells = sim.getCells();
+		AbstractGrid cells = sim.getGrid();
 		System.out.println(cells);
 		sim.step();
 		System.out.println(cells);

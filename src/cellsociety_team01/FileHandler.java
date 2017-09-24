@@ -28,9 +28,9 @@ public class FileHandler {
 	private static int state;
 	private static String fileName;
 	private static double threshold;
-	private static double sharkLife;
-	private static double sharkSpawn;
-	private static double fishSpawn;
+	private static int sharkLife;
+	private static int sharkSpawn;
+	private static int fishSpawn;
 	private static ArrayList initial = new ArrayList();
 	private static Object[] argumentArray;
 	
@@ -70,9 +70,9 @@ public class FileHandler {
 				
 				}
 				if(simulation.equals("Wator")) {
-					sharkLife = Double.parseDouble(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
-					sharkSpawn = Double.parseDouble(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
-					fishSpawn = Double.parseDouble(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
+					sharkLife = Integer.parseInt(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
+					sharkSpawn = Integer.parseInt(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
+					fishSpawn = Integer.parseInt(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
 					initial.add(sharkLife);
 					initial.add(sharkSpawn);
 					initial.add(fishSpawn);
@@ -85,13 +85,13 @@ public class FileHandler {
 		argumentArray = initial.toArray();
 		AbstractGrid cells = arrayCreator();
 		//Will probably change if tree to something more flexible
-		Simulation sim = new Simulation(cells);
+		Simulation sim = new Initializer(simulation).getSimulation(cells);
 		return sim;
 	}
 
 	public static AbstractGrid arrayCreator() throws Exception {
 		
-		AbstractGrid cellArray = new SquareGrid(rows, columns);
+		AbstractGrid cellArray = new Initializer(simulation).getGrid(rows, columns);
 		
 		for(int i = 0; i < cellArray.getSize(); i++) {
 			argumentArray[0] = Integer.parseInt(locations[i]);

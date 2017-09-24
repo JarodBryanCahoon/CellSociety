@@ -28,10 +28,11 @@ import simulations.Simulation;
 
 public class GUI extends Application{
 	public static final double BUTTON_MAX_WIDTH = 170;
-	public static final double GRID_SIZE = 300;
+	public static final double GRID_SIZE = 500;
 	public static final double GUI_SIZE = 650;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	public static final Color[] COLORS = {Color.WHITE, Color.TURQUOISE, Color.DARKBLUE};
+	public static final double BORDER_FRACTION = .05;
 	
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
@@ -183,8 +184,6 @@ public class GUI extends Application{
 	}
 	
 	private void update() {
-		System.out.println(updateRate);
-		
 		currentSim.step();
 		imageGrid.update();
 	}
@@ -196,7 +195,8 @@ public class GUI extends Application{
 		cellGrid = new GridPane();
 		cellGrid.setPadding(new Insets(10, 10, 10, 10));
 		cellGrid.setGridLinesVisible(true);
-		Rectangle[][] images = imageGrid.constructImages();
+		cellGrid.setMaxSize(GRID_SIZE, GRID_SIZE);
+		Rectangle[][] images = imageGrid.constructImages(GRID_SIZE*(1-BORDER_FRACTION), GRID_SIZE*(1-BORDER_FRACTION));
 		gridRows = images.length;
 		gridCols = images[0].length;
 		
@@ -214,7 +214,6 @@ public class GUI extends Application{
 		for(int i = 0; i < gridRows; i++) {
 			for(int j = 0; j <gridCols; j++) {
 				cellGrid.add(images[i][j], j, i);
-				System.out.println("Cell "+ i+j+1 + "has been added");
 			}
 		}
 		
