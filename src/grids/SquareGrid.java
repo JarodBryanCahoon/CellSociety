@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import cells.Cell;
 
@@ -13,6 +14,7 @@ import cells.Cell;
  */
 public class SquareGrid extends AbstractGrid{
 	private Cell[][] cells;
+	private ResourceBundle errors = ResourceBundle.getBundle("resources/ErrorBundle");
 	
 	public SquareGrid(int rows, int cols) {
 		cells = new Cell[rows][cols];
@@ -52,7 +54,7 @@ public class SquareGrid extends AbstractGrid{
 		}catch(ArrayIndexOutOfBoundsException e) {
 			return null; //Intentionally treats out of bounds as null cells
 		} catch(NullPointerException e) {
-			throw new NullPointerException("Cells not properly initialized.");
+			throw new NullPointerException("SGGetError");
 		}
 	}
 	
@@ -61,7 +63,7 @@ public class SquareGrid extends AbstractGrid{
 			cells[row][col] = input;
 		}catch(ArrayIndexOutOfBoundsException e) {
 			e.printStackTrace();
-			throw new IndexOutOfBoundsException("Grid cannot set row " + row + " col " + col);
+			throw new IndexOutOfBoundsException(String.format(errors.getString("SGSetError"), row, col));
 		}
 	}
 	
