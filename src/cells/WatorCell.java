@@ -8,7 +8,7 @@ import java.util.List;
  *
  */
 public class WatorCell extends Cell {
-	//The order of these is important -- each prioritizes the things below it
+	// The order of these is important -- each prioritizes the things below it
 	public static final int EMPTY = 0;
 	public static final int FISH = 1;
 	public static final int SHARK = 2;
@@ -19,6 +19,15 @@ public class WatorCell extends Cell {
 	private int energy;
 	private int toNextSpawn;
 
+	/**
+	 * @param initialState
+	 * @param sharkLife
+	 *            The life-span, in steps, of a shark without food
+	 * @param sharkSpawn
+	 *            The number of steps for a shark to spawn
+	 * @param fishSpawn
+	 *            The number of steps for a fish to spawn
+	 */
 	public WatorCell(int initialState, int sharkLife, int sharkSpawn, int fishSpawn) {
 		super(initialState);
 		sharkLifeSpan = sharkLife;
@@ -28,13 +37,20 @@ public class WatorCell extends Cell {
 		toNextSpawn = initialSpawnTime();
 	}
 
+	/**
+	 * @return fishSpawnTime or sharkSpawnTime, depending on the state
+	 */
 	private int initialSpawnTime() {
 		return getState() == FISH ? fishSpawnTime : sharkSpawnTime;
 	}
 
 	/**
-	 * @param neighborhood The immediate neighborhood
 	 * This is not done in parallel, so it will call update as necessary
+	 * 
+	 * @param neighborhood
+	 *            The immediate neighborhood
+	 * 
+	 * @see cells.Cell#step(java.util.List)
 	 */
 	@Override
 	public void step(List<Cell> neighborhood) {
@@ -42,19 +58,19 @@ public class WatorCell extends Cell {
 			return;
 		toNextSpawn--;
 		energy--;
-		if(isDead())
+		if (isDead())
 			nextState = EMPTY;
 		else
-			moveTo(cellToMoveTo(neighborhood, getState()-1));
+			moveTo(cellToMoveTo(neighborhood, getState() - 1));
 		update();
 	}
 
 	/**
 	 * @param neighborhood
 	 *            The immediate neighborhood (NWES) of the cell
-	 * @param priority 
-	 * 			  What state to move towards
-	 * @return returns this cell when not moving
+	 * @param priority
+	 *            What state to move towards
+	 * @return returns this cell when not moving, otherwise gives destination
 	 */
 	private WatorCell cellToMoveTo(List<Cell> neighborhood, int priority) {
 		if (priority == -1) {
@@ -63,7 +79,7 @@ public class WatorCell extends Cell {
 		ArrayList<WatorCell> cells = new ArrayList<WatorCell>();
 		for (Cell c : neighborhood) {
 			if (c != null && c.getState() == priority)
-				cells.add((WatorCell)c);
+				cells.add((WatorCell) c);
 		}
 		if (cells.size() == 0)
 			return cellToMoveTo(neighborhood, priority - 1);
@@ -72,20 +88,28 @@ public class WatorCell extends Cell {
 			return cells.get((int) (Math.random() * cells.size()));
 	}
 
+	/**
+	 * For sharks
+	 */
 	private boolean isDead() {
 		return getState() == SHARK && energy <= 0;
 	}
-	
+
+	/**
+	 * Moves to the given cell and spawns if appropriate
+	 * 
+	 * @param cell
+	 *            destination
+	 */
 	private void moveTo(WatorCell cell) {
-		if(cell == this)
+		if (cell == this)
 			return;
 		cell.nextState = getState();
 		cell.energy = energy;
-		if(toNextSpawn == 0) {
+		if (toNextSpawn <= 0) {
 			toNextSpawn = initialSpawnTime();
 			energy = sharkLifeSpan;
-		}
-		else 
+		} else
 			nextState = EMPTY;
 		cell.toNextSpawn = toNextSpawn;
 		cell.update();

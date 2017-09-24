@@ -5,6 +5,8 @@ import java.util.List;
 import cells.Cell;
 
 /**
+ * The same as SquareGrid, but the corner neighbors are removed.
+ * 
  * @author Ian Eldridge-Allegra
  *
  */

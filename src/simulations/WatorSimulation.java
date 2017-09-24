@@ -20,7 +20,6 @@ public class WatorSimulation extends Simulation {
 	/**
 	 * Because of collisions, this cannot run in parallel with the rules as they are. 
 	 * Thus, we simply run in a random order.
-	 * 
 	 */
 	@Override
 	public void step() {

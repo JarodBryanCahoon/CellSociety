@@ -1,6 +1,8 @@
 package cellsociety_team01;
 
 /**
+ * Represents a direction (NSEW)
+ * 
  * @author Ian Eldridge-Allegra
  *
  */

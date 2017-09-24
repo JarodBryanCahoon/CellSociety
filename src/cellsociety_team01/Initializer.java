@@ -6,6 +6,9 @@ import cells.Cell;
 import grids.AbstractGrid;
 import simulations.Simulation;
 
+/**
+ * @author Ian Eldridge-Allegra
+ */
 public class Initializer {
 	private static final ResourceBundle classNames = ResourceBundle.getBundle("resources/ClassNameBundle");
 	

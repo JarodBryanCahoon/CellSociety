@@ -3,6 +3,8 @@ package grids;
 import cells.Cell;
 
 /**
+ * FourNeighborSquareGrid, except the get(row,col) methods wraps around for inputs outside the grid
+ * 
  * @author Ian Eldridge-Allegra
  *
  */

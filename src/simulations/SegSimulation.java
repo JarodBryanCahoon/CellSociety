@@ -17,6 +17,9 @@ public class SegSimulation extends Simulation {
 		super(cells);
 	}
 
+	/**
+	 * Checks whether cells are satisfied, then moves those that are not to empty locations
+	 */
 	@Override
 	public void step() {
 		for(int i = 0; i < cells.getSize(); i++)

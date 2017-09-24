@@ -11,10 +11,16 @@ public class LifeCell extends Cell {
 	public static final int DEAD = 0;
 	public static final int LIVING = 1;
 	
+	/**
+	 * @param initialState
+	 */
 	public LifeCell(int initialState) {
 		super(initialState);
 	}
 
+	/**
+	 * @see cells.Cell#step(java.util.List)
+	 */
 	@Override
 	public void step(List<Cell> neighborhood) {
 		int livingNeighbors = numLiving(neighborhood);
