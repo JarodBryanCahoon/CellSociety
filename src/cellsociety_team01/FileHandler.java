@@ -71,8 +71,8 @@ public class FileHandler {
 				}
 				if(simulation.equals("Wator")) {
 					sharkLife = Integer.parseInt(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
-					sharkSpawn = Integer.parseInt(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
-					fishSpawn = Integer.parseInt(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
+					sharkSpawn = Integer.parseInt(eElement.getElementsByTagName("sharkSpawn").item(0).getTextContent());
+					fishSpawn = Integer.parseInt(eElement.getElementsByTagName("fishSpawn").item(0).getTextContent());
 					initial.add(sharkLife);
 					initial.add(sharkSpawn);
 					initial.add(fishSpawn);
