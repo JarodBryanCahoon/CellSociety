@@ -19,10 +19,6 @@ public class FireCell extends Cell {
 		this.probCatch = probCatch;
 	}
 	
-	public FireCell(double probCatch) {
-		this(TREE, probCatch);
-	}
-	
 	@Override
 	public void step(List<Cell> neighborhood) {
 		if(getState() == BURNING)
