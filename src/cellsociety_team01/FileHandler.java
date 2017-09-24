@@ -16,9 +16,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import cellsociety_team01.Cell;
-import cellsociety_team01.FireCell;
-import cellsociety_team01.FireCell.State;
+import cells.Cell;
+import cells.FireCell;
+import cells.LifeCell;
+import grids.SquareGrid;
+import cells.Cell;
+
+
 
 
 public class FileHandler {
@@ -27,10 +31,15 @@ public class FileHandler {
 	private static int rows;
 	private static int columns;
 	private static int probCatch;
-	private static FireCell.State state;
+	private static int state;
+	private static String fileName;
+	
+	public FileHandler() {
+		
+	}
 	
 	
-	public static Cell[][] fileReader(String file) throws ParserConfigurationException, SAXException, IOException {
+	public static SquareGrid fileReader(String file) throws ParserConfigurationException, SAXException, IOException {
 		File fXmlFile = new File(file);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
@@ -48,32 +57,31 @@ public class FileHandler {
 				simulation = eElement.getElementsByTagName("simulation").item(0).getTextContent();
 				rows = Integer.parseInt(eElement.getElementsByTagName("rows").item(0).getTextContent());
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
-				probCatch = Integer.parseInt(eElement.getElementsByTagName("probCatch").item(0).getTextContent());
+				if(simulation.equals("Fire")) {
+					probCatch = Integer.parseInt(eElement.getElementsByTagName("probCatch").item(0).getTextContent())/2;
+				}
+				
 			}
 		}
-		Cell[][] cells = arrayCreator();
+		SquareGrid cells = arrayCreator();
+		for(int i = 0; i < cells.getSize(); i++) {
+			cells.set(new FireCell(FireCell.TREE, .8), i);
+		}
+		cells.set(new FireCell(FireCell.BURNING, .8), 13);
 		return cells;
 	}
 
-	public static Cell[][] arrayCreator() {
-		Cell[][] cellArray = new Cell[rows][columns];
+	public static SquareGrid arrayCreator() {
 		
-		if(simulation.equals("Fire")) {
-			for(int i = 0; i < rows; i++) {
-				for(int j = 0; j < columns; j++) {
-					if(j==3) {
-						state = FireCell.State.BURNING;
-					}
-					else if(j==8 | j==1) {
-						state = FireCell.State.EMPTY;
-					}
-					else {
-						state = FireCell.State.TREE;
-					}
-					cellArray[i][j] = new FireCell(state, probCatch);
-				}
-			}
+		try {
+			new Initializer(simulation).getCell(1, .5).step(null);
+		} catch (Exception e) {
+			// will fix
+			e.printStackTrace();
 		}
+		
+		SquareGrid cellArray = new SquareGrid(rows, columns);
+		
 		return cellArray;
 	}
 
