@@ -1,0 +1,14 @@
+.root{
+	-fx-background-color: #ecf4ee;
+	-fx-font-family: "Calibri";
+	-fx-font-size: 15;
+}
+
+.label{
+	
+}
+
+.button{
+	-fx-background-color: #87928a;
+	-fx-font-family: "Calibri";
+}

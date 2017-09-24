@@ -29,7 +29,7 @@ public class SquareCellDisplay{
 		images = new Rectangle[cells.getHeight()][cells.getWidth()];
 		for(int row = 0; row < cells.getHeight(); row++) {
 			for(int col = 0; col < cells.getWidth(); col++) {
-				images[row][col] = new Rectangle(1,1,toColor(cells.get(row,col)));
+				images[row][col] = new Rectangle(300/cells.getHeight(),300/cells.getWidth(),toColor(cells.get(row,col)));
 			}
 		}
 		return images;
