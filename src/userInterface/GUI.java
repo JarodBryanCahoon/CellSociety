@@ -2,13 +2,20 @@ package userInterface;
 
 import java.util.ResourceBundle;
 
-import javafx.application.*;
+import cellsociety_team01.FileHandler;
+import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.stage.*;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import java.util.ResourceBundle;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 public class GUI extends Application{
@@ -19,6 +26,7 @@ public class GUI extends Application{
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
+	private FileHandler fileReader;
 	private int gridWidth;
 	private int gridHeight;
 	private Stage mainStage;
@@ -90,14 +98,20 @@ public class GUI extends Application{
 		topBox.getChildren().addAll(insLabel, inputField);
 	}
 	
+	private void loadFile(String s) {
+		guiLayout.setCenter(null);
+		fileReader = new FileHandler(s);
+		
+	}
+	
 	/**
 	 * Initialized the gridPane to be of the appropriate size, with the appropriate number of cells
 	 */
 	private void initializeCellGrid() {
 		cellGrid = new GridPane();
 		cellGrid.setGridLinesVisible(true);
-		int rows = 10;
-		int cols = 10;
+		int rows = 2;
+		int cols = 2;
 		
 		for(int i = 0; i < rows; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
