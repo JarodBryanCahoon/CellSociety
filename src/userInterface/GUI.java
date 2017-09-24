@@ -81,10 +81,10 @@ public class GUI extends Application{
 		guiLayout = new BorderPane();
 		
 		
-		VBox leftSideBox = new VBox();
-		leftSideBox.setPadding(new Insets(10));
-		leftSideBox.setSpacing(13);
-		guiLayout.setLeft(leftSideBox);
+		HBox bottomBox = new HBox();
+		bottomBox.setPadding(new Insets(10));
+		bottomBox.setSpacing(13);
+		guiLayout.setBottom(bottomBox);
 		
 		Button playButton = new Button(GuiText.getString("PlayButton"));
 		playButton.setOnAction((event) -> {
@@ -140,17 +140,19 @@ public class GUI extends Application{
 			}
 		});
 		
+		/*
 		playButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		pauseButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		stepButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		speedyButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
 		slowButton.setTranslateY(BUTTON_VERTICAL_SHIFT);
+		*/
 		playButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		pauseButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		stepButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		speedyButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		slowButton.setMaxWidth(BUTTON_MAX_WIDTH);
-		leftSideBox.getChildren().addAll(playButton, speedyButton, slowButton, pauseButton, stepButton);
+		bottomBox.getChildren().addAll(playButton, speedyButton, slowButton, pauseButton, stepButton);
 		
 		HBox topBox = new HBox();
 		topBox.setPadding(new Insets(15, 12, 15, 12));
@@ -165,7 +167,6 @@ public class GUI extends Application{
 			loadFile(inputField.getText());
 		});
 		guiLayout.setTop(topBox);
-	
 		
 		
 		topBox.getChildren().addAll(insLabel, inputField, submitButton);
@@ -177,15 +178,15 @@ public class GUI extends Application{
 	 * @param s Name of the file
 	 */
 	private void loadFile(String s) {
-		guiLayout.setCenter(null);
+		//guiLayout.setCenter(null);
 		
-		try {
-			currentSim = FileHandler.fileReader(s);
-		} catch (Exception e) {
-			e.printStackTrace();
+		//try {
+			//currentSim = FileHandler.fileReader(s);
+		//} catch (Exception e) {
+			//e.printStackTrace();
 
-		}
-		imageGrid = new SquareCellDisplay((SquareGrid)currentSim.getGrid(), COLORS);
+		//}
+		//imageGrid = new SquareCellDisplay((SquareGrid)currentSim.getGrid(), COLORS);
 	}
 	
 	private void update() {
@@ -200,10 +201,11 @@ public class GUI extends Application{
 	 */
 	private void initializeCellGrid() {
 		cellGrid = new GridPane();
+		cellGrid.setPadding(new Insets(10, 10, 10, 10));
 		cellGrid.setGridLinesVisible(true);
-		Rectangle[][] images = imageGrid.constructImages();
-		gridRows = images.length;
-		gridCols = images[0].length;
+		//Rectangle[][] images = imageGrid.constructImages();
+		gridRows = 30;
+		gridCols = 30;
 		
 		for(int i = 0; i < gridCols; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
@@ -218,7 +220,7 @@ public class GUI extends Application{
 		
 		for(int i = 0; i < gridRows; i++) {
 			for(int j = 0; j <gridCols; j++) {
-				cellGrid.add(images[i][j], j, i);
+				//cellGrid.add(images[i][j], j, i);
 			}
 		}
 		
