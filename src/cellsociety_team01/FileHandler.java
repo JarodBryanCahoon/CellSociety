@@ -40,6 +40,7 @@ public class FileHandler {
 	}
 	
 	public static Simulation fileReader(String file) throws Exception {
+		initial = new ArrayList();
 		File fXmlFile = new File(file);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
