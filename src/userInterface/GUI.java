@@ -28,12 +28,16 @@ import simulations.Simulation;
 
 public class GUI extends Application{
 	public static final double BUTTON_MAX_WIDTH = 170;
+	public static final double LABEL_Y_TRANSLATION = 4;
 	public static final double GRID_SIZE = 520;
 	public static final double GUI_SIZE = 650;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	public static final Color[] COLORS = {Color.web("#DFE2E5"), Color.TURQUOISE, Color.DARKBLUE};
 	public static final double BORDER_FRACTION = .05;
 	public static final double BUTTON_SPACING = 13;
+	public static final double SLOW_SPEED = 1;
+	public static final double REGULAR_SPEED =.5;
+	public static final double FAST_SPEED = .25;
 	
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
@@ -116,6 +120,7 @@ public class GUI extends Application{
 		topBox.setPadding(new Insets(BUTTON_SPACING, BUTTON_SPACING, BUTTON_SPACING, BUTTON_SPACING));
 		topBox.setSpacing(BUTTON_SPACING);
 		Label insLabel = new Label(GuiText.getString("XmlLabel"));
+		insLabel.setTranslateY(LABEL_Y_TRANSLATION);
 		inputField = new TextField();
 		inputField.setPrefWidth(TEXT_FIELD_PREF_WIDTH);
 		inputField.setFocusTraversable(false);
@@ -132,8 +137,8 @@ public class GUI extends Application{
 	}
 
 	private void speedUp() {
-		if(updateRate > .5) {
-			updateRate = .5;
+		if(updateRate > REGULAR_SPEED) {
+			updateRate = REGULAR_SPEED;
 			myAnimation.stop();
 			myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
 			myAnimation.getKeyFrames().clear();
@@ -141,7 +146,7 @@ public class GUI extends Application{
 			myAnimation.play();
 		}
 		else {
-			updateRate = .25;
+			updateRate = FAST_SPEED;
 			myAnimation.stop();
 			myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
 			myAnimation.getKeyFrames().clear();
@@ -151,8 +156,8 @@ public class GUI extends Application{
 	}
 
 	private void slow() {
-		if(updateRate < .5) {
-			updateRate = .5;
+		if(updateRate < REGULAR_SPEED) {
+			updateRate = REGULAR_SPEED;
 			myAnimation.stop();
 			myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
 			myAnimation.getKeyFrames().clear();
@@ -160,7 +165,7 @@ public class GUI extends Application{
 			myAnimation.play();
 		}
 		else {
-			updateRate = 1;
+			updateRate = SLOW_SPEED;
 			myAnimation.stop();
 			myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
 			myAnimation.getKeyFrames().clear();

@@ -12,18 +12,14 @@
 	-fx-border-color: black
 }
 .button{
-	-fx-background-color: #60ac39;
+	-fx-background-color:#31a354;
 	-fx-font-family: "Calibri";
 	-fx-font-weight: bold;
-	-fx-text-fill:  #393F45;
+	-fx-text-fill:  black;
 }
 
 .button:hover{
 	-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 100%, #60ac39, #a7cfa3);
-}
-.TextInputControl{
-	-fx-prompt-text-fill: #f4f3ec;
-	
 }
 
 .Rectangle{
