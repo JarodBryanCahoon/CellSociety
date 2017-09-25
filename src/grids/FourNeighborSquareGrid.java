@@ -22,7 +22,7 @@ public class FourNeighborSquareGrid extends SquareGrid {
 		neighbors.remove(7); // SE
 		neighbors.remove(5); // SW
 		neighbors.remove(2); // NW
-		neighbors.remove(1); // NE
+		neighbors.remove(0); // NE
 		return neighbors;
 	}
 }
