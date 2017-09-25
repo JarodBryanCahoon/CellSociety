@@ -28,11 +28,12 @@ import simulations.Simulation;
 
 public class GUI extends Application{
 	public static final double BUTTON_MAX_WIDTH = 170;
-	public static final double GRID_SIZE = 500;
+	public static final double GRID_SIZE = 535;
 	public static final double GUI_SIZE = 650;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	public static final Color[] COLORS = {Color.WHITE, Color.TURQUOISE, Color.DARKBLUE};
 	public static final double BORDER_FRACTION = .05;
+	public static final double BUTTON_SPACING = 13;
 	
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
@@ -83,8 +84,8 @@ public class GUI extends Application{
 		
 		
 		HBox bottomBox = new HBox();
-		bottomBox.setPadding(new Insets(10));
-		bottomBox.setSpacing(13);
+		bottomBox.setPadding(new Insets(BUTTON_SPACING));
+		bottomBox.setSpacing(BUTTON_SPACING);
 		guiLayout.setBottom(bottomBox);
 		
 		Button playButton = new Button(GuiText.getString("PlayButton"));
@@ -93,53 +94,17 @@ public class GUI extends Application{
 		});
 		
 		Button pauseButton = new Button(GuiText.getString("PauseButton"));
-		pauseButton.setOnAction((event) -> {
-			myAnimation.pause();
-		});
+		pauseButton.setOnAction((event) -> myAnimation.pause());
 		
 		Button stepButton = new Button(GuiText.getString("StepButton"));
-		stepButton.setOnAction((event) -> {
-			this.update();
-		}); 
+		stepButton.setOnAction((event) -> this.update()); 
 		
 		Button speedyButton = new Button(GuiText.getString("SpeedyButton"));
-		speedyButton.setOnAction((event) -> {
-			if(updateRate > .5) {
-				updateRate = .5;
-				myAnimation.stop();
-				myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
-				myAnimation.getKeyFrames().clear();
-				myAnimation.getKeyFrames().add(myFrame);
-				myAnimation.play();
-			}
-			else {
-				updateRate = .25;
-				myAnimation.stop();
-				myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
-				myAnimation.getKeyFrames().clear();
-				myAnimation.getKeyFrames().add(myFrame);
-				myAnimation.play();
-			}
-		});
+		speedyButton.setOnAction((event) -> speedUp());
+		
 		Button slowButton = new Button(GuiText.getString("SlowButton"));
-		slowButton.setOnAction((event) -> {
-			if(updateRate < .5) {
-				updateRate = .5;
-				myAnimation.stop();
-				myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
-				myAnimation.getKeyFrames().clear();
-				myAnimation.getKeyFrames().add(myFrame);
-				myAnimation.play();
-			}
-			else {
-				updateRate = 1;
-				myAnimation.stop();
-				myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
-				myAnimation.getKeyFrames().clear();
-				myAnimation.getKeyFrames().add(myFrame);
-				myAnimation.play();
-			}
-		});
+		slowButton.setOnAction((event) -> slow());
+		
 		playButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		pauseButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		stepButton.setMaxWidth(BUTTON_MAX_WIDTH);
@@ -148,8 +113,8 @@ public class GUI extends Application{
 		bottomBox.getChildren().addAll(playButton, speedyButton, slowButton, pauseButton, stepButton);
 		
 		HBox topBox = new HBox();
-		topBox.setPadding(new Insets(15, 12, 15, 12));
-		topBox.setSpacing(30);
+		topBox.setPadding(new Insets(BUTTON_SPACING, BUTTON_SPACING, BUTTON_SPACING, BUTTON_SPACING));
+		topBox.setSpacing(BUTTON_SPACING);
 		Label insLabel = new Label(GuiText.getString("XmlLabel"));
 		inputField = new TextField();
 		inputField.setPrefWidth(TEXT_FIELD_PREF_WIDTH);
@@ -165,6 +130,44 @@ public class GUI extends Application{
 		
 		topBox.getChildren().addAll(insLabel, inputField, submitButton);
 	}
+
+	private void speedUp() {
+		if(updateRate > .5) {
+			updateRate = .5;
+			myAnimation.stop();
+			myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+			myAnimation.getKeyFrames().clear();
+			myAnimation.getKeyFrames().add(myFrame);
+			myAnimation.play();
+		}
+		else {
+			updateRate = .25;
+			myAnimation.stop();
+			myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+			myAnimation.getKeyFrames().clear();
+			myAnimation.getKeyFrames().add(myFrame);
+			myAnimation.play();
+		}
+	}
+
+	private void slow() {
+		if(updateRate < .5) {
+			updateRate = .5;
+			myAnimation.stop();
+			myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+			myAnimation.getKeyFrames().clear();
+			myAnimation.getKeyFrames().add(myFrame);
+			myAnimation.play();
+		}
+		else {
+			updateRate = 1;
+			myAnimation.stop();
+			myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+			myAnimation.getKeyFrames().clear();
+			myAnimation.getKeyFrames().add(myFrame);
+			myAnimation.play();
+		}
+	}
 	
 	/**
 	 * Retrieves the data from the XML file specified by the reader, starts a simulation with the information, and then returns 
@@ -173,6 +176,7 @@ public class GUI extends Application{
 	 */
 	private void loadFile(String s) {
 		guiLayout.setCenter(null);
+		currentSim = null;
 		
 		try {
 			currentSim = FileHandler.fileReader(s);
@@ -199,7 +203,18 @@ public class GUI extends Application{
 		Rectangle[][] images = imageGrid.constructImages(GRID_SIZE*(1-BORDER_FRACTION), GRID_SIZE*(1-BORDER_FRACTION));
 		gridRows = images.length;
 		gridCols = images[0].length;
+		setGridConstraints();
 		
+		for(int i = 0; i < gridRows; i++) {
+			for(int j = 0; j <gridCols; j++) {
+				cellGrid.add(images[i][j], j, i);
+			}
+		}
+		
+		guiLayout.setCenter(cellGrid);
+	}
+
+	private void setGridConstraints() {
 		for(int i = 0; i < gridCols; i++) {
 			ColumnConstraints colConst = new ColumnConstraints();
             colConst.setPercentWidth(100.0 / gridCols);
@@ -210,14 +225,6 @@ public class GUI extends Application{
             rowConst.setPercentHeight(100.0 / gridRows);
             cellGrid.getRowConstraints().add(rowConst);
 		}
-		
-		for(int i = 0; i < gridRows; i++) {
-			for(int j = 0; j <gridCols; j++) {
-				cellGrid.add(images[i][j], j, i);
-			}
-		}
-		
-		guiLayout.setCenter(cellGrid);
 	}
 	
 	public static void main(String[] args) {
