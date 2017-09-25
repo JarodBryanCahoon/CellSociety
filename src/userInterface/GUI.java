@@ -28,10 +28,10 @@ import simulations.Simulation;
 
 public class GUI extends Application{
 	public static final double BUTTON_MAX_WIDTH = 170;
-	public static final double GRID_SIZE = 535;
+	public static final double GRID_SIZE = 520;
 	public static final double GUI_SIZE = 650;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
-	public static final Color[] COLORS = {Color.WHITE, Color.TURQUOISE, Color.DARKBLUE};
+	public static final Color[] COLORS = {Color.web("#DFE2E5"), Color.TURQUOISE, Color.DARKBLUE};
 	public static final double BORDER_FRACTION = .05;
 	public static final double BUTTON_SPACING = 13;
 	
@@ -175,6 +175,7 @@ public class GUI extends Application{
 	 * @param s Name of the file
 	 */
 	private void loadFile(String s) {
+		myAnimation.stop();
 		guiLayout.setCenter(null);
 		currentSim = null;
 		
@@ -197,17 +198,19 @@ public class GUI extends Application{
 	 */
 	private void initializeCellGrid() {
 		cellGrid = new GridPane();
-		cellGrid.setPadding(new Insets(10, 10, 10, 10));
-		cellGrid.setGridLinesVisible(true);
+		//cellGrid.setStyle("-fx-border-color: black");
+		//cellGrid.setGridLinesVisible(true);
 		cellGrid.setMaxSize(GRID_SIZE, GRID_SIZE);
-		Rectangle[][] images = imageGrid.constructImages(GRID_SIZE*(1-BORDER_FRACTION), GRID_SIZE*(1-BORDER_FRACTION));
+		Rectangle[][] images = imageGrid.constructImages(GRID_SIZE, GRID_SIZE);
 		gridRows = images.length;
 		gridCols = images[0].length;
 		setGridConstraints();
 		
 		for(int i = 0; i < gridRows; i++) {
 			for(int j = 0; j <gridCols; j++) {
-				cellGrid.add(images[i][j], j, i);
+				Rectangle rect = images[i][j];
+				rect.getStyleClass().add("Rectangle");
+				cellGrid.add(rect, j, i);
 			}
 		}
 		
