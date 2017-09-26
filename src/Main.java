@@ -20,7 +20,7 @@ public class Main {
 	
 	
 	private static void testFireSimulation() throws Exception {
-		Simulation sim = new FileHandler().fileReader("data\\Fire.xml");
+		Simulation sim = new FileHandler().fileReader("data\\Wator.xml");
 		AbstractGrid cells = sim.getGrid();
 		System.out.println(cells);
 		System.out.println();
