@@ -11,7 +11,7 @@ import java.util.List;
 public class SegCell extends Cell {
 	public static final int EMPTY = 0;
 	private boolean satisfied; // EMPTY cells are satisfied
-	private double threshhold;
+	private double threshold;
 
 	/**
 	 * @param initialState
@@ -21,7 +21,7 @@ public class SegCell extends Cell {
 	 */
 	public SegCell(int initialState, double threshold) {
 		super(initialState);
-		this.threshhold = threshhold;
+		this.threshold = threshold;
 		satisfied = true;
 	}
 
@@ -42,7 +42,7 @@ public class SegCell extends Cell {
 			if (c.getState() != EMPTY)
 				numTotal++;
 		}
-		satisfied = numFriends >= numTotal * threshhold;
+		satisfied = numFriends >= numTotal * threshold;
 	}
 
 	/**
