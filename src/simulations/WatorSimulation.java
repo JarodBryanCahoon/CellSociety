@@ -23,17 +23,16 @@ public class WatorSimulation extends Simulation {
 	 */
 	@Override
 	public void step() {
-		WatorGrid wGrid = (WatorGrid)cells;
 		List<WatorCell> movedTo = new ArrayList<WatorCell>();
 		List<Integer> cellIDs = new ArrayList<Integer>();
 		for(int i = 0; i < cells.getSize(); i++)
 			cellIDs.add(i);
 		Collections.shuffle(cellIDs);
 		for(Integer i : cellIDs) {
-			WatorCell cell = (WatorCell)wGrid.get(i);
+			WatorCell cell = (WatorCell)cells.get(i);
 			if(movedTo.contains(cell))
 				continue;
-			cell.step(wGrid.getNeighbors(i));
+			cell.step(cells.getNeighbors(i));
 			movedTo.add(cell.getMovedTo());
 		}
 	}
