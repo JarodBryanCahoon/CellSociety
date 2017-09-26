@@ -16,8 +16,12 @@ public class WatorCell extends Cell {
 	private int sharkLifeSpan;
 	private int sharkSpawnTime;
 	private int fishSpawnTime;
+	private int energyGain;
+	
 	private int energy;
 	private int toNextSpawn;
+	private WatorCell movedTo;
+	
 
 	/**
 	 * @param initialState
@@ -28,11 +32,12 @@ public class WatorCell extends Cell {
 	 * @param fishSpawn
 	 *            The number of steps for a fish to spawn
 	 */
-	public WatorCell(int initialState, int sharkLife, int sharkSpawn, int fishSpawn) {
+	public WatorCell(int initialState, int sharkLife, int sharkSpawn, int fishSpawn, int energyGain) {
 		super(initialState);
 		sharkLifeSpan = sharkLife;
 		sharkSpawnTime = sharkSpawn;
 		fishSpawnTime = fishSpawn;
+		this.energyGain = energyGain;
 		energy = sharkLifeSpan;
 		toNextSpawn = initialSpawnTime();
 	}
@@ -54,15 +59,24 @@ public class WatorCell extends Cell {
 	 */
 	@Override
 	public void step(List<Cell> neighborhood) {
+		movedTo = this;
 		if (getState() == EMPTY)
 			return;
 		toNextSpawn--;
 		energy--;
-		if (isDead())
+		if (isDead()) {
 			nextState = EMPTY;
+		}
 		else
 			moveTo(cellToMoveTo(neighborhood, getState() - 1));
 		update();
+	}
+	
+	/**
+	 * @return The cell this last moved to, to allow Simulation to prevent double motion
+	 */
+	public WatorCell getMovedTo() {
+		return movedTo;
 	}
 
 	/**
@@ -100,10 +114,14 @@ public class WatorCell extends Cell {
 	 * 
 	 * @param cell
 	 *            destination
+	 * @return 
 	 */
 	private void moveTo(WatorCell cell) {
+		movedTo = cell;
 		if (cell == this)
 			return;
+		if(cell.getState() == FISH)
+			energy+=energyGain;
 		cell.nextState = getState();
 		cell.energy = energy;
 		if (toNextSpawn <= 0) {

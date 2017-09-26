@@ -1,14 +1,29 @@
 .root{
-	-fx-background-color: #ecf4ee;
+	-fx-background-color: #DFE2E5;
 	-fx-font-family: "Calibri";
 	-fx-font-size: 15;
 }
 
 .label{
-	
+	-fx-font-weight: bold;
 }
 
+.GridPane{
+	-fx-border-color: black
+}
 .button{
-	-fx-background-color: #87928a;
+	-fx-background-color:#31a354;
 	-fx-font-family: "Calibri";
+	-fx-font-weight: bold;
+	-fx-text-fill:  black;
+}
+
+.button:hover{
+	-fx-background-color: radial-gradient(focus-distance 0%, center 50% 50%, radius 100%, #60ac39, #a7cfa3);
+}
+
+.Rectangle{
+	-fx-stroke: black;
+	-fx-stroke-width: .75;
+	-fx-stroke-line-cap: butt;
 }

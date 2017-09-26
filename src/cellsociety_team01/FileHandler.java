@@ -27,6 +27,7 @@ public class FileHandler {
 	private static int sharkLife;
 	private static int sharkSpawn;
 	private static int fishSpawn;
+	private static int energyGain;
 	private static ArrayList initial = new ArrayList();
 	private static Object[] argumentArray;
 	
@@ -36,6 +37,7 @@ public class FileHandler {
 	}
 	
 	public static Simulation fileReader(String file) throws Exception {
+		initial = new ArrayList();
 		File fXmlFile = new File(file);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
@@ -69,9 +71,11 @@ public class FileHandler {
 					sharkLife = Integer.parseInt(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
 					sharkSpawn = Integer.parseInt(eElement.getElementsByTagName("sharkSpawn").item(0).getTextContent());
 					fishSpawn = Integer.parseInt(eElement.getElementsByTagName("fishSpawn").item(0).getTextContent());
+					energyGain = Integer.parseInt(eElement.getElementsByTagName("energyGain").item(0).getTextContent());
 					initial.add(sharkLife);
 					initial.add(sharkSpawn);
 					initial.add(fishSpawn);
+					initial.add(energyGain);
 				}
 				
 				
