@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Simulation SimulationType="Wator">
+    <author>Keegan</author>
 	<simulation>Wator</simulation>
 	<state>1</state>
     <rows>10</rows>
