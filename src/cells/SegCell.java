@@ -19,7 +19,7 @@ public class SegCell extends Cell {
 	 *            The minimum fraction of non-empty neighbors that are in the same
 	 *            state as this one for it to be satisfied
 	 */
-	public SegCell(int initialState, double threshhold) {
+	public SegCell(int initialState, double threshold) {
 		super(initialState);
 		this.threshhold = threshhold;
 		satisfied = true;

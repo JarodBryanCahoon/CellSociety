@@ -72,6 +72,9 @@ public class WatorCell extends Cell {
 		update();
 	}
 	
+	/**
+	 * @return The cell this last moved to, to allow Simulation to prevent double motion
+	 */
 	public WatorCell getMovedTo() {
 		return movedTo;
 	}
