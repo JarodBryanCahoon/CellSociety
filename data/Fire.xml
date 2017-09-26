@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Simulation SimulationType="Fire">
+    <author>Keegan</author>
 	<simulation>Fire</simulation>
 	<state>1</state>
     <rows>10</rows>
