@@ -208,7 +208,7 @@ public class GUI extends Application{
 		cellGrid.setMaxSize(GRID_SIZE, GRID_SIZE);
 		Rectangle[][] images = imageGrid.constructImages(GRID_SIZE, GRID_SIZE);
 		gridRows = images.length;
-		gridCols = images[0].length;
+		gridCols = images[0].length; // ssss
 		setGridConstraints();
 		
 		for(int i = 0; i < gridRows; i++) {
