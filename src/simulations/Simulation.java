@@ -23,10 +23,18 @@ public class Simulation {
 	 * 
 	 */
 	public void step() {
-		for (int i = 0; i < cells.getSize(); i++)
-			cells.get(i).step(cells.getNeighbors(i));
+		stepAllCells();
+		updateAllCells();
+	}
+
+	protected void updateAllCells() {
 		for (Cell cell : cells)
 			cell.update();
+	}
+
+	protected void stepAllCells() {
+		for (int i = 0; i < cells.getSize(); i++)
+			cells.get(i).step(cells.getNeighbors(i));
 	}
 
 	public String toString() {
