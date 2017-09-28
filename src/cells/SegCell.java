@@ -2,6 +2,8 @@ package cells;
 
 import java.util.List;
 
+import javafx.scene.paint.Color;
+
 /**
  * Represents a cell following the rules of a segregation simulation
  * 
@@ -10,6 +12,7 @@ import java.util.List;
  */
 public class SegCell extends Cell {
 	public static final int EMPTY = 0;
+	private static final Color[] COLORS = new Color[] {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN, Color.ORANGE};
 	private boolean satisfied; // EMPTY cells are satisfied
 	private double threshold;
 
@@ -23,6 +26,7 @@ public class SegCell extends Cell {
 		super(initialState);
 		this.threshold = threshold;
 		satisfied = true;
+		setColors(COLORS);
 	}
 
 	/**

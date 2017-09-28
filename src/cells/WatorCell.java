@@ -3,6 +3,8 @@ package cells;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.paint.Color;
+
 /**
  * @author Ian Eldridge-Allegra
  *
@@ -12,6 +14,7 @@ public class WatorCell extends Cell {
 	public static final int EMPTY = 0;
 	public static final int FISH = 1;
 	public static final int SHARK = 2;
+	private static final Color[] COLORS = new Color[]{ Color.DARKBLUE, Color.GREEN, Color.ALICEBLUE};
 
 	private int sharkLifeSpan;
 	private int sharkSpawnTime;
@@ -40,6 +43,7 @@ public class WatorCell extends Cell {
 		this.energyGain = energyGain;
 		energy = sharkLifeSpan;
 		toNextSpawn = initialSpawnTime();
+		setColors(COLORS);
 	}
 
 	/**

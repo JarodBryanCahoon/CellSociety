@@ -2,6 +2,7 @@ package simulations;
 
 import cells.Cell;
 import grids.AbstractGrid;
+import javafx.scene.layout.Pane;
 
 /**
  * Generic Simulation -- handles most cases where cells don't move
@@ -41,7 +42,7 @@ public class Simulation {
 		return cells.toString();
 	}
 
-	public AbstractGrid getGrid() {
-		return cells;
+	public Pane getView(double width, double height) {
+		return cells.getView(width, height);
 	}
 }

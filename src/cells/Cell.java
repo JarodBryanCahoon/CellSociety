@@ -2,6 +2,9 @@ package cells;
 
 import java.util.List;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
+
 /**
  * Represents individual cells in the simulation's grid. They are responsible
  * for most of the logic of the simulation, but may require assistance when
@@ -13,6 +16,9 @@ import java.util.List;
 public abstract class Cell {
 	private int state;
 	protected int nextState;
+	private Shape image;
+	
+	private Color[] colors;
 
 	/**
 	 * @param initialState
@@ -34,12 +40,26 @@ public abstract class Cell {
 	 */
 	public void update() {
 		state = nextState;
+		image.setFill(getColor());
 	}
 
 	public int getState() {
 		return state;
 	}
 
+	public void acceptImage(Shape image) {
+		this.image = image;
+		image.setFill(getColor());
+	}
+	
+	protected void setColors(Color ... colors) {
+		this.colors = colors;
+	}
+	
+	protected Color getColor() {
+		return colors[getState()];
+	}
+	
 	@Override
 	public String toString() {
 		return "" + getState();
