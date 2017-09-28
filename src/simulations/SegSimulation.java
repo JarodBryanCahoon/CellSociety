@@ -22,8 +22,7 @@ public class SegSimulation extends Simulation {
 	 */
 	@Override
 	public void step() {
-		for(int i = 0; i < cells.getSize(); i++)
-			cells.get(i).step(cells.getNeighbors(i));
+		stepAllCells();
 		
 		List<SegCell> emptyCells = getEmptyCells();
 		
