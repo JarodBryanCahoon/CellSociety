@@ -6,7 +6,7 @@ import java.util.List;
 
 import cells.WatorCell;
 import grids.AbstractGrid;
-import grids.WatorGrid;
+import grids.ToroidalSquareGrid;
 
 /**
  * @author Ian Eldridge-Allegra

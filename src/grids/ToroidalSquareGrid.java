@@ -8,19 +8,15 @@ import cells.Cell;
  * @author Ian Eldridge-Allegra
  *
  */
-public class WatorGrid extends FourNeighborSquareGrid {
-	int numRows;
-	int numCols;
+public class ToroidalSquareGrid extends FourNeighborSquareGrid {
 
-	public WatorGrid(int rows, int cols) {
+	public ToroidalSquareGrid(int rows, int cols) {
 		super(rows, cols);
-		numRows = rows;
-		numCols = cols;
 	}
 
 	@Override
 	public Cell get(int row, int col) {
-		return super.get(mod(row, numRows), mod(col, numCols));
+		return super.get(mod(row, getHeight()), mod(col, getWidth()));
 	}
 	
 	private int mod(int a, int b) {
