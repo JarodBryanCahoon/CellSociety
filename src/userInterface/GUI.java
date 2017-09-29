@@ -2,9 +2,7 @@ package userInterface;
 
 import java.util.ResourceBundle;
 
-import cellsociety_team01.*;
-import grids.AbstractGrid;
-import grids.SquareGrid;
+import cellsociety_team01.FileHandler;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -14,13 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.Simulation;
@@ -41,13 +34,9 @@ public class GUI extends Application {
 	private KeyFrame myFrame;
 	private double updateRate = .5;
 	private Simulation currentSim;
-	private SquareCellDisplay imageGrid;
-	private int gridRows;
-	private int gridCols;
 	private Stage mainStage;
 	private Scene mainScene;
 	private BorderPane guiLayout;
-	private GridPane cellGrid;
 	private TextField inputField;
 	private int speedIndex = 1;
 
@@ -180,12 +169,10 @@ public class GUI extends Application {
 			e.printStackTrace();
 
 		}
-		imageGrid = new SquareCellDisplay((SquareGrid) currentSim.getGrid(), COLORS);
 	}
 
 	private void update() {
 		currentSim.step();
-		imageGrid.update();
 	}
 
 	/**
@@ -193,37 +180,7 @@ public class GUI extends Application {
 	 * number of cells
 	 */
 	private void initializeCellGrid() {
-		cellGrid = new GridPane();
-		// cellGrid.setStyle("-fx-border-color: black");
-		// cellGrid.setGridLinesVisible(true);
-		cellGrid.setMaxSize(GRID_SIZE, GRID_SIZE);
-		Rectangle[][] images = imageGrid.constructImages(GRID_SIZE, GRID_SIZE);
-		gridRows = images.length;
-		gridCols = images[0].length; // ssss
-		setGridConstraints();
-
-		for (int i = 0; i < gridRows; i++) {
-			for (int j = 0; j < gridCols; j++) {
-				Rectangle rect = images[i][j];
-				rect.getStyleClass().add("Rectangle");
-				cellGrid.add(rect, j, i);
-			}
-		}
-
-		guiLayout.setCenter(cellGrid);
-	}
-
-	private void setGridConstraints() {
-		for (int i = 0; i < gridCols; i++) {
-			ColumnConstraints colConst = new ColumnConstraints();
-			colConst.setPercentWidth(100.0 / gridCols);
-			cellGrid.getColumnConstraints().add(colConst);
-		}
-		for (int i = 0; i < gridRows; i++) {
-			RowConstraints rowConst = new RowConstraints();
-			rowConst.setPercentHeight(100.0 / gridRows);
-			cellGrid.getRowConstraints().add(rowConst);
-		}
+		guiLayout.setCenter(currentSim.getView(GRID_SIZE,GRID_SIZE));
 	}
 
 	public static void main(String[] args) {

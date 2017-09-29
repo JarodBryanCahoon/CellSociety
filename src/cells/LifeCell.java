@@ -2,6 +2,8 @@ package cells;
 
 import java.util.List;
 
+import javafx.scene.paint.Color;
+
 /**
  * @author Ian Eldridge-Allegra
  *
@@ -10,12 +12,14 @@ public class LifeCell extends Cell {
 
 	public static final int DEAD = 0;
 	public static final int LIVING = 1;
+	private static final Color[] COLORS = new Color[] {Color.BLACK, Color.WHITE};
 	
 	/**
 	 * @param initialState
 	 */
 	public LifeCell(int initialState) {
 		super(initialState);
+		setColors(COLORS);
 	}
 
 	/**

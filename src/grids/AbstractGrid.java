@@ -3,6 +3,7 @@ package grids;
 import java.util.List;
 
 import cells.Cell;
+import javafx.scene.layout.Pane;
 
 /**
  * Represents an arbitrarily shaped grid of cells, which must be countable (ie
@@ -29,4 +30,6 @@ public abstract class AbstractGrid implements Iterable<Cell> {
 	 * @return The number (n) of legal indices, from 0 to n-1
 	 */
 	public abstract int getSize();
+	
+	public abstract Pane getView(double width, double height);
 }

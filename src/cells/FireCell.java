@@ -2,6 +2,8 @@ package cells;
 
 import java.util.List;
 
+import javafx.scene.paint.Color;
+
 /**
  * @author Ian Eldridge-Allegra
  *
@@ -10,6 +12,7 @@ public class FireCell extends Cell {
 	public static final int EMPTY = 0;
 	public static final int TREE = 1;
 	public static final int BURNING = 2;
+	private static final Color[] COLORS = new Color[] {Color.DARKGRAY, Color.GREEN, Color.RED};
 
 	private double probCatch;
 
@@ -21,6 +24,7 @@ public class FireCell extends Cell {
 	public FireCell(int initialState, double probCatch) {
 		super(initialState);
 		this.probCatch = probCatch;
+		setColors(COLORS);
 	}
 
 	/**

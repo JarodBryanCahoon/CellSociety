@@ -15,24 +15,24 @@ import cellsociety_team01.FileHandler;
 public class Main {
 	public static void main(String[] args) throws Exception {
 		// Currently for testing
-		testFireSimulation();
+		//testFireSimulation();
 	}
 	
 	
-	private static void testFireSimulation() throws Exception {
-		Simulation sim = new FileHandler().fileReader("data\\Wator.xml");
-		AbstractGrid cells = sim.getGrid();
-		System.out.println(cells);
-		System.out.println();
-		sim.step();
-		System.out.println(cells);
-		System.out.println();
-		sim.step();
-		System.out.println(cells);
-		System.out.println();
-		sim.step();
-		System.out.println(cells);
-		System.out.println();
-		sim.step();
-	}
+//	private static void testFireSimulation() throws Exception {
+//		Simulation sim = new FileHandler().fileReader("data\\Wator.xml");
+//		AbstractGrid cells = sim.getGrid();
+//		System.out.println(cells);
+//		System.out.println();
+//		sim.step();
+//		System.out.println(cells);
+//		System.out.println();
+//		sim.step();
+//		System.out.println(cells);
+//		System.out.println();
+//		sim.step();
+//		System.out.println(cells);
+//		System.out.println();
+//		sim.step();
+//	}
 }

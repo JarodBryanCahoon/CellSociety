@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import cells.Cell;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Represents a 2D square grid of cells
@@ -113,5 +115,22 @@ public class SquareGrid extends AbstractGrid {
 
 	public String toString() {
 		return Arrays.deepToString(cells);
+	}
+
+	public Pane getView(double width, double height) {
+		double cellWidth = width/cells.length;
+		double cellHeight = height/cells[0].length;
+		Pane pane = new Pane();
+		pane.setPrefSize(width, height);
+		for(int row = 0; row < cells.length; row++) {
+			for(int col = 0; col < cells[0].length; col++) {
+				Rectangle rect = new Rectangle(cellWidth, cellHeight);
+				rect.setLayoutX(cellWidth*col);
+				rect.setLayoutY(cellHeight*row);
+				cells[row][col].acceptImage(rect);
+				pane.getChildren().add(rect);
+			}
+		}
+		return pane;
 	}
 }
