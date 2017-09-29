@@ -33,7 +33,7 @@ public class FileCreator {
 	public void xmlCreator(String simType, int numRows, int numColumns, int numStates, double[] parameters, List<Integer> locations) {
 		/* 
 		 * parameters will hold all other values 
-		 * eg. Fire will need the double "probCatch"
+		 * e.g. Fire will need the double "probCatch"
 		 */
 		try {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -80,36 +80,42 @@ public class FileCreator {
 		rootElement.appendChild(stateGrid);
 
 		// write the content into xml file
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		DOMSource source = new DOMSource(doc);
-		StreamResult result = new StreamResult(new File("\\data\\" + simType + ".xml"));
-		transformer.transform(source, result);
+		writeXml(doc, simType);
 		} catch (ParserConfigurationException pce) {
 			System.out.println("Incorrect parameters provided");	
 			System.out.println("Check the number and type of values given to this class");
 		} 
-		catch (TransformerException tfe) {
-			System.out.println("File not created properly");
-	  }
 	}
 
-public static String xmlGridCreator(int rows, int columns, int numStates ) {
-	int gridSize = rows*columns;
-	StringBuilder stateArray = new StringBuilder();
-	int state = 0;
-	Random stateGenerator = new Random();
+	public static String xmlGridCreator(int rows, int columns, int numStates ) {
+		int gridSize = rows*columns;
+		StringBuilder stateArray = new StringBuilder();
+		int state = 0;
+		Random stateGenerator = new Random();
 	
-	for (int i = 0; i < gridSize - 1; i++) {
-	  state = stateGenerator.nextInt(numStates) + 1;
-	  stateArray.append("" + state + ",");
+		for (int i = 0; i < gridSize - 1; i++) {
+			state = stateGenerator.nextInt(numStates) + 1;
+			stateArray.append("" + state + ",");
+		}
+		state = stateGenerator.nextInt(numStates) + 1;
+		stateArray.append("" + state);
+	
+		return stateArray.toString();
 	}
-	state = stateGenerator.nextInt(numStates) + 1;
-	stateArray.append("" + state);
-	
-	return stateArray.toString();
-}
-	
+
+
+	public static void writeXml(Document doc, String simType) {
+		try {
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(new File("\\data\\" + simType + ".xml"));
+			transformer.transform(source, result);
+		}
+		catch (TransformerException tfe) {
+			System.out.println("File not created properly");
+		}
+	}	
 	
 	
 }
