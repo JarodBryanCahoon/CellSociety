@@ -1,6 +1,7 @@
 package cellsociety_team01;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -27,12 +28,17 @@ public class FileHandler {
 	public FileHandler() {	
 	}
 	
-	public static Simulation fileReader(String file) throws Exception {
+	public static Simulation fileReader(String file) {
+		
 		List<Object> initial = new ArrayList<Object>();
-		NodeList nList = nodeList(file);
 		String simulation = null;
-		int state, rows = 0,columns = 0;
+		int state = 0;
+		int rows = 0;
+		int columns = 0;
 		String[] locations = null;
+		Simulation sim = null;
+		try {
+		NodeList nList = nodeList(file);
 		for (int temp = 0; temp < nList.getLength(); temp++) {
 			
 			
@@ -45,39 +51,34 @@ public class FileHandler {
 				rows = Integer.parseInt(eElement.getElementsByTagName("rows").item(0).getTextContent());
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
 				locations = eElement.getElementsByTagName("locations").item(0).getTextContent().split(",");
-				initial.add(0);
-				if(simulation.equals("Fire")) {
-					double probCatch = Double.parseDouble(eElement.getElementsByTagName("probCatch").item(0).getTextContent());
-					initial.add(probCatch);
-
-				}
-				if(simulation.equals("Seg")) {
-					double threshold = Double.parseDouble(eElement.getElementsByTagName("threshold").item(0).getTextContent());
-					initial.add(threshold);
+				String values = eElement.getElementsByTagName("values").item(0).getTextContent();
 				
-				}
-				if(simulation.equals("Wator")) {
-					int sharkLife = Integer.parseInt(eElement.getElementsByTagName("sharkLife").item(0).getTextContent());
-					int sharkSpawn = Integer.parseInt(eElement.getElementsByTagName("sharkSpawn").item(0).getTextContent());
-					int fishSpawn = Integer.parseInt(eElement.getElementsByTagName("fishSpawn").item(0).getTextContent());
-					int energyGain = Integer.parseInt(eElement.getElementsByTagName("energyGain").item(0).getTextContent());
-					initial.add(sharkLife);
-					initial.add(sharkSpawn);
-					initial.add(fishSpawn);
-					initial.add(energyGain);
-				}
-				
-				
+				String[] valueArray = values.split(","); 
+				for(int i = 0; i < valueArray.length; i++) {
+					try{
+						initial.add(Integer.parseInt(valueArray[i]));
+					}
+					catch(Exception e) {
+						initial.add(Double.parseDouble(valueArray[i]));
+					}
+				}		
 			}
 		}
-		
 		Initializer init = new Initializer(simulation);
 		
 		Object[] argumentArray = initial.toArray();
 		AbstractGrid cells = arrayCreator(argumentArray, init, rows, columns, locations);
 		//Will probably change if tree to something more flexible
-		Simulation sim = init.getSimulation(cells);
+		sim = init.getSimulation(cells);
+		}
+		catch(Exception e) {
+			System.out.println("Incorrect File Name");
+		}
 		return sim;
+		
+
+		
+
 	}
 
 	private static NodeList nodeList(String file) throws ParserConfigurationException, SAXException, IOException {
