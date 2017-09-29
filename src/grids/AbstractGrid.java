@@ -1,5 +1,6 @@
 package grids;
 
+import java.util.Iterator;
 import java.util.List;
 
 import cells.Cell;
@@ -32,4 +33,23 @@ public abstract class AbstractGrid implements Iterable<Cell> {
 	public abstract int getSize();
 	
 	public abstract Pane getView(double width, double height);
+	
+	public Iterator<Cell> iterator() {
+		return new Iterator<Cell>() {
+			private int index = 0;
+
+			@Override
+			public boolean hasNext() {
+				return index < getSize();
+			}
+
+			@Override
+			public Cell next() {
+				Cell next = get(index);
+				index++;
+				return next;
+			}
+
+		};
+	}
 }
