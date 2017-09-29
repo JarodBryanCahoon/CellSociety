@@ -3,7 +3,6 @@ package cellsociety_team01;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,8 +17,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import grids.AbstractGrid;
-import grids.SquareGrid;
 import simulations.Simulation;
+import cellsociety_team01.FileCreator;
 
 
 public class FileHandler {
@@ -32,12 +30,15 @@ public class FileHandler {
 		
 		List<Object> initial = new ArrayList<Object>();
 		String simulation = null;
-		int state = 0;
 		int rows = 0;
 		int columns = 0;
 		String[] locations = null;
 		Simulation sim = null;
 		try {
+		if(!(new File(file).exists())) {
+			file = "data\\Fire.xml";
+			System.out.println("Incorrect File Name");
+		}
 		NodeList nList = nodeList(file);
 		for (int temp = 0; temp < nList.getLength(); temp++) {
 			
@@ -47,7 +48,6 @@ public class FileHandler {
 
 				Element eElement = (Element) nNode;
 				simulation = eElement.getElementsByTagName("simulation").item(0).getTextContent();
-				state = Integer.parseInt(eElement.getElementsByTagName("state").item(0).getTextContent());
 				rows = Integer.parseInt(eElement.getElementsByTagName("rows").item(0).getTextContent());
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
 				locations = eElement.getElementsByTagName("locations").item(0).getTextContent().split(",");
@@ -68,17 +68,12 @@ public class FileHandler {
 		
 		Object[] argumentArray = initial.toArray();
 		AbstractGrid cells = arrayCreator(argumentArray, init, rows, columns, locations);
-		//Will probably change if tree to something more flexible
 		sim = init.getSimulation(cells);
 		}
 		catch(Exception e) {
 			System.out.println("Incorrect File Name");
 		}
 		return sim;
-		
-
-		
-
 	}
 
 	private static NodeList nodeList(String file) throws ParserConfigurationException, SAXException, IOException {

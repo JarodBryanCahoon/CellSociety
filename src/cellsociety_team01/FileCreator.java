@@ -4,6 +4,8 @@ package cellsociety_team01;
  */
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -28,7 +30,7 @@ public class FileCreator {
 		//Intentionally left blank
 	}
 	
-	public void xmlCreator(String simType, int numRows, int numColumns, int numStates, double[] parameters) {
+	public void xmlCreator(String simType, int numRows, int numColumns, int numStates, double[] parameters, List<Integer> locations) {
 		/* 
 		 * parameters will hold all other values 
 		 * eg. Fire will need the double "probCatch"
@@ -53,12 +55,28 @@ public class FileCreator {
 		columns.appendChild(doc.createTextNode("" + numColumns));
 		rootElement.appendChild(columns);
 
-		Element probCatch = doc.createElement("probCatch");
-		probCatch.appendChild(doc.createTextNode("" + parameters[0]));
-		rootElement.appendChild(probCatch);
+		Element values = doc.createElement("values");
+		StringBuilder valueString = new StringBuilder();
+		for(int i = 0; i < parameters.length; i++) {
+			valueString.append("" + parameters[i] + ",");
+		}
+		valueString.append("" + parameters[parameters.length - 1]);
+		values.appendChild(doc.createTextNode("" + valueString.toString()));
+		rootElement.appendChild(values);
 		
 		Element stateGrid = doc.createElement("grid");
-		stateGrid.appendChild(doc.createTextNode(xmlGridCreator(numRows, numColumns, numStates)));
+		if(!(locations==null)) {
+			ArrayList<Integer> locationsAL = (ArrayList<Integer>) locations;
+			for(int i = 0; i < 6 ; i++) {
+				locationsAL.add(i);
+			}
+			String[] locArray = locationsAL.toString().split("\\[");
+			locArray[0] = locArray[1].split("]")[0];
+			stateGrid.appendChild(doc.createTextNode(locArray[0]));
+		}
+		else {
+			stateGrid.appendChild(doc.createTextNode(xmlGridCreator(numRows, numColumns, numStates)));
+		}
 		rootElement.appendChild(stateGrid);
 
 		// write the content into xml file
