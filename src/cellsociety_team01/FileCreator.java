@@ -25,7 +25,7 @@ import org.w3c.dom.Element;
 public class FileCreator {
 
 	public FileCreator() {
-		// TODO Auto-generated constructor stub
+		//Intentionally left blank
 	}
 	
 	public void xmlCreator(String simType, int numRows, int numColumns, int numStates, double[] parameters) {
@@ -40,7 +40,7 @@ public class FileCreator {
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("simulation");
 		doc.appendChild(rootElement);
-
+		
 		Element simulation = doc.createElement("Simulation");
 		simulation.appendChild(doc.createTextNode(simType));
 		rootElement.appendChild(simulation);
@@ -67,11 +67,12 @@ public class FileCreator {
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(new File("\\data\\" + simType + ".xml"));
 		transformer.transform(source, result);
-		
-	  } catch (ParserConfigurationException pce) {
-		
-	  } catch (TransformerException tfe) {
-		
+		} catch (ParserConfigurationException pce) {
+			System.out.println("Incorrect parameters provided");	
+			System.out.println("Check the number and type of values given to this class");
+		} 
+		catch (TransformerException tfe) {
+			System.out.println("File not created properly");
 	  }
 	}
 
@@ -81,10 +82,12 @@ public static String xmlGridCreator(int rows, int columns, int numStates ) {
 	int state = 0;
 	Random stateGenerator = new Random();
 	
-	for (int i = 0; i < gridSize; i++) {
+	for (int i = 0; i < gridSize - 1; i++) {
 	  state = stateGenerator.nextInt(numStates) + 1;
 	  stateArray.append("" + state + ",");
 	}
+	state = stateGenerator.nextInt(numStates) + 1;
+	stateArray.append("" + state);
 	
 	return stateArray.toString();
 }
