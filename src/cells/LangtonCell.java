@@ -55,7 +55,10 @@ public class LangtonCell extends Cell {
 	public void step(List<Cell> neighborhood) {
 		List<Integer> states = new ArrayList<Integer>();
 		for (Cell c : neighborhood) {
-			states.add(c.getState());
+			if(c == null)
+				states.add(0);
+			else
+				states.add(c.getState());
 		}
 		Collections.sort(states);
 		states.add(0, getState());

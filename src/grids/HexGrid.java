@@ -22,9 +22,9 @@ public class HexGrid extends Grid2D {
 		neighbors.add(get(row-1, col-1+row%2));
 		neighbors.add(get(row-2, col));
 		neighbors.add(get(row-1, col+row%2));
-		neighbors.add(get(row+1, col-1+row%2));
-		neighbors.add(get(row+2, col));
 		neighbors.add(get(row+1, col+row%2));
+		neighbors.add(get(row+2, col));
+		neighbors.add(get(row+1, col-1+row%2));
 		return extractNeighbors(neighbors);
 	}
 
