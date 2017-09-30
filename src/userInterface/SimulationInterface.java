@@ -17,6 +17,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.Simulation;
@@ -187,10 +188,16 @@ public class SimulationInterface extends Application {
 	 * number of cells
 	 */
 	private void initializeCellGrid() {
-		Pane bufferPane = new Pane();
-		bufferPane.setPrefWidth(INSET_DISTANCE);
-		guiLayout.setLeft(bufferPane);
+		guiLayout.setLeft(leftBox());
 		centerPane = currentSim.getView(GRID_SIZE, GRID_SIZE);
 		guiLayout.setCenter(centerPane);
+	}
+	
+	private Pane leftBox() {
+		VBox leftPane = new VBox(BUTTON_SPACING);
+		leftPane.setPrefWidth(INSET_DISTANCE);
+		Button eButton = new Button(GuiText.getString("ExportButton"));
+		leftPane.getChildren().addAll(eButton);
+		return leftPane;
 	}
 }
