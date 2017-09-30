@@ -30,6 +30,7 @@ public class FileHandler {
 	public static Simulation fileReader(String file) throws Exception {
 		String LifeString = "99";
 		List<Object> initial = new ArrayList<Object>();
+		List<Integer> neighbors = new ArrayList<Integer>();
 		String simulation = null;
 		String gridType = null;
 		int defaultState = 0;
@@ -51,7 +52,7 @@ public class FileHandler {
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
 				locations = eElement.getElementsByTagName("locations").item(0).getTextContent().split(",");
 				String neighborType = eElement.getElementsByTagName("neighbors").item(0).getTextContent();
-				List<Integer> neighbors = getNeighborList(neighborType);
+				neighbors = getNeighborList(neighborType);
 				
 				String values = eElement.getElementsByTagName("values").item(0).getTextContent();
 				if(!(values.equals(LifeString))) {
