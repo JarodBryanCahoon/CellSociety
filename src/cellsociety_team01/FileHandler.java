@@ -16,6 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import cells.ParameterBundle;
 import grids.AbstractGrid;
 import simulations.Simulation;
 import cellsociety_team01.FileCreator;
@@ -26,53 +27,55 @@ public class FileHandler {
 	public FileHandler() {	
 	}
 	
-	public static Simulation fileReader(String file) {
-		
+	public static Simulation fileReader(String file) throws Exception {
+		String LifeString = "99";
 		List<Object> initial = new ArrayList<Object>();
+		List<Integer> neighbors = new ArrayList<Integer>();
 		String simulation = null;
+		int defaultState = 0;
 		int rows = 0;
 		int columns = 0;
 		String[] locations = null;
 		Simulation sim = null;
-		try {
-		if(!(new File(file).exists())) {
-			file = "data\\Fire.xml";
-			System.out.println("Incorrect File Name");
-		}
 		NodeList nList = nodeList(file);
-		for (int temp = 0; temp < nList.getLength(); temp++) {
-			
+		for (int temp = 0; temp < nList.getLength(); temp++) {	
 			
 			Node nNode = nList.item(temp);
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
 				Element eElement = (Element) nNode;
 				simulation = eElement.getElementsByTagName("simulation").item(0).getTextContent();
+				defaultState = Integer.parseInt(eElement.getElementsByTagName("state").item(0).getTextContent());
 				rows = Integer.parseInt(eElement.getElementsByTagName("rows").item(0).getTextContent());
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
 				locations = eElement.getElementsByTagName("locations").item(0).getTextContent().split(",");
+				String neighborString = eElement.getElementsByTagName("neighbors").item(0).getTextContent();
+				String[] neighborArray = neighborString.split(","); 
+				for(int i = 0; i < neighborArray.length; i++) {
+						neighbors.add(Integer.parseInt(neighborArray[i]));
+				}
 				String values = eElement.getElementsByTagName("values").item(0).getTextContent();
-				
-				String[] valueArray = values.split(","); 
-				for(int i = 0; i < valueArray.length; i++) {
-					try{
-						initial.add(Integer.parseInt(valueArray[i]));
+				if(!(values.equals(LifeString))) {
+					String[] valueArray = values.split(","); 
+					for(int i = 0; i < valueArray.length; i++) {
+						try{
+							initial.add(Integer.parseInt(valueArray[i]));
+						}
+						catch(Exception e) {
+							initial.add(Double.parseDouble(valueArray[i]));
+						}
 					}
-					catch(Exception e) {
-						initial.add(Double.parseDouble(valueArray[i]));
-					}
-				}		
+				}
 			}
 		}
 		Initializer init = new Initializer(simulation);
 		
 		Object[] argumentArray = initial.toArray();
-		AbstractGrid cells = arrayCreator(argumentArray, init, rows, columns, locations);
-		sim = init.getSimulation(cells);
-		}
-		catch(Exception e) {
-			System.out.println("Incorrect File Name");
-		}
+		ParameterBundle parameters = new ParameterBundle(simulation, argumentArray);
+		//need to change the array to exclude parameters
+		AbstractGrid cells = arrayCreator(neighbors, defaultState, parameters, init, rows, columns, locations);
+		//need to change to add in parameters
+		sim = init.getSimulation(cells, parameters);
 		return sim;
 	}
 
@@ -87,13 +90,13 @@ public class FileHandler {
 		return nList;
 	}
 
-	public static AbstractGrid arrayCreator(Object[] argumentArray, Initializer init, int rows, int columns, String[] locations) throws Exception {
+	public static AbstractGrid arrayCreator(List<Integer> neighbors, int defaultState, ParameterBundle parameters, Initializer init, int rows, int columns, String[] locations) throws Exception {
 		
-		AbstractGrid cellArray = init.getGrid(rows, columns);
+		AbstractGrid cellArray = init.getGrid(rows, columns, neighbors);
 		
 		for(int i = 0; i < cellArray.getSize(); i++) {
-			argumentArray[0] = Integer.parseInt(locations[i]);
-					cellArray.set(init.getCell(argumentArray), i);
+			defaultState = Integer.parseInt(locations[i]);
+					cellArray.set(init.getCell(defaultState, parameters), i);
 		}
 		
 		return cellArray;
