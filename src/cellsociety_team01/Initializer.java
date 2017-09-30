@@ -13,12 +13,14 @@ public class Initializer {
 	private static final ResourceBundle classNames = ResourceBundle.getBundle("resources/ClassNameBundle");
 	
 	private String simulationType;
+	private String gridType;
 	
 	/**
 	 * @param simType EG: 'Fire', 'Seg', 'Life', 'Wator' 
 	 */
-	public Initializer(String simType) {
+	public Initializer(String simType, String gridType) {
 		simulationType = simType;
+		this.gridType = gridType;
 	}
 	
 	/**
@@ -32,7 +34,7 @@ public class Initializer {
 	 * @param args The expected argument for the given class
 	 */
 	public AbstractGrid getGrid(Object ... args) throws Exception {
-		return (AbstractGrid) instantiate(simulationType + "G", args);
+		return (AbstractGrid) instantiate(gridType, args);
 	}
 	
 	/**
