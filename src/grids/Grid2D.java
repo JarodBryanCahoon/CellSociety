@@ -1,19 +1,20 @@
 package grids;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import cells.Cell;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 
 public abstract class Grid2D extends AbstractGrid {
-	private Cell[][] cells;
+	private List<List<Cell>> cells;
+	private int originRow = 0;
+	private int originCol = 0;
 	private ResourceBundle errors = ResourceBundle.getBundle("resources/ErrorBundle");
 
 	protected List<Integer> neighborIDs;
+	private boolean infinite;
 	
 	/**
 	 * @param rows
@@ -21,55 +22,116 @@ public abstract class Grid2D extends AbstractGrid {
 	 * @param cols
 	 *            width
 	 */
-	public Grid2D(int rows, int cols, List<Integer> neighbors) {
-		cells = new Cell[rows][cols];
+	public Grid2D(int rows, int cols, List<Integer> neighbors, boolean infinite) {
+		constructCells(rows, cols);
 		neighborIDs = neighbors;
+		this.infinite = infinite;
+	}
+
+	private void constructCells(int rows, int cols) {
+		List<List<Cell>> grid = new ArrayList<List<Cell>>();
+		for(int row = 0; row < rows; row++) {
+			List<Cell> rowCells = new ArrayList<Cell>();
+			for(int col = 0; col < cols; col++) {
+				rowCells.add(col, null);
+			}
+			grid.add(rowCells);
+		}
+		cells = grid;
 	}
 
 	@Override
 	public Cell get(int index) {
-		return get(index / cells[0].length, index % cells[0].length);
+		return get(index / getWidth(), index % getWidth());
 	}
 
 	@Override
 	public void set(Cell input, int index) {
-		set(input, index / cells[0].length, index % cells[0].length);
+		set(input, index / getWidth(), index % getWidth());
 	}
 
 	@Override
 	public List<Cell> getNeighbors(int index) {
-		return getNeighbors(index / cells[0].length, index % cells[0].length);
+		return getNeighbors(index / getWidth(), index % getWidth());
 	}
 
 	@Override
 	public int getSize() {
-		return cells.length * cells[0].length;
+		return getWidth()*getHeight();
 	}
 
 	public int getWidth() {
-		return cells[0].length;
+		return cells.get(0).size();
 	}
 
 	public int getHeight() {
-		return cells.length;
+		return cells.size();
 	}
 
 	public Cell get(int row, int col) {
 		try {
-			return cells[row][col];
+			return cells.get(row+originRow).get(col + originCol);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			return null; // Intentionally treats out of bounds as null cells
+			if(!infinite)
+				return null; // Intentionally treats out of bounds as null cells
+			else {
+				stretchTo(row+originRow, col+originCol);
+				return get(row, col);
+			}
 		} catch (NullPointerException e) {
 			throw new NullPointerException(errors.getString("SGGetError"));
 		}
 	}
+	
+	private void stretchTo(int row, int col) {
+		if(row > getHeight())
+			extendRows(true);
+		if(col > getWidth())
+			extendCols(true);
+		if(row < 0)
+			extendRows(false);
+		if(col < 0)
+			extendCols(false);
+	}
+
+	private void extendCols(boolean right) {
+		for(List<Cell> row : cells) {
+			if(right)
+				row.add(emptyCell());
+			else {
+				row.add(0, emptyCell());
+				originCol++;
+			}
+		}
+	}
+
+	private void extendRows(boolean down) {
+		List<Cell> newRow = new ArrayList<Cell>(getWidth());
+		for(int i = 0; i < getWidth(); i++) {
+			newRow.add(emptyCell());
+		}
+		if(down)
+			cells.add(newRow);
+		else {
+			cells.add(0, newRow);
+			originRow++;
+		}
+	}
+
+	private Cell emptyCell() {
+		return get(0).getEmptyInstance();
+	}
 
 	public void set(Cell input, int row, int col) {
 		try {
-			cells[row][col] = input;
+			cells.get(row + originRow).set(col+originCol, input);
 		} catch (ArrayIndexOutOfBoundsException e) {
-			e.printStackTrace();
-			throw new IndexOutOfBoundsException(String.format(errors.getString("SGSetError"), row, col));
+			if(!infinite)
+				throw new IndexOutOfBoundsException(String.format(errors.getString("SGSetError"), row, col));
+			else {
+				stretchTo(row + originRow, col+originCol);
+				set(input, row, col);
+			}
 		}
 	}
 
@@ -80,10 +142,6 @@ public abstract class Grid2D extends AbstractGrid {
 		for(int i : neighborIDs)
 			newNeighbors.add(neighborhood.get(i));
 		return newNeighbors;
-	}
-	
-	public String toString() {
-		return Arrays.deepToString(cells);
 	}
 
 	public abstract Pane getView(double width, double height);

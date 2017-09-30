@@ -17,7 +17,7 @@ import javafx.scene.shape.Rectangle;
 public class SquareGrid extends Grid2D {
 
 	public SquareGrid(int rows, int cols, List<Integer> neighbors) {
-		super(rows, cols, neighbors);
+		super(rows, cols, neighbors, false);
 		if (neighbors.size() > 8) {
 			throw new IllegalArgumentException(ResourceBundle.getBundle("ErrorBundle").getString("LargeNeighborhood"));
 		}

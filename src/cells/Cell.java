@@ -1,5 +1,6 @@
 package cells;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javafx.scene.paint.Color;
@@ -14,6 +15,8 @@ import javafx.scene.shape.Shape;
  *
  */
 public abstract class Cell {
+	public static final int EMPTY = 0;
+	
 	private int state;
 	protected int nextState;
 	private Shape image;
@@ -63,5 +66,15 @@ public abstract class Cell {
 	@Override
 	public String toString() {
 		return "" + getState();
+	}
+	
+	public Cell getEmptyInstance() {
+		try {
+			return (Cell)(getClass().getConstructors()[0].newInstance(EMPTY, parameters));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Cell parameters do not agree with (int, parameterBundle");
+			// This should never be possible
+		}
 	}
 }
