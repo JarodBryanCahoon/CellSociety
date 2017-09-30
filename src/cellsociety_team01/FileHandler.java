@@ -27,7 +27,7 @@ public class FileHandler {
 	public FileHandler() {	
 	}
 	
-	public static Simulation fileReader(String file) throws Exception {
+	public static Simulation fileReader(String file) throws ParserConfigurationException, SAXException, IOException {
 		String LifeString = "99";
 		List<Object> initial = new ArrayList<Object>();
 		List<Integer> neighbors = new ArrayList<Integer>();
@@ -90,7 +90,7 @@ public class FileHandler {
 		return nList;
 	}
 
-	public static AbstractGrid arrayCreator(List<Integer> neighbors, int defaultState, ParameterBundle parameters, Initializer init, int rows, int columns, String[] locations) throws Exception {
+	public static AbstractGrid arrayCreator(List<Integer> neighbors, int defaultState, ParameterBundle parameters, Initializer init, int rows, int columns, String[] locations) {
 		
 		AbstractGrid cellArray = init.getGrid(rows, columns, neighbors);
 		
