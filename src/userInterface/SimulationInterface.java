@@ -100,8 +100,6 @@ public class SimulationInterface extends Application {
 	}
 
 	protected void reset() {
-		ResetErrorBox errorBox;
-
 		try {
 			loadFile(mySimUrl);
 			initializeCellGrid();
@@ -151,6 +149,7 @@ public class SimulationInterface extends Application {
 	 * 
 	 * @param s
 	 *            Name of the file
+	 * @throws Exception FileNotFoundException
 	 */
 	private void loadFile(String s) throws FileNotFoundException {
 		myAnimation.stop();

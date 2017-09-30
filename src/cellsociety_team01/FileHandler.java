@@ -27,7 +27,7 @@ public class FileHandler {
 	public FileHandler() {	
 	}
 	
-	public static Simulation fileReader(String file) throws Exception {
+	public static Simulation fileReader(String file) throws FileNotFoundException {
 		String LifeString = "99";
 		List<Object> initial = new ArrayList<Object>();
 		List<Integer> neighbors = new ArrayList<Integer>();
