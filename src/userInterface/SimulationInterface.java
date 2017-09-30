@@ -112,6 +112,15 @@ public class SimulationInterface extends Application {
 			myAnimation.stop();
 		} catch (NullPointerException np) {
 			ResetErrorBox rse = new ResetErrorBox();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -141,7 +150,13 @@ public class SimulationInterface extends Application {
 			myAnimation.stop();
 		} catch (NullPointerException e) {
 			NoTextEnteredBox nte = new NoTextEnteredBox();
-		}
+		} catch (IOException e) {
+			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+		} catch (ParserConfigurationException e) {
+			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+		} catch (SAXException e) {
+			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+		} 
 	}
 
 	/**
@@ -151,9 +166,12 @@ public class SimulationInterface extends Application {
 	 * 
 	 * @param s
 	 *            Name of the file
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
 	 * @throws Exception FileNotFoundException
 	 */
-	private void loadFile(String s) {
+	private void loadFile(String s) throws ParserConfigurationException, SAXException, IOException {
 		myAnimation.stop();
 		guiLayout.setCenter(null);
 		try {
