@@ -110,8 +110,6 @@ public class SimulationInterface extends Application {
 			loadFile(mySimUrl);
 			initializeCellGrid();
 			myAnimation.stop();
-		} catch (FileNotFoundException e) {
-			NoFileErrorBox noFile = new NoFileErrorBox();
 		} catch (NullPointerException np) {
 			ResetErrorBox rse = new ResetErrorBox();
 		} catch (ParserConfigurationException e) {
@@ -150,8 +148,6 @@ public class SimulationInterface extends Application {
 			initializeCellGrid();
 			inputField.clear();
 			myAnimation.stop();
-		} catch (FileNotFoundException e) {
-			NoFileErrorBox nfe = new NoFileErrorBox();
 		} catch (NullPointerException e) {
 			NoTextEnteredBox nte = new NoTextEnteredBox();
 		} catch (IOException e) {
@@ -178,7 +174,22 @@ public class SimulationInterface extends Application {
 	private void loadFile(String s) throws ParserConfigurationException, SAXException, IOException {
 		myAnimation.stop();
 		guiLayout.setCenter(null);
-		currentSim = FileHandler.fileReader(s);
+		try {
+			currentSim = FileHandler.fileReader(s);
+		} 
+		/*
+		 * need to update, but use to test for now
+		 */
+		catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void update() {
