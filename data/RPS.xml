@@ -11,3 +11,20 @@
     <neighbors>Hex</neighbors>
 	<locations>2,3,2,1,3,1,1,3,1,1,3,1,1,0,0,0,0,1,3,1,1,3,1,1,3,1,1,3,1,1,3,1,1,3,1,2,2,1,1,1,3,1,3,1,1,1,2,2,2,1,1,1,3,1,1,1,1,1,0,0,0,0,1,1,3,1,3,1,1,1,1,1,1,1,3,1,1,1,1,3,3,1,1,3,1,1,2,2,3,2,1,1,3,3,1,3,1,3,1,1</locations>
 </Simulation>
+
+
+Data for Fire.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Simulation SimulationType="Fire">
+    <author>Keegan</author>
+	<simulation>Fire</simulation>
+	<gridType>Square</gridType>
+	<state>1</state>
+    <rows>10</rows>
+    <columns>10</columns>
+    <values>0.8</values>
+    <state>1</state>
+    <neighbors>SquareNN</neighbors>
+	<locations>2,2,2,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1,1,1,1,1</locations>
+</Simulation>
