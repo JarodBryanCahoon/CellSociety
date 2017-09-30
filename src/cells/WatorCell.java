@@ -34,10 +34,9 @@ public class WatorCell extends Cell {
 	 *            The number of steps for a fish to spawn
 	 */
 	public WatorCell(int initialState, ParameterBundle pars) {
-		super(initialState, pars);
+		super(initialState, pars, COLORS);
 		energy = (int)pars.getParameter(SHARKLIFE);
 		toNextSpawn = initialSpawnTime();
-		setColors(COLORS);
 	}
 
 	/**

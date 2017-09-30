@@ -20,8 +20,7 @@ public class FireCell extends Cell {
 	 *            The probability that a tree neighboring fire will catch fire
 	 */
 	public FireCell(int initialState, ParameterBundle pars) {
-		super(initialState, pars);
-		setColors(COLORS);
+		super(initialState, pars, COLORS);
 	}
 
 	/**

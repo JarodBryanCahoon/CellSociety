@@ -24,9 +24,10 @@ public abstract class Cell {
 	/**
 	 * @param initialState
 	 */
-	public Cell(int initialState, ParameterBundle pars) {
+	public Cell(int initialState, ParameterBundle pars, Color[] colors) {
 		state = nextState = initialState;
 		parameters = pars;
+		this.colors = colors;
 	}
 
 	/**
@@ -53,10 +54,6 @@ public abstract class Cell {
 	public void acceptImage(Shape image) {
 		this.image = image;
 		image.setFill(getColor());
-	}
-	
-	protected void setColors(Color ... colors) {
-		this.colors = colors;
 	}
 	
 	protected Color getColor() {
