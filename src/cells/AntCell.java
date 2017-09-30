@@ -28,17 +28,34 @@ public class AntCell extends Cell {
 
 	@Override
 	public void step(List<Cell> neighborhood) {
-		
+		for(Ant a : ants)
+			a.step(this, neighborhood);
+	}
+	
+	public void update() {
+		for(Ant a:ants)
+			a.update();
+		nextState = ants.size();
+		super.update();
 	}
 	
 	private class Ant{
-		private int direction;
+		private int direction = -1;
 		private Ant() {
 			
 		}
 		
-		private void step(List<Cell> neighbors) {
+		public void update() {
+			// TODO Auto-generated method stub
 			
+		}
+
+		public void step(Cell origin, List<Cell> neighbors) {
+			if(direction == -1)
+				direction = (int)(neighbors.size()*Math.random());
+			for(int i = direction - 1; i <= direction + 1; i++) {
+				
+			}
 		}
 	}
 }
