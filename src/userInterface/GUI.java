@@ -24,8 +24,8 @@ public class GUI extends Application {
 	public static final double GUI_WIDTH = 200;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	public static final double[] SPEEDS = { 1, .5, .25 };
-	private int speedIndex = 1;
 	
+	private int speedIndex = 1;
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
 	private KeyFrame myFrame;
@@ -54,10 +54,6 @@ public class GUI extends Application {
 		mainScene.getStylesheets().add(getClass().getResource(GuiText.getString("CSS")).toExternalForm());
 		mainStage.setScene(mainScene);
 		mainStage.show();
-		myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
-		myAnimation = new Timeline();//
-		myAnimation.setCycleCount(Timeline.INDEFINITE);
-		myAnimation.getKeyFrames().add(myFrame);
 		simList = new ArrayList<SimulationInterface>();
 	}
 	
@@ -104,24 +100,20 @@ public class GUI extends Application {
 		if (speedIndex < SPEEDS.length - 1)
 			speedIndex++;
 		
-		changeSpeed(SPEEDS[speedIndex]);
+		speedChange(SPEEDS[speedIndex]);
 		
 	}
 
-	private void changeSpeed(double speed) {
-			updateRate = speed;
-			myAnimation.stop();
-			myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
-			myAnimation.getKeyFrames().clear();
-			myAnimation.getKeyFrames().add(myFrame);
-			myAnimation.play();
+	private void speedChange(double speed) {
+			for(SimulationInterface s : simList) {
+				s.changeSpeed(speed);
+			}
 	}
 	
 	private void slow() {
 		if(speedIndex > 0) 
 			speedIndex--;
-		
-		changeSpeed(SPEEDS[speedIndex]);
+		speedChange(SPEEDS[speedIndex]);
 		
 	}
 	

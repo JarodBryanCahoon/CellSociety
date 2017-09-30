@@ -1,5 +1,6 @@
 package userInterface;
 
+import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
 import cellsociety_team01.FileHandler;
@@ -81,7 +82,6 @@ public class SimulationInterface extends Application {
 	 */
 	private void setLayout() {
 		guiLayout = new BorderPane();
-
 		HBox topBox = new HBox();
 		guiLayout.setTop(topBox);
 		setTopBox(topBox);
@@ -95,21 +95,22 @@ public class SimulationInterface extends Application {
 
 	private ButtonBase makeResetButton() {
 		Button resetButton = new Button(GuiText.getString("ResetButton"));
-		resetButton.setOnAction((event) -> {
-
-			reset();
-		});
+		resetButton.setOnAction((event) -> reset());
 		return resetButton;
 	}
 
 	protected void reset() {
-		Object ErrorBox;
-		if (!(mySimUrl == null)) {
+		ResetErrorBox errorBox;
+
+		try {
 			loadFile(mySimUrl);
 			initializeCellGrid();
 			myAnimation.stop();
-		} else
-			ErrorBox = new ResetErrorBox();
+		} catch (FileNotFoundException e) {
+			NoFileErrorBox noFile = new NoFileErrorBox();
+		} catch (NullPointerException np) {
+			ResetErrorBox rse = new ResetErrorBox();
+		}
 	}
 
 	private Label makeLabel() {
@@ -124,13 +125,23 @@ public class SimulationInterface extends Application {
 		inputField.setFocusTraversable(false);
 		inputField.setPromptText(GuiText.getString("PromptText"));
 		inputField.setOnAction((event) -> {
-			mySimUrl = inputField.getText();
-			loadFile(inputField.getText());
+			tryFile(inputField.getText());
+		});
+		return inputField;
+	}
+
+	protected void tryFile(String s) {
+		try {
+			loadFile(s);
+			mySimUrl = s;
 			initializeCellGrid();
 			inputField.clear();
 			myAnimation.stop();
-		});
-		return inputField;
+		} catch (FileNotFoundException e) {
+			NoFileErrorBox nfe = new NoFileErrorBox();
+		} catch (NullPointerException e) {
+			NoTextEnteredBox nte = new NoTextEnteredBox();
+		}
 	}
 
 	/**
@@ -141,17 +152,10 @@ public class SimulationInterface extends Application {
 	 * @param s
 	 *            Name of the file
 	 */
-	private void loadFile(String s) {
+	private void loadFile(String s) throws FileNotFoundException {
 		myAnimation.stop();
 		guiLayout.setCenter(null);
-		currentSim = null;
-
-		try {
-			currentSim = FileHandler.fileReader(s);
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
+		currentSim = FileHandler.fileReader(s);
 	}
 
 	public void update() {
@@ -168,6 +172,15 @@ public class SimulationInterface extends Application {
 
 	public void simStop() {
 		myAnimation.stop();
+	}
+	
+	public void changeSpeed(double speed) {
+		updateRate = speed;
+		myAnimation.stop();
+		myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
+		myAnimation.getKeyFrames().clear();
+		myAnimation.getKeyFrames().add(myFrame);
+		myAnimation.play();
 	}
 
 	/**

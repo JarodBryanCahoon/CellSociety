@@ -19,7 +19,7 @@ public class ErrorBox implements AlertBox {
 	private String myMessage;
 
 	public ErrorBox() {
-		this.display();
+		display();
 	}
 	
 	public void display(){
