@@ -1,8 +1,7 @@
-import cells.LangtonCell;
+import userInterface.GUI;
 
 public class Main {
-	public static void main(String[] args) throws Exception {
-		new LangtonCell(0,null);
+	public static void main(String[] args){
 		// Currently for testing
 		//testFireSimulation();
 	}
