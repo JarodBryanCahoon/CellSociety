@@ -44,6 +44,10 @@ public class Simulation {
 	public String toString() {
 		return cells.toString();
 	}
+	
+	public Pane getParameterPane(double width, double height) {
+		return cells.getView(width, height);
+	}
 
 	public Pane getView(double width, double height) {
 		return cells.getView(width, height);
