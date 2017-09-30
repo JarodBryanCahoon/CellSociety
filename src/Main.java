@@ -1,19 +1,8 @@
-import java.io.FileReader;
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
-import cells.FireCell;
-import cellsociety_team01.Initializer;
-import grids.AbstractGrid;
-import grids.SquareGrid;
-import simulations.Simulation;
-import cellsociety_team01.FileHandler;
+import cells.LangtonCell;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
+		new LangtonCell(0,null);
 		// Currently for testing
 		//testFireSimulation();
 	}
