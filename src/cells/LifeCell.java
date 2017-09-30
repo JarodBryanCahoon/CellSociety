@@ -17,8 +17,8 @@ public class LifeCell extends Cell {
 	/**
 	 * @param initialState
 	 */
-	public LifeCell(int initialState) {
-		super(initialState);
+	public LifeCell(int initialState, ParameterBundle pars) {
+		super(initialState, pars);
 		setColors(COLORS);
 	}
 

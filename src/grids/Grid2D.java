@@ -13,14 +13,17 @@ public abstract class Grid2D extends AbstractGrid {
 	private Cell[][] cells;
 	private ResourceBundle errors = ResourceBundle.getBundle("resources/ErrorBundle");
 
+	protected List<Integer> neighborIDs;
+	
 	/**
 	 * @param rows
 	 *            height
 	 * @param cols
 	 *            width
 	 */
-	public Grid2D(int rows, int cols) {
+	public Grid2D(int rows, int cols, List<Integer> neighbors) {
 		cells = new Cell[rows][cols];
+		neighborIDs = neighbors;
 	}
 
 	@Override
@@ -72,6 +75,13 @@ public abstract class Grid2D extends AbstractGrid {
 
 	public abstract List<Cell> getNeighbors(int row, int col);
 
+	protected List<Cell> extractNeighbors(List<Cell> neighborhood) {
+		List<Cell> newNeighbors = new ArrayList<Cell>();
+		for(int i : neighborIDs)
+			newNeighbors.add(neighborhood.get(i));
+		return newNeighbors;
+	}
+	
 	public String toString() {
 		return Arrays.deepToString(cells);
 	}

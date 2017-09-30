@@ -14,16 +14,13 @@ public class FireCell extends Cell {
 	public static final int BURNING = 2;
 	private static final Color[] COLORS = new Color[] {Color.DARKGRAY, Color.GREEN, Color.RED};
 
-	private double probCatch;
-
 	/**
 	 * @param initialState
 	 * @param probCatch
 	 *            The probability that a tree neighboring fire will catch fire
 	 */
-	public FireCell(int initialState, double probCatch) {
-		super(initialState);
-		this.probCatch = probCatch;
+	public FireCell(int initialState, ParameterBundle pars) {
+		super(initialState, pars);
 		setColors(COLORS);
 	}
 
@@ -37,7 +34,7 @@ public class FireCell extends Cell {
 		else if (getState() == TREE) {
 			for (Cell n : neighborhood) {
 				if (n != null && n.getState() == BURNING) {
-					if (probCatch > Math.random())
+					if ((double)parameters.getParameter(0) > Math.random())
 						nextState = BURNING;
 					return;
 				}

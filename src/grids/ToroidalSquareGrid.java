@@ -1,5 +1,7 @@
 package grids;
 
+import java.util.List;
+
 import cells.Cell;
 
 /**
@@ -8,10 +10,10 @@ import cells.Cell;
  * @author Ian Eldridge-Allegra
  *
  */
-public class ToroidalSquareGrid extends FourNeighborSquareGrid {
+public class ToroidalSquareGrid extends SquareGrid {
 
-	public ToroidalSquareGrid(int rows, int cols) {
-		super(rows, cols);
+	public ToroidalSquareGrid(int rows, int cols, List<Integer> neighbors) {
+		super(rows, cols, neighbors);
 	}
 
 	@Override

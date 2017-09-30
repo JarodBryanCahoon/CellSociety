@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cells.Cell;
+import cells.ParameterBundle;
 import cells.SegCell;
 import grids.AbstractGrid;
 
@@ -13,8 +14,8 @@ import grids.AbstractGrid;
  */
 public class SegSimulation extends Simulation {
 
-	public SegSimulation(AbstractGrid cells) {
-		super(cells);
+	public SegSimulation(AbstractGrid cells, ParameterBundle pars) {
+		super(cells, pars);
 	}
 
 	/**
