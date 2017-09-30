@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 public class SegCell extends Cell {
 	public static final int EMPTY = 0;
 	private static final Color[] COLORS = new Color[] {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN, Color.ORANGE};
-	private boolean satisfied; // EMPTY cells are satisfied
+	private boolean satisfied = true;
 
 	/**
 	 * @param initialState
@@ -22,9 +22,7 @@ public class SegCell extends Cell {
 	 *            state as this one for it to be satisfied
 	 */
 	public SegCell(int initialState, ParameterBundle bundle) {
-		super(initialState, bundle);
-		satisfied = true;
-		setColors(COLORS);
+		super(initialState, bundle, COLORS);
 	}
 
 	/**
