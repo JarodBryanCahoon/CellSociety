@@ -32,11 +32,8 @@ public class Simulation {
 	}
 
 	protected void updateAllCells() {
-		for (Cell cell : cells) {
+		for (Cell cell : cells)
 			cell.update();
-			System.out.print(cell.getState() + "  ");
-		}
-		System.out.println("");
 	}
 
 	protected void stepAllCells() {
