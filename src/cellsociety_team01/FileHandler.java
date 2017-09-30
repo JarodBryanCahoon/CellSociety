@@ -108,7 +108,7 @@ public class FileHandler {
 		String neighborString = null;
 		NodeList neighborNodeList = nodeList("data\\" + fileName + ".xml");
 		
-		for (int temp = 0; temp < neighborNodeList.getLength(); temp++) {	
+		for (int temp = 0; temp < neighborNodeList.getLength(); temp++) { 
 			
 			Node nNode = neighborNodeList.item(temp);
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {

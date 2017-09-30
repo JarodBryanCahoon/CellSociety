@@ -22,8 +22,9 @@ public class RockPaperScissorsCell extends Cell {
 	public void step(List<Cell> neighborhood) {
 		RockPaperScissorsCell other = (RockPaperScissorsCell) neighborhood
 				.get((int) (Math.random() * neighborhood.size()));
-		if(other.getState()==EMPTY)
+		if(other == null || other.getState()==EMPTY ) {
 			return;
+		}
 		if(depth >= maxDepth()) {
 			nextState = EMPTY;
 		}
