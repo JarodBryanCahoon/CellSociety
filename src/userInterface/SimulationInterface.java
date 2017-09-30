@@ -140,6 +140,7 @@ public class SimulationInterface extends Application {
 			inputField.clear();
 			myAnimation.stop();
 		} catch (NullPointerException e) {
+			e.printStackTrace();
 			NoTextEnteredBox nte = new NoTextEnteredBox();
 		}
 	}

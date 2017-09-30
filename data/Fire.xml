@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Simulation SimulationType="Fire">
-    <author>Keegan</author>
-	<simulation>Fire</simulation>
-	<gridType>Hexagon</gridType>
-	<state>1</state>
-    <rows>10</rows>
-    <columns>10</columns>
-    <values>0.8</values>
-    <state>1</state>
-    <neighbors>Hex</neighbors>
-	<locations>2,2,2,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1,1,1,1,1</locations>
-</Simulation>
-   
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Simulation><simulation>Fire</simulation><gridType>Hexagon</gridType><state>1</state><neighbors>Hex</neighbors><rows>10</rows><columns>10</columns><values>0.8,</values><locations>2,0,0,2,1,1,2,1,0,0,0,1,0,2,0,2,2,1,1,2,0,1,2,1,0,0,0,2,0,2,2,1,1,1,1,1,0,1,2,1,1,0,0,0,0,1,2,1,1,1,2,2,1,2,0,1,2,0,1,0,1,0,0,0,0,2,1,1,2,0,2,0,2,1,0,2,1,2,2,0,1,1,1,2,2,2,1,0,0,1,2,0,2,0,2,1,1,0,2,1</locations></Simulation>
