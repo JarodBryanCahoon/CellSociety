@@ -1,7 +1,12 @@
 package userInterface;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ResourceBundle;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import cellsociety_team01.FileHandler;
 import javafx.animation.KeyFrame;
@@ -109,6 +114,15 @@ public class SimulationInterface extends Application {
 			NoFileErrorBox noFile = new NoFileErrorBox();
 		} catch (NullPointerException np) {
 			ResetErrorBox rse = new ResetErrorBox();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -140,7 +154,13 @@ public class SimulationInterface extends Application {
 			NoFileErrorBox nfe = new NoFileErrorBox();
 		} catch (NullPointerException e) {
 			NoTextEnteredBox nte = new NoTextEnteredBox();
-		}
+		} catch (IOException e) {
+			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+		} catch (ParserConfigurationException e) {
+			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+		} catch (SAXException e) {
+			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+		} 
 	}
 
 	/**
@@ -150,9 +170,12 @@ public class SimulationInterface extends Application {
 	 * 
 	 * @param s
 	 *            Name of the file
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
 	 * @throws Exception FileNotFoundException
 	 */
-	private void loadFile(String s) throws FileNotFoundException {
+	private void loadFile(String s) throws ParserConfigurationException, SAXException, IOException {
 		myAnimation.stop();
 		guiLayout.setCenter(null);
 		currentSim = FileHandler.fileReader(s);
