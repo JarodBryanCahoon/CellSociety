@@ -17,14 +17,16 @@ public abstract class Cell {
 	private int state;
 	protected int nextState;
 	private Shape image;
+	protected ParameterBundle parameters;
 	
 	private Color[] colors;
 
 	/**
 	 * @param initialState
 	 */
-	public Cell(int initialState) {
+	public Cell(int initialState, ParameterBundle pars) {
 		state = nextState = initialState;
+		parameters = pars;
 	}
 
 	/**
@@ -32,6 +34,7 @@ public abstract class Cell {
 	 * 
 	 * @param neighborhood
 	 *            The cells surrounding this one -- depends on simulation
+	 * @param parameters 
 	 */
 	public abstract void step(List<Cell> neighborhood);
 
@@ -46,7 +49,7 @@ public abstract class Cell {
 	public int getState() {
 		return state;
 	}
-
+	
 	public void acceptImage(Shape image) {
 		this.image = image;
 		image.setFill(getColor());

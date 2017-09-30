@@ -14,7 +14,6 @@ public class SegCell extends Cell {
 	public static final int EMPTY = 0;
 	private static final Color[] COLORS = new Color[] {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN, Color.ORANGE};
 	private boolean satisfied; // EMPTY cells are satisfied
-	private double threshold;
 
 	/**
 	 * @param initialState
@@ -22,9 +21,8 @@ public class SegCell extends Cell {
 	 *            The minimum fraction of non-empty neighbors that are in the same
 	 *            state as this one for it to be satisfied
 	 */
-	public SegCell(int initialState, double threshold) {
-		super(initialState);
-		this.threshold = threshold;
+	public SegCell(int initialState, ParameterBundle bundle) {
+		super(initialState, bundle);
 		satisfied = true;
 		setColors(COLORS);
 	}
@@ -46,7 +44,7 @@ public class SegCell extends Cell {
 			if (c.getState() != EMPTY)
 				numTotal++;
 		}
-		satisfied = numFriends >= numTotal * threshold;
+		satisfied = numFriends >= numTotal * (double)parameters.getParameter(0);
 	}
 
 	/**

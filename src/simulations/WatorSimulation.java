@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cells.ParameterBundle;
 import cells.WatorCell;
 import grids.AbstractGrid;
-import grids.ToroidalSquareGrid;
 
 /**
  * @author Ian Eldridge-Allegra
  *
  */
 public class WatorSimulation extends Simulation {
-	public WatorSimulation(AbstractGrid cells) {
-		super(cells);
+	public WatorSimulation(AbstractGrid cells, ParameterBundle pars) {
+		super(cells, pars);
 	}
 	
 	/**

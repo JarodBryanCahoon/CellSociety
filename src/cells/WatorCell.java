@@ -15,17 +15,15 @@ public class WatorCell extends Cell {
 	public static final int FISH = 1;
 	public static final int SHARK = 2;
 	private static final Color[] COLORS = new Color[]{ Color.DARKBLUE, Color.GREEN, Color.ALICEBLUE};
-
-	private int sharkLifeSpan;
-	private int sharkSpawnTime;
-	private int fishSpawnTime;
-	private int energyGain;
 	
 	private int energy;
 	private int toNextSpawn;
 	private WatorCell movedTo;
 	
-
+	private static final int SHARKLIFE = 0;
+	private static final int SHARKSPAWN = 0;
+	private static final int FISHSPAWN = 0;
+	private static final int ENERGYGAIN = 0;
 	/**
 	 * @param initialState
 	 * @param sharkLife
@@ -35,13 +33,9 @@ public class WatorCell extends Cell {
 	 * @param fishSpawn
 	 *            The number of steps for a fish to spawn
 	 */
-	public WatorCell(int initialState, int sharkLife, int sharkSpawn, int fishSpawn, int energyGain) {
-		super(initialState);
-		sharkLifeSpan = sharkLife;
-		sharkSpawnTime = sharkSpawn;
-		fishSpawnTime = fishSpawn;
-		this.energyGain = energyGain;
-		energy = sharkLifeSpan;
+	public WatorCell(int initialState, ParameterBundle pars) {
+		super(initialState, pars);
+		energy = (int)pars.getParameter(SHARKLIFE);
 		toNextSpawn = initialSpawnTime();
 		setColors(COLORS);
 	}
@@ -50,7 +44,7 @@ public class WatorCell extends Cell {
 	 * @return fishSpawnTime or sharkSpawnTime, depending on the state
 	 */
 	private int initialSpawnTime() {
-		return getState() == FISH ? fishSpawnTime : sharkSpawnTime;
+		return (int)parameters.getParameter(getState() == FISH ? FISHSPAWN : SHARKSPAWN);
 	}
 
 	/**
@@ -125,12 +119,12 @@ public class WatorCell extends Cell {
 		if (cell == this)
 			return;
 		if(cell.getState() == FISH)
-			energy+=energyGain;
+			energy+=(int)parameters.getParameter(ENERGYGAIN);
 		cell.nextState = getState();
 		cell.energy = energy;
 		if (toNextSpawn <= 0) {
 			toNextSpawn = initialSpawnTime();
-			energy = sharkLifeSpan;
+			energy = (int)parameters.getParameter(SHARKLIFE);
 		} else
 			nextState = EMPTY;
 		cell.toNextSpawn = toNextSpawn;

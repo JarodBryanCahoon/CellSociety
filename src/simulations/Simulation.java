@@ -1,6 +1,7 @@
 package simulations;
 
 import cells.Cell;
+import cells.ParameterBundle;
 import grids.AbstractGrid;
 import javafx.scene.layout.Pane;
 
@@ -14,9 +15,11 @@ import javafx.scene.layout.Pane;
  */
 public class Simulation {
 	protected AbstractGrid cells;
+	protected ParameterBundle parameters;
 
-	public Simulation(AbstractGrid cells) {
+	public Simulation(AbstractGrid cells, ParameterBundle parBundle) {
 		this.cells = cells;
+		parameters = parBundle;
 	}
 
 	/**

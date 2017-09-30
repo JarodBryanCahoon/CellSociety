@@ -2,6 +2,8 @@ package grids;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import cells.Cell;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -13,8 +15,12 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class SquareGrid extends Grid2D {
-	public SquareGrid(int rows, int cols) {
-		super(rows,cols);
+	
+	public SquareGrid(int rows, int cols, List<Integer> neighbors) {
+		super(rows,cols, neighbors);
+		if(neighbors.size() > 4) {
+			throw new IllegalArgumentException(ResourceBundle.getBundle("ErrorBundle").getString("LargeNeighborhood"));
+		}
 	}
 
 	@Override
@@ -26,9 +32,11 @@ public class SquareGrid extends Grid2D {
 					neighbors.add(get(row - 1 + r, col - 1 + c));
 			}
 		}
-		return neighbors;
+		return extractNeighbors(neighbors);
 	}
 	
+	
+
 	public Pane getView(double width, double height) {
 		double cellWidth = width/getWidth();
 		double cellHeight = height/getHeight();

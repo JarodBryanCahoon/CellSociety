@@ -2,14 +2,18 @@ package grids;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import cells.Cell;
 import javafx.scene.layout.Pane;
 
 public class HexGrid extends Grid2D {
 
-	public HexGrid(int rows, int cols) {
-		super(rows, cols);
+	public HexGrid(int rows, int cols, List<Integer> neighbors) {
+		super(rows, cols, neighbors);
+		if(neighbors.size() > 6) {
+			throw new IllegalArgumentException(ResourceBundle.getBundle("ErrorBundle").getString("LargeNeighborhood"));
+		}
 	}
 
 	@Override
@@ -21,7 +25,7 @@ public class HexGrid extends Grid2D {
 		neighbors.add(get(row+1, col-1+row%2));
 		neighbors.add(get(row+2, col));
 		neighbors.add(get(row+1, col+row%2));
-		return neighbors;
+		return extractNeighbors(neighbors);
 	}
 
 	@Override
