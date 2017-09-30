@@ -7,17 +7,18 @@ import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class GUI extends Application {
-	public static final double BUTTON_MAX_WIDTH = 100;
+	public static final double BUTTON_MAX_WIDTH = 130;
+	public static final double BUTTON_SPACING = 15;
 	public static final double LABEL_Y_TRANSLATION = 4;
 	public static final double GUI_HEIGHT = 300;
 	public static final double GUI_WIDTH = 200;
@@ -50,7 +51,7 @@ public class GUI extends Application {
 		mainStage.setTitle(GuiText.getString("GuiTitle"));
 		createInterface();
 		mainScene = new Scene(guiLayout, GUI_WIDTH, GUI_HEIGHT);
-		mainScene.getStylesheets().add(getClass().getResource("CellSociety.css").toExternalForm());
+		mainScene.getStylesheets().add(getClass().getResource(GuiText.getString("CSS")).toExternalForm());
 		mainStage.setScene(mainScene);
 		mainStage.show();
 		myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
@@ -61,11 +62,11 @@ public class GUI extends Application {
 	}
 	
 	private void createInterface() {
-		guiLayout = new Pane();
+		guiLayout = new StackPane();
 		
 		VBox box = new VBox();
-		box.setSpacing(20);
-		box.setAlignment(Pos.BASELINE_CENTER);
+		box.setAlignment(Pos.CENTER);
+		box.setSpacing(BUTTON_SPACING);
 		Button startButton = new Button(GuiText.getString("NewButton"));
 		Button stepAll = new Button(GuiText.getString("StepButton"));
 		stepAll.setOnAction((event) -> {
@@ -77,6 +78,7 @@ public class GUI extends Application {
 		});
 		Button playButton = new Button(GuiText.getString("PlayButton"));
 		playButton.setOnAction((event) -> play());
+		startButton.setId("new-sim-button");
 
 		Button pauseButton = new Button(GuiText.getString("PauseButton"));
 		pauseButton.setOnAction((event) -> pause());
@@ -92,17 +94,18 @@ public class GUI extends Application {
 		stepAll.setMaxWidth(BUTTON_MAX_WIDTH);
 		speedyButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		slowButton.setMaxWidth(BUTTON_MAX_WIDTH);
-		box.getChildren().addAll(playButton, speedyButton, slowButton, pauseButton, stepAll, startButton);
+		box.getChildren().addAll(startButton, playButton, speedyButton, slowButton, pauseButton, stepAll);
 		
 		guiLayout.getChildren().add(box);
 		
 	}
 	
 	private void speedUp() {
-		if (speedIndex < SPEEDS.length - 1) {
+		if (speedIndex < SPEEDS.length - 1)
 			speedIndex++;
-			changeSpeed(SPEEDS[speedIndex]);
-		}
+		
+		changeSpeed(SPEEDS[speedIndex]);
+		
 	}
 
 	private void changeSpeed(double speed) {
@@ -113,12 +116,13 @@ public class GUI extends Application {
 			myAnimation.getKeyFrames().add(myFrame);
 			myAnimation.play();
 	}
-
+	
 	private void slow() {
-		if(speedIndex > 0) {
+		if(speedIndex > 0) 
 			speedIndex--;
-			changeSpeed(SPEEDS[speedIndex]);
-		}
+		
+		changeSpeed(SPEEDS[speedIndex]);
+		
 	}
 	
 	private void update() {

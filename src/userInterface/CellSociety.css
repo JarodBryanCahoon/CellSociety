@@ -27,3 +27,10 @@
 	-fx-stroke-width: .75;
 	-fx-stroke-line-cap: butt;
 }
+
+#new-sim-button{
+	-fx-background-color: #db2d20;
+	-fx-font-family: "Calibri";
+	-fx-font-weight: bold;
+	-fx-text-fill: black;
+}
