@@ -1,7 +1,12 @@
 package userInterface;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ResourceBundle;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import cellsociety_team01.FileHandler;
 import javafx.animation.KeyFrame;
@@ -105,8 +110,6 @@ public class SimulationInterface extends Application {
 			loadFile(mySimUrl);
 			initializeCellGrid();
 			myAnimation.stop();
-		} catch (FileNotFoundException e) {
-			NoFileErrorBox noFile = new NoFileErrorBox();
 		} catch (NullPointerException np) {
 			ResetErrorBox rse = new ResetErrorBox();
 		}
@@ -136,8 +139,6 @@ public class SimulationInterface extends Application {
 			initializeCellGrid();
 			inputField.clear();
 			myAnimation.stop();
-		} catch (FileNotFoundException e) {
-			NoFileErrorBox nfe = new NoFileErrorBox();
 		} catch (NullPointerException e) {
 			NoTextEnteredBox nte = new NoTextEnteredBox();
 		}
@@ -152,10 +153,25 @@ public class SimulationInterface extends Application {
 	 *            Name of the file
 	 * @throws Exception FileNotFoundException
 	 */
-	private void loadFile(String s) throws FileNotFoundException {
+	private void loadFile(String s) {
 		myAnimation.stop();
 		guiLayout.setCenter(null);
-		currentSim = FileHandler.fileReader(s);
+		try {
+			currentSim = FileHandler.fileReader(s);
+		} 
+		/*
+		 * need to update, but use to test for now
+		 */
+		catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void update() {

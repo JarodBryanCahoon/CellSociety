@@ -28,6 +28,7 @@ public class FileHandler {
 	}
 	
 	public static Simulation fileReader(String file) throws ParserConfigurationException, SAXException, IOException {
+		//arbitrary number used to avoid NullPointerException
 		String LifeString = "99";
 		List<Object> initial = new ArrayList<Object>();
 		List<Integer> neighbors = new ArrayList<Integer>();
@@ -105,9 +106,9 @@ public class FileHandler {
 	public static List<Integer> getNeighborList(String fileName) throws ParserConfigurationException, SAXException, IOException {
 		List<Integer> neighbors = new ArrayList<Integer>();
 		String neighborString = null;
-		NodeList neighborNodeList = nodeList(fileName + ".xml");
+		NodeList neighborNodeList = nodeList("data\\" + fileName + ".xml");
 		
-		for (int temp = 0; temp < neighborNodeList.getLength(); temp++) {	
+		for (int temp = 0; temp < neighborNodeList.getLength(); temp++) { 
 			
 			Node nNode = neighborNodeList.item(temp);
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
