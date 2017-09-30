@@ -30,8 +30,8 @@ public class FileHandler {
 	public static Simulation fileReader(String file) throws Exception {
 		String LifeString = "99";
 		List<Object> initial = new ArrayList<Object>();
-		List<Integer> neighbors = new ArrayList<Integer>();
 		String simulation = null;
+		String gridType = null;
 		int defaultState = 0;
 		int rows = 0;
 		int columns = 0;
@@ -45,15 +45,14 @@ public class FileHandler {
 
 				Element eElement = (Element) nNode;
 				simulation = eElement.getElementsByTagName("simulation").item(0).getTextContent();
+				gridType = eElement.getElementsByTagName("gridType").item(0).getTextContent();
 				defaultState = Integer.parseInt(eElement.getElementsByTagName("state").item(0).getTextContent());
 				rows = Integer.parseInt(eElement.getElementsByTagName("rows").item(0).getTextContent());
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
 				locations = eElement.getElementsByTagName("locations").item(0).getTextContent().split(",");
-				String neighborString = eElement.getElementsByTagName("neighbors").item(0).getTextContent();
-				String[] neighborArray = neighborString.split(","); 
-				for(int i = 0; i < neighborArray.length; i++) {
-						neighbors.add(Integer.parseInt(neighborArray[i]));
-				}
+				String neighborType = eElement.getElementsByTagName("neighbors").item(0).getTextContent();
+				List<Integer> neighbors = getNeighborList(neighborType);
+				
 				String values = eElement.getElementsByTagName("values").item(0).getTextContent();
 				if(!(values.equals(LifeString))) {
 					String[] valueArray = values.split(","); 
@@ -68,7 +67,7 @@ public class FileHandler {
 				}
 			}
 		}
-		Initializer init = new Initializer(simulation);
+		Initializer init = new Initializer(simulation, gridType);
 		
 		Object[] argumentArray = initial.toArray();
 		ParameterBundle parameters = new ParameterBundle(simulation, argumentArray);
@@ -100,6 +99,27 @@ public class FileHandler {
 		}
 		
 		return cellArray;
+	}
+	
+	public static List<Integer> getNeighborList(String fileName) throws ParserConfigurationException, SAXException, IOException {
+		List<Integer> neighbors = new ArrayList<Integer>();
+		String neighborString = null;
+		NodeList neighborNodeList = nodeList(fileName + ".xml");
+		
+		for (int temp = 0; temp < neighborNodeList.getLength(); temp++) {	
+			
+			Node nNode = neighborNodeList.item(temp);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+				Element eElement = (Element) nNode;
+				neighborString = eElement.getElementsByTagName("neighbors").item(0).getTextContent();
+				String[] neighborArray = neighborString.split(","); 
+				for(int i = 0; i < neighborArray.length; i++) {
+						neighbors.add(Integer.parseInt(neighborArray[i]));
+				}
+			}
+		}
+		return neighbors;
 	}
 
 	
