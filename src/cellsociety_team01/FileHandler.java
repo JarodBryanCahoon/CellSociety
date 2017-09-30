@@ -27,7 +27,7 @@ public class FileHandler {
 	public FileHandler() {	
 	}
 	
-	public static Simulation fileReader(String file) throws FileNotFoundException {
+	public static Simulation fileReader(String file) throws ParserConfigurationException, SAXException, IOException {
 		String LifeString = "99";
 		List<Object> initial = new ArrayList<Object>();
 		List<Integer> neighbors = new ArrayList<Integer>();
