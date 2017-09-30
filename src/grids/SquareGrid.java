@@ -15,10 +15,10 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class SquareGrid extends Grid2D {
-	
+
 	public SquareGrid(int rows, int cols, List<Integer> neighbors) {
-		super(rows,cols, neighbors);
-		if(neighbors.size() > 4) {
+		super(rows, cols, neighbors);
+		if (neighbors.size() > 4) {
 			throw new IllegalArgumentException(ResourceBundle.getBundle("ErrorBundle").getString("LargeNeighborhood"));
 		}
 	}
@@ -26,28 +26,28 @@ public class SquareGrid extends Grid2D {
 	@Override
 	public List<Cell> getNeighbors(int row, int col) {
 		List<Cell> neighbors = new ArrayList<Cell>();
-		for (int r = 0; r < 3; r++) {
-			for (int c = 0; c < 3; c++) {
-				if (r != 1 || c != 1)
-					neighbors.add(get(row - 1 + r, col - 1 + c));
-			}
-		}
+		neighbors.add(get(row - 1, col - 1));
+		neighbors.add(get(row - 1, col));
+		neighbors.add(get(row - 1, col + 1));
+		neighbors.add(get(row, col + 1));
+		neighbors.add(get(row + 1, col + 1));
+		neighbors.add(get(row + 1, col));
+		neighbors.add(get(row + 1, col - 1));
+		neighbors.add(get(row, col - 1));
 		return extractNeighbors(neighbors);
 	}
-	
-	
 
 	public Pane getView(double width, double height) {
-		double cellWidth = width/getWidth();
-		double cellHeight = height/getHeight();
+		double cellWidth = width / getWidth();
+		double cellHeight = height / getHeight();
 		Pane pane = new Pane();
 		pane.setPrefSize(width, height);
-		for(int row = 0; row < getHeight(); row++) {
-			for(int col = 0; col < getWidth(); col++) {
+		for (int row = 0; row < getHeight(); row++) {
+			for (int col = 0; col < getWidth(); col++) {
 				Rectangle rect = new Rectangle(cellWidth, cellHeight);
-				rect.setLayoutX(cellWidth*col);
-				rect.setLayoutY(cellHeight*row);
-				get(row,col).acceptImage(rect);
+				rect.setLayoutX(cellWidth * col);
+				rect.setLayoutY(cellHeight * row);
+				get(row, col).acceptImage(rect);
 				pane.getChildren().add(rect);
 			}
 		}
