@@ -2,6 +2,7 @@ package cells;
 
 import java.util.List;
 
+import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
@@ -14,11 +15,13 @@ import javafx.scene.shape.Shape;
  *
  */
 public abstract class Cell {
+	public static final int EMPTY = 0;
+
 	private int state;
 	protected int nextState;
 	private Shape image;
 	protected ParameterBundle parameters;
-	
+
 	private Color[] colors;
 
 	/**
@@ -35,7 +38,7 @@ public abstract class Cell {
 	 * 
 	 * @param neighborhood
 	 *            The cells surrounding this one -- depends on simulation
-	 * @param parameters 
+	 * @param parameters
 	 */
 	public abstract void step(List<Cell> neighborhood);
 
@@ -43,25 +46,43 @@ public abstract class Cell {
 	 * Updates state to nextState
 	 */
 	public void update() {
+		updateState();
+		if(image != null)
+			image.setFill(getColor());
+	}
+	
+	public void updateState() {
 		state = nextState;
-		image.setFill(getColor());
 	}
 
 	public int getState() {
 		return state;
 	}
-	
+
 	public void acceptImage(Shape image) {
 		this.image = image;
 		image.setFill(getColor());
+		image.setOnMouseClicked(e -> cycle());
 	}
-	
+
+	protected abstract void cycle();
+
 	protected Color getColor() {
 		return colors[getState()];
 	}
-	
+
 	@Override
 	public String toString() {
 		return "" + getState();
+	}
+
+	public Cell getEmptyInstance() {
+		try {
+			return (Cell) (getClass().getConstructors()[0].newInstance(EMPTY, parameters));
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Cell parameters do not agree with (int, parameterBundle");
+			// This should never be possible
+		}
 	}
 }

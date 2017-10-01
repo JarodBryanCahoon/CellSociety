@@ -2,7 +2,9 @@ package simulations;
 
 import cells.Cell;
 import cells.ParameterBundle;
+import cellsociety_team01.FileCreator;
 import grids.AbstractGrid;
+import grids.Grid2D;
 import javafx.scene.layout.Pane;
 
 /**
@@ -46,10 +48,14 @@ public class Simulation {
 	}
 	
 	public Pane getParameterPane(double width, double height) {
-		return cells.getView(width, height);
+		return parameters.getOptionPane(width, height);
 	}
 
 	public Pane getView(double width, double height) {
 		return cells.getView(width, height);
+	}
+	
+	public void save(String file) {
+		cells.save(file, parameters.toDoubleArray());
 	}
 }

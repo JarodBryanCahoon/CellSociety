@@ -47,11 +47,10 @@ public class ParameterBundle {
 			slider.setMax(20);
 			slider.setValue(i);
 			slider.setMajorTickUnit(5);
-			slider.setMinorTickCount(1);
+			slider.setMinorTickCount(4);
 			slider.setSnapToTicks(true);
 			slider.valueProperty().addListener((a,b,newValue)-> {
 				parameters[index] = newValue.intValue();
-				System.out.println(index + " : " + parameters[index]);
 			});
 		}catch(Exception e) {			
 			double d = (double)num;
@@ -62,12 +61,19 @@ public class ParameterBundle {
 			slider.setBlockIncrement(.01);
 			slider.valueProperty().addListener((a,b,newValue)-> {
 				parameters[index] = newValue;
-				System.out.println(index + " : " + parameters[index]);
 			});
 		}
 		slider.setShowTickLabels(true);
 		slider.setShowTickMarks(true);
 		
 		return slider;
+	}
+	
+	public double[] toDoubleArray() {
+		double[] result = new double[parameters.length];
+		for(int i = 0; i < result.length; i++) {
+			result[i] = (double)parameters[i];
+		}
+		return result;
 	}
 }

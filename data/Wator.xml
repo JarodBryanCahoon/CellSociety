@@ -2,10 +2,12 @@
 <Simulation SimulationType="Wator">
     <author>Keegan</author>
 	<simulation>Wator</simulation>
+	<gridType>HexagonTor</gridType>
 	<state>1</state>
     <rows>10</rows>
     <columns>10</columns>
     <values>10,10,10,1</values>
+    <neighbors>Hex</neighbors>
     <state>1</state>
     <locations>2,2,2,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1,1,1,1,1</locations>
 </Simulation>

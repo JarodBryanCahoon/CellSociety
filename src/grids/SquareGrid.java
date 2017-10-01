@@ -8,13 +8,7 @@ import cells.Cell;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
-/**
- * Represents a 2D square grid of cells
- * 
- * @author Ian Eldridge-Allegra
- *
- */
-public class SquareGrid extends Grid2D {
+public abstract class SquareGrid extends Grid2D {
 
 	public SquareGrid(int rows, int cols, List<Integer> neighbors) {
 		super(rows, cols, neighbors);
@@ -38,10 +32,11 @@ public class SquareGrid extends Grid2D {
 	}
 
 	public Pane getView(double width, double height) {
-		double cellWidth = width / getWidth();
-		double cellHeight = height / getHeight();
+		double cellWidth = width / getTrueWidth();
+		double cellHeight = height / getTrueHeight();
 		Pane pane = new Pane();
 		pane.setPrefSize(width, height);
+		setOriginNonRelative(0,0);
 		for (int row = 0; row < getHeight(); row++) {
 			for (int col = 0; col < getWidth(); col++) {
 				Rectangle rect = new Rectangle(cellWidth, cellHeight);
@@ -53,4 +48,5 @@ public class SquareGrid extends Grid2D {
 		}
 		return pane;
 	}
+
 }
