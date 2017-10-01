@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import cells.Cell;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -47,6 +48,7 @@ public class SquareGrid extends Grid2D {
 				Rectangle rect = new Rectangle(cellWidth, cellHeight);
 				rect.setLayoutX(cellWidth * col);
 				rect.setLayoutY(cellHeight * row);
+				rect.setStroke(Color.BLACK);
 				get(row, col).acceptImage(rect);
 				pane.getChildren().add(rect);
 			}
