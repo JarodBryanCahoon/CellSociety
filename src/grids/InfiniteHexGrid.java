@@ -5,15 +5,19 @@ import java.util.List;
 import cells.Cell;
 import javafx.scene.layout.Pane;
 
-public class InfiniteSquareGrid extends SquareGrid {
-	public InfiniteSquareGrid(int rows, int cols, List<Integer> neighbors) {
+public class InfiniteHexGrid extends HexGrid {
+	
+	
+	public InfiniteHexGrid(int rows, int cols, List<Integer> neighbors) {
 		super(rows, cols, neighbors);
 	}
-	
+
 	@Override 
 	public List<Cell> getNeighbors(int row, int col) {
-		if(get(row,col) == null || get(row,col).getState() != Cell.EMPTY)
-			stretchTo(row, col);
+		if(get(row,col) == null || get(row,col).getState() != Cell.EMPTY) {
+			stretchTo(row+2, col+2);
+			stretchTo(row-2, col-2);
+		}
 		return super.getNeighbors(row, col);
 	}
 

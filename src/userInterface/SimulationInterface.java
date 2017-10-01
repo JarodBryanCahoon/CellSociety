@@ -32,7 +32,7 @@ public class SimulationInterface extends Application {
 	public static final double LABEL_Y_TRANSLATION = 4;
 	public static final double GRID_SIZE = 200;
 	public static final double GUI_WIDTH = 650;
-	public static final double GUI_HEIGHT = 300;
+	public static final double GUI_HEIGHT = 320;
 	public static final double INSET_DISTANCE = (GUI_WIDTH - GRID_SIZE) / 2;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	public static final double BORDER_FRACTION = .05;
