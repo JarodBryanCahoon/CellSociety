@@ -209,6 +209,6 @@ public abstract class Grid2D extends AbstractGrid {
 		List<Integer> states = new ArrayList<Integer>();
 		for(Cell c : this)
 			states.add(c.getState());
-		//FileCreator.xmlCreator(neighborIDs, get(0).getSimType(), getType(), getTrueHeight(), getTrueWidth(), parameters, states);
+		FileCreator.xmlCreator(neighborIDs, get(0).getSimType(), getType(), getTrueHeight(), getTrueWidth(), parameters, states);
 	}
 }

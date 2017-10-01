@@ -26,11 +26,11 @@ import org.w3c.dom.Element;
  */
 public class FileCreator {
 
-	public FileCreator(String neighborList, String simType, String gType, String defaultState,int numRows, int numColumns, int numStates, double[] parameters, List<Integer> gridLocations) {
+	public FileCreator() {
 		//Intentionally left blank
 	}
 	
-	public static void xmlCreator(List<Integer> neighborList, String simType, String gType, String defaultState, int numRows, int numColumns, int numStates, double[] parameters, List<Integer> gridLocations) {
+	public static void xmlCreator(List<Integer> neighborList, String simType, String gType, int numRows, int numColumns, double[] parameters, List<Integer> gridLocations) {
 		try {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -46,10 +46,6 @@ public class FileCreator {
 		Element gridType = doc.createElement("gridType");
 		gridType.appendChild(doc.createTextNode(gType));
 		rootElement.appendChild(gridType);
-		//stores a default state 
-		Element state = doc.createElement("state");
-		state.appendChild(doc.createTextNode(defaultState));
-		rootElement.appendChild(state);
 		//stores a string representing the list of noteworthy neighbors
 		Element neighbors = doc.createElement("neighbors");
 		StringBuilder neighborString = new StringBuilder();
@@ -97,7 +93,7 @@ public class FileCreator {
 			rootElement.appendChild(locations);
 		}
 		else {
-			locations.appendChild(doc.createTextNode(xmlGridCreator(numRows, numColumns, numStates)));
+			locations.appendChild(doc.createTextNode(xmlGridCreator(numRows, numColumns)));
 		}
 		rootElement.appendChild(locations);
 
@@ -111,10 +107,13 @@ public class FileCreator {
 	/*
 	 * creates a random grid of locations for randomized testing or default if no grid is initially given to this class
 	 */
-	public static String xmlGridCreator(int rows, int columns, int numStates ) {
+	public static String xmlGridCreator(int rows, int columns) {
 		int gridSize = rows*columns;
 		StringBuilder stateArray = new StringBuilder();
 		int state = 0;
+		//used for randomly generating using an arbitrary number of states
+		//would not have allowed for getting this value from the simulation
+		int numStates = 3;
 		Random stateGenerator = new Random();
 		//creates a random number generator and gives each index a random number, based upon number of states
 		for (int i = 0; i < gridSize - 1; i++) {
