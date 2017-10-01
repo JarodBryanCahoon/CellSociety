@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
  */
 public class SegCell extends Cell {
 	public static final int EMPTY = 0;
+	private static final int NUM_STATES = 3;
 	private static final Color[] COLORS = new Color[] {Color.BLACK, Color.RED, Color.BLUE, Color.GREEN, Color.ORANGE};
 	private boolean satisfied = true;
 
@@ -64,5 +65,15 @@ public class SegCell extends Cell {
 
 	public boolean isEmpty() {
 		return getState() == EMPTY;
+	}
+
+	@Override
+	protected void cycle() {
+		if(getState() >= NUM_STATES-1)
+			nextState = EMPTY;
+		else
+			nextState = getState()+1;
+		satisfied = true;
+		update();
 	}
 }

@@ -16,6 +16,8 @@ public class LangtonCell extends Cell {
 
 	private static final Map<String, Integer> rules = loadRules("data/LangtonRules");
 
+	private static final int MAX_STATE = 7;
+
 	public LangtonCell(int initialState, ParameterBundle pars) {
 		super(initialState, pars, COLORS);
 	}
@@ -68,5 +70,14 @@ public class LangtonCell extends Cell {
 		}
 		if (rules.containsKey(states.toString()))
 			nextState = rules.get(states.toString());
+	}
+
+	@Override
+	protected void cycle() {
+		if(getState() == MAX_STATE)
+			nextState = EMPTY;
+		else
+			nextState = getState()+1;
+		update();
 	}
 }

@@ -1,19 +1,24 @@
 package grids;
 
+import java.security.Policy.Parameters;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import cells.Cell;
+import cellsociety_team01.FileCreator;
 import javafx.scene.layout.Pane;
 
 public abstract class Grid2D extends AbstractGrid {
 	private List<List<Cell>> cells;
-	private int originRow = 0;
-	private int originCol = 0;
+	protected int originRow = 0;
+	protected int originCol = 0;
 	private ResourceBundle errors = ResourceBundle.getBundle("resources/ErrorBundle");
-
+	protected Pane pane;
+	protected double paneWidth;
+	protected double paneHeight;
+	
 	protected List<Integer> neighborIDs;
 
 	/**
@@ -91,14 +96,20 @@ public abstract class Grid2D extends AbstractGrid {
 
 	//If on the border, extend
 	protected void stretchTo(int row, int col) {
+		int width = getTrueWidth();
+		int height = getTrueHeight();
 		if (row >= getTrueHeight() - 1)
 			extendRows(true);
-		if (col >= getTrueWidth() - 1)
-			extendCols(true);
 		if (row <= 0)
 			extendRows(false);
 		if (col <= 0)
 			extendCols(false);
+		if (col >= getTrueWidth() - 1)
+			extendCols(true);
+		if (pane != null && (getTrueWidth() != width || getTrueHeight() != height)) {
+			pane.getChildren().clear();
+			pane.getChildren().addAll(getView(paneWidth, paneHeight));
+		}
 	}
 
 	private void extendCols(boolean right) {
@@ -107,9 +118,10 @@ public abstract class Grid2D extends AbstractGrid {
 				row.add(emptyCell());
 			else {
 				row.add(0, emptyCell());
-				originCol++;
 			}
 		}
+		if(!right)
+			originCol++;
 	}
 
 	private void extendRows(boolean down) {
@@ -190,5 +202,13 @@ public abstract class Grid2D extends AbstractGrid {
 			}
 
 		};
+	}
+	
+	@Override
+	public void save(String file, double[] parameters) {
+		List<Integer> states = new ArrayList<Integer>();
+		for(Cell c : this)
+			states.add(c.getState());
+		//TODO FileCreator.xmlCreator(neighborIDs, simType, getType(), getTrueHeight(), getTrueWidth(), parameters, states);
 	}
 }
