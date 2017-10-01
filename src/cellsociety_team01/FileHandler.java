@@ -58,8 +58,6 @@ public class FileHandler {
 				simulation = eElement.getElementsByTagName("simulation").item(0).getTextContent();
 				//records gridType
 				gridType = eElement.getElementsByTagName("gridType").item(0).getTextContent();
-				//records a default state for the cells
-				defaultState = Integer.parseInt(eElement.getElementsByTagName("state").item(0).getTextContent());
 				//records the number of rows for the desired simulation
 				rows = Integer.parseInt(eElement.getElementsByTagName("rows").item(0).getTextContent());
 				//gets the number of columns from the xml file
@@ -95,7 +93,7 @@ public class FileHandler {
 		Object[] argumentArray = initial.toArray();
 		ParameterBundle parameters = new ParameterBundle(simulation, argumentArray);
 		//need to change the array to exclude parameters
-		AbstractGrid cells = arrayCreator(neighbors, defaultState, parameters, init, rows, columns, locations);
+		AbstractGrid cells = arrayCreator(neighbors, parameters, init, rows, columns, locations);
 		//need to change to add in parameters
 		sim = init.getSimulation(cells, parameters);
 		return sim;
@@ -112,9 +110,10 @@ public class FileHandler {
 		return nList;
 	}
 
-	public static AbstractGrid arrayCreator(List<Integer> neighbors, int defaultState, ParameterBundle parameters, Initializer init, int rows, int columns, String[] locations) {
+	public static AbstractGrid arrayCreator(List<Integer> neighbors, ParameterBundle parameters, Initializer init, int rows, int columns, String[] locations) {
 		
 		AbstractGrid cellArray = init.getGrid(rows, columns, neighbors);
+		int defaultState = 0;
 		
 		for(int i = 0; i < cellArray.getSize(); i++) {
 			defaultState = Integer.parseInt(locations[i]);
