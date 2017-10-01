@@ -24,4 +24,9 @@ public class ToroidalSquareGrid extends SquareGrid {
 	private int mod(int a, int b) {
 		return ((a%b)+b)%b;
 	}
+	
+	@Override
+	public String getType() {
+		return "SquareTor";
+	}
 }

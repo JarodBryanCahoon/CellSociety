@@ -49,4 +49,8 @@ public abstract class SquareGrid extends Grid2D {
 		return pane;
 	}
 
+	@Override
+	public String getType() {
+		return "Square";
+	}
 }

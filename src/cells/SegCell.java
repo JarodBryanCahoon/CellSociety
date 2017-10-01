@@ -76,4 +76,10 @@ public class SegCell extends Cell {
 		satisfied = true;
 		update();
 	}
+	
+
+	@Override
+	public String getSimType() {
+		return "Seg";
+	}
 }

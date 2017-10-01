@@ -141,4 +141,10 @@ public class WatorCell extends Cell {
 		energy = (int)parameters.getParameter(SHARKLIFE);
 		toNextSpawn = initialSpawnTime();
 	}
+	
+
+	@Override
+	public String getSimType() {
+		return "Wator";
+	}
 }

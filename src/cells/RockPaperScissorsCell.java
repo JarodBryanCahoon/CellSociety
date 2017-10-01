@@ -56,4 +56,10 @@ public class RockPaperScissorsCell extends Cell {
 		depth = 0;
 		update();
 	}
+	
+
+	@Override
+	public String getSimType() {
+		return "RPS";
+	}
 }

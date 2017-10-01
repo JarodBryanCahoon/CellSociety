@@ -191,4 +191,9 @@ public class AntCell extends Cell {
 			return cell.getState() != OBSTACLE && cell.ants.size() < (int) parameters.getParameter(MAXANTS);
 		}
 	}
+	
+	@Override
+	public String getSimType() {
+		return "Ant";
+	}
 }

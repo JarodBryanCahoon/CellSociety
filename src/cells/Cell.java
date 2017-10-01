@@ -85,4 +85,6 @@ public abstract class Cell {
 			// This should never be possible
 		}
 	}
+	
+	public abstract String getSimType();
 }
