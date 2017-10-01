@@ -28,7 +28,7 @@ public class InfiniteSquareGrid extends GeneralSquareGrid {
 	
 	@Override 
 	public List<Cell> getNeighbors(int row, int col) {
-		if(get(row,col).getState() != Cell.EMPTY)
+		if(get(row,col) == null || get(row,col).getState() != Cell.EMPTY)
 			stretchTo(row, col);
 		return super.getNeighbors(row, col);
 	}

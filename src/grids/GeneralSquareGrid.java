@@ -37,8 +37,8 @@ public abstract class GeneralSquareGrid extends Grid2D {
 		Pane pane = new Pane();
 		pane.setPrefSize(width, height);
 		setOriginNonRelative(0,0);
-		for (int row = 0; row < getTrueHeight(); row++) {
-			for (int col = 0; col < getTrueWidth(); col++) {
+		for (int row = 0; row < getHeight(); row++) {
+			for (int col = 0; col < getWidth(); col++) {
 				Rectangle rect = new Rectangle(cellWidth, cellHeight);
 				rect.setLayoutX(cellWidth * col);
 				rect.setLayoutY(cellHeight * row);

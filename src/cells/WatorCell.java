@@ -21,9 +21,9 @@ public class WatorCell extends Cell {
 	private WatorCell movedTo;
 	
 	private static final int SHARKLIFE = 0;
-	private static final int SHARKSPAWN = 0;
-	private static final int FISHSPAWN = 0;
-	private static final int ENERGYGAIN = 0;
+	private static final int SHARKSPAWN = 1;
+	private static final int FISHSPAWN = 2;
+	private static final int ENERGYGAIN = 3;
 	/**
 	 * @param initialState
 	 * @param sharkLife

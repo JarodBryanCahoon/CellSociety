@@ -93,12 +93,12 @@ public abstract class Grid2D extends AbstractGrid {
 	protected void stretchTo(int row, int col) {
 		if (row >= getTrueHeight() - 1)
 			extendRows(true);
-		if (col >= getTrueWidth() - 1)
-			extendCols(true);
 		if (row <= 0)
 			extendRows(false);
 		if (col <= 0)
 			extendCols(false);
+		if (col >= getTrueWidth() - 1)
+			extendCols(true);
 	}
 
 	private void extendCols(boolean right) {
@@ -107,9 +107,10 @@ public abstract class Grid2D extends AbstractGrid {
 				row.add(emptyCell());
 			else {
 				row.add(0, emptyCell());
-				originCol++;
 			}
 		}
+		if(!right)
+			originCol++;
 	}
 
 	private void extendRows(boolean down) {
