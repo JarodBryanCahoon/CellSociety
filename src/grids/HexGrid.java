@@ -34,6 +34,7 @@ public class HexGrid extends Grid2D {
 		double cellHeight = height/heightPerCellHeight(); 
 		Pane pane = new Pane();
 		pane.setPrefSize(width, height);
+		setOriginNonRelative(0,0);
 		for(int row = 0; row < getHeight(); row++) {
 			for(int col = 0; col < getWidth(); col++) {
 				double xLoc = cellWidth*(1.5*col+(row%2)*.75+.5); // Center location of hexagon in grid, from geometry

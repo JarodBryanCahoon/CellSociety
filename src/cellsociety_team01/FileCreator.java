@@ -26,11 +26,13 @@ import org.w3c.dom.Element;
  */
 public class FileCreator {
 
-	public FileCreator() {
+	public FileCreator(String neighborList, String simType, String gType, String defaultState,int numRows, int numColumns, int numStates, double[] parameters, List<Integer> gridLocations) {
 		//Intentionally left blank
+		xmlCreator(neighborList, simType, gType, defaultState, numRows, numColumns, numStates, parameters, gridLocations);
+
 	}
 	
-	public void xmlCreator(List<Integer> neighborList, String simType, int numRows, int numColumns, int numStates, double[] parameters, List<Integer> gridLocations) {
+	public static void xmlCreator(String neighborList, String simType, String gType, String defaultState, int numRows, int numColumns, int numStates, double[] parameters, List<Integer> gridLocations) {
 		/* 
 		 * parameters will hold all other values 
 		 * e.g. Fire will need the double "probCatch"
@@ -40,12 +42,24 @@ public class FileCreator {
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
 		Document doc = docBuilder.newDocument();
-		Element rootElement = doc.createElement("simulation");
+		Element rootElement = doc.createElement("Simulation");
 		doc.appendChild(rootElement);
 		
-		Element simulation = doc.createElement("Simulation");
+		Element simulation = doc.createElement("simulation");
 		simulation.appendChild(doc.createTextNode(simType));
 		rootElement.appendChild(simulation);
+		
+		Element gridType = doc.createElement("gridType");
+		gridType.appendChild(doc.createTextNode(gType));
+		rootElement.appendChild(gridType);
+		
+		Element state = doc.createElement("state");
+		state.appendChild(doc.createTextNode(defaultState));
+		rootElement.appendChild(state);
+		
+		Element neighbors = doc.createElement("neighbors");
+		neighbors.appendChild(doc.createTextNode(neighborList));
+		rootElement.appendChild(neighbors);
 
 		Element rows = doc.createElement("rows");
 		rows.appendChild(doc.createTextNode("" + numRows));
@@ -60,7 +74,9 @@ public class FileCreator {
 		for(int i = 0; i < parameters.length; i++) {
 			valueString.append("" + parameters[i] + ",");
 		}
+		if(parameters.length > 1) {
 		valueString.append("" + parameters[parameters.length - 1]);
+		}
 		values.appendChild(doc.createTextNode("" + valueString.toString()));
 		rootElement.appendChild(values);
 		
@@ -78,18 +94,6 @@ public class FileCreator {
 			locations.appendChild(doc.createTextNode(xmlGridCreator(numRows, numColumns, numStates)));
 		}
 		rootElement.appendChild(locations);
-		
-		Element neighbors = doc.createElement("neighbors");
-		if(!(neighborList==null)) {
-			ArrayList<Integer> neighborAL = (ArrayList<Integer>) neighborList;
-			for(int i = 0; i < 6 ; i++) {
-				neighborAL.add(i);
-			}
-			String[] neighborArray = neighborAL.toString().split("\\[");
-			neighborArray[0] = neighborArray[1].split("]")[0];
-			locations.appendChild(doc.createTextNode(neighborArray[0]));
-		}
-		rootElement.appendChild(neighbors);
 
 		// write the content into xml file
 		writeXml(doc, simType);
@@ -106,7 +110,7 @@ public class FileCreator {
 		Random stateGenerator = new Random();
 	
 		for (int i = 0; i < gridSize - 1; i++) {
-			state = stateGenerator.nextInt(numStates) + 1;
+			state = stateGenerator.nextInt(numStates) ;
 			stateArray.append("" + state + ",");
 		}
 		state = stateGenerator.nextInt(numStates) + 1;
@@ -121,7 +125,7 @@ public class FileCreator {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("\\data\\" + simType + "Saved.xml"));
+			StreamResult result = new StreamResult(new File("data\\" + simType + ".xml"));
 			transformer.transform(source, result);
 		}
 		catch (TransformerException tfe) {

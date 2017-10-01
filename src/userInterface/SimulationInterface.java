@@ -45,14 +45,14 @@ public class SimulationInterface extends Application {
 	public static final double LABEL_Y_TRANSLATION = 4;
 	public static final double GRID_SIZE = 200;
 	public static final double GUI_WIDTH = 650;
-	private static final double CHART_WIDTH = 4 * GUI_WIDTH / 5;
-	public static final double GUI_HEIGHT = 00;
+	public static final double GUI_HEIGHT = 320;
 	public static final double INSET_DISTANCE = (GUI_WIDTH - GRID_SIZE) / 2;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	public static final double BORDER_FRACTION = .05;
 	public static final double BUTTON_SPACING = 13;
 	public static final double[] SPEEDS = { 1, .5, .25 };
-	private int stepNumber = 0;
+	private static final double PARAMETER_PANE_WIDTH = 150;
+	private static final double PARAMETER_PANE_HEIGHT = 150;
 
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
@@ -292,6 +292,8 @@ public class SimulationInterface extends Application {
 	private void initializeCellGrid() {
 		centerPane = currentSim.getView(GRID_SIZE, GRID_SIZE);
 		guiLayout.setCenter(centerPane);
+		rightPane = currentSim.getParameterPane(PARAMETER_PANE_WIDTH, PARAMETER_PANE_HEIGHT);
+		guiLayout.setRight(rightPane);
 	}
 
 	private Pane setLeftBox() {
