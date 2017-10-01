@@ -24,7 +24,7 @@ public class GUI extends Application {
 	public static final double GUI_WIDTH = 200;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	public static final double[] SPEEDS = { 1, .5, .25 };
-	
+
 	private int speedIndex = 1;
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
@@ -34,7 +34,7 @@ public class GUI extends Application {
 	private Scene mainScene;
 	private Pane guiLayout;
 	private List<SimulationInterface> simList;
-	
+
 	@Override
 	public void start(Stage pStage) throws Exception {
 		setMain(pStage);
@@ -56,10 +56,10 @@ public class GUI extends Application {
 		mainStage.show();
 		simList = new ArrayList<SimulationInterface>();
 	}
-	
+
 	private void createInterface() {
 		guiLayout = new StackPane();
-		
+
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
 		box.setSpacing(BUTTON_SPACING);
@@ -91,51 +91,55 @@ public class GUI extends Application {
 		speedyButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		slowButton.setMaxWidth(BUTTON_MAX_WIDTH);
 		box.getChildren().addAll(startButton, playButton, speedyButton, slowButton, pauseButton, stepAll);
-		
+
 		guiLayout.getChildren().add(box);
-		
+
 	}
-	
+
 	private void speedUp() {
 		if (speedIndex < SPEEDS.length - 1)
 			speedIndex++;
-		
+
 		speedChange(SPEEDS[speedIndex]);
-		
+
 	}
 
 	private void speedChange(double speed) {
-			for(SimulationInterface s : simList) {
-				s.changeSpeed(speed);
-			}
-	}
-	
-	private void slow() {
-		if(speedIndex > 0) 
-			speedIndex--;
-		speedChange(SPEEDS[speedIndex]);
-		
-	}
-	
-	private void update() {
-		for(SimulationInterface s : simList) {
-			s.update();
+		for (SimulationInterface s : simList) {
+			s.changeSpeed(speed);
 		}
 	}
-	
+
+	private void slow() {
+		if (speedIndex > 0)
+			speedIndex--;
+		speedChange(SPEEDS[speedIndex]);
+
+	}
+
+	private void update() {
+		for (SimulationInterface s : simList) {
+			try {
+			s.update();
+			} catch (NullPointerException e) {
+				NoSimulationsOpenBox bx = new NoSimulationsOpenBox();
+			}
+		}
+	}
+
 	private void play() {
-		for(SimulationInterface s : simList) {
+		for (SimulationInterface s : simList) {
 			s.simPlay();
 		}
 	}
-	
+
 	private void pause() {
-		for(SimulationInterface s: simList) {
+		for (SimulationInterface s : simList) {
 			s.simPause();
 		}
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		launch(args);
 	}
 }
