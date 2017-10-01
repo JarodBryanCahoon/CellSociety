@@ -108,13 +108,15 @@ public class FileCreator {
 			System.out.println("Check the number and type of values given to this class");
 		} 
 	}
-
+	/*
+	 * creates a random grid of locations for randomized testing or default if no grid is initially given to this class
+	 */
 	public static String xmlGridCreator(int rows, int columns, int numStates ) {
 		int gridSize = rows*columns;
 		StringBuilder stateArray = new StringBuilder();
 		int state = 0;
 		Random stateGenerator = new Random();
-		//creates a 
+		//creates a random number generator and gives each index a random number, based upon number of states
 		for (int i = 0; i < gridSize - 1; i++) {
 			state = stateGenerator.nextInt(numStates) ;
 			stateArray.append("" + state + ",");
@@ -125,13 +127,16 @@ public class FileCreator {
 		return stateArray.toString();
 	}
 
-
+	/*
+	 * writes the data from fileCreator into an xml file
+	 */
 	public static void writeXml(Document doc, String simType) {
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("data\\" + simType + ".xml"));
+			//saves the file as simulationtypeSaved.xml
+			StreamResult result = new StreamResult(new File("data\\" + simType + "Saved.xml"));
 			transformer.transform(source, result);
 		}
 		catch (TransformerException tfe) {

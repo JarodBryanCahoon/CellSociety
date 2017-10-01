@@ -28,8 +28,14 @@ public class FileHandler {
 	}
 	
 	public static Simulation fileReader(String file) throws ParserConfigurationException, SAXException, IOException {
-		//arbitrary number used to avoid NullPointerException
+		/*
+		 * arbitrary number used to avoid NullPointerException
+		 * used for simulations without default parameters (Life, Langton, etc.)
+		 */
 		String LifeString = "99";
+		/*
+		 * initializes the data structures necessary to create the simulation and the cells
+		 */
 		List<Object> initial = new ArrayList<Object>();
 		List<Integer> neighbors = new ArrayList<Integer>();
 		String simulation = null;
@@ -39,22 +45,37 @@ public class FileHandler {
 		int columns = 0;
 		String[] locations = null;
 		Simulation sim = null;
+		//provides a file for the method to read and pass back a nodeList to decipher
 		NodeList nList = nodeList(file);
+		//iterates through the nodeList, can be extended for higher complexity xml files
 		for (int temp = 0; temp < nList.getLength(); temp++) {	
 			
 			Node nNode = nList.item(temp);
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
 				Element eElement = (Element) nNode;
+				//records simulation type
 				simulation = eElement.getElementsByTagName("simulation").item(0).getTextContent();
+				//records gridType
 				gridType = eElement.getElementsByTagName("gridType").item(0).getTextContent();
+				//records a default state for the cells
 				defaultState = Integer.parseInt(eElement.getElementsByTagName("state").item(0).getTextContent());
+				//records the number of rows for the desired simulation
 				rows = Integer.parseInt(eElement.getElementsByTagName("rows").item(0).getTextContent());
+				//gets the number of columns from the xml file
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
+				//gets a list of states
 				locations = eElement.getElementsByTagName("locations").item(0).getTextContent().split(",");
 				String neighborType = eElement.getElementsByTagName("neighbors").item(0).getTextContent();
-				neighbors = getNeighborList(neighborType);
-				
+				String[] neighborArray = neighborType.split(",");
+				if(neighborArray.length > 1) {
+					for(int i = 0; i < neighborArray.length; i++) {
+							neighbors.add(Integer.parseInt(neighborArray[i]));
+					}
+				}
+				else {
+					neighbors = getNeighborList(neighborType);
+				}
 				String values = eElement.getElementsByTagName("values").item(0).getTextContent();
 				if(!(values.equals(LifeString))) {
 					String[] valueArray = values.split(","); 
