@@ -3,6 +3,7 @@ package simulations;
 import cells.Cell;
 import cells.ParameterBundle;
 import grids.AbstractGrid;
+import grids.Grid2D;
 import javafx.scene.layout.Pane;
 
 /**

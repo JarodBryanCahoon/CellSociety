@@ -23,7 +23,7 @@ public class GUI extends Application {
 	public static final double GUI_HEIGHT = 300;
 	public static final double GUI_WIDTH = 200;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
-	public static final double[] SPEEDS = { 1, .5, .25 };
+	public static final double[] SPEEDS = { 1, .5, .25 , .1, .025};
 	
 	private int speedIndex = 1;
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");

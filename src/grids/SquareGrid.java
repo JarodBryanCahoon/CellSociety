@@ -15,44 +15,11 @@ import javafx.scene.shape.Rectangle;
  * @author Ian Eldridge-Allegra
  *
  */
-public class SquareGrid extends Grid2D {
+public class SquareGrid extends GeneralSquareGrid {
 
 	public SquareGrid(int rows, int cols, List<Integer> neighbors) {
-		super(rows, cols, neighbors, false);
-		if (neighbors.size() > 8) {
-			throw new IllegalArgumentException(ResourceBundle.getBundle("ErrorBundle").getString("LargeNeighborhood"));
-		}
+		super(rows, cols, neighbors);
 	}
 
-	@Override
-	public List<Cell> getNeighbors(int row, int col) {
-		List<Cell> neighbors = new ArrayList<Cell>();
-		neighbors.add(get(row - 1, col - 1));
-		neighbors.add(get(row - 1, col));
-		neighbors.add(get(row - 1, col + 1));
-		neighbors.add(get(row, col + 1));
-		neighbors.add(get(row + 1, col + 1));
-		neighbors.add(get(row + 1, col));
-		neighbors.add(get(row + 1, col - 1));
-		neighbors.add(get(row, col - 1));
-		return extractNeighbors(neighbors);
-	}
 
-	public Pane getView(double width, double height) {
-		double cellWidth = width / getWidth();
-		double cellHeight = height / getHeight();
-		Pane pane = new Pane();
-		pane.setPrefSize(width, height);
-		for (int row = 0; row < getHeight(); row++) {
-			for (int col = 0; col < getWidth(); col++) {
-				Rectangle rect = new Rectangle(cellWidth, cellHeight);
-				rect.setLayoutX(cellWidth * col);
-				rect.setLayoutY(cellHeight * row);
-				rect.setStroke(Color.BLACK);
-				get(row, col).acceptImage(rect);
-				pane.getChildren().add(rect);
-			}
-		}
-		return pane;
-	}
 }
