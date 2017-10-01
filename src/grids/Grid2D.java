@@ -108,7 +108,7 @@ public abstract class Grid2D extends AbstractGrid {
 			extendCols(true);
 		if (pane != null && (getTrueWidth() != width || getTrueHeight() != height)) {
 			pane.getChildren().clear();
-			pane.getChildren().addAll(getView(paneWidth, paneHeight));
+			pane.getChildren().addAll(getView(paneWidth, paneHeight).getChildren());
 		}
 	}
 
@@ -209,6 +209,6 @@ public abstract class Grid2D extends AbstractGrid {
 		List<Integer> states = new ArrayList<Integer>();
 		for(Cell c : this)
 			states.add(c.getState());
-		FileCreator.xmlCreator(neighborIDs, get(0).getSimType(), getType(), getTrueHeight(), getTrueWidth(), parameters, states);
+		//FileCreator.xmlCreator(neighborIDs, get(0).getSimType(), getType(), getTrueHeight(), getTrueWidth(), parameters, states);
 	}
 }
