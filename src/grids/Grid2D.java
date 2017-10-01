@@ -1,6 +1,7 @@
 package grids;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,25 +15,23 @@ public abstract class Grid2D extends AbstractGrid {
 	private ResourceBundle errors = ResourceBundle.getBundle("resources/ErrorBundle");
 
 	protected List<Integer> neighborIDs;
-	private boolean infinite;
-	
+
 	/**
 	 * @param rows
 	 *            height
 	 * @param cols
 	 *            width
 	 */
-	public Grid2D(int rows, int cols, List<Integer> neighbors, boolean infinite) {
+	public Grid2D(int rows, int cols, List<Integer> neighbors) {
 		constructCells(rows, cols);
 		neighborIDs = neighbors;
-		this.infinite = infinite;
 	}
 
 	private void constructCells(int rows, int cols) {
 		List<List<Cell>> grid = new ArrayList<List<Cell>>();
-		for(int row = 0; row < rows; row++) {
+		for (int row = 0; row < rows; row++) {
 			List<Cell> rowCells = new ArrayList<Cell>();
-			for(int col = 0; col < cols; col++) {
+			for (int col = 0; col < cols; col++) {
 				rowCells.add(col, null);
 			}
 			grid.add(rowCells);
@@ -59,44 +58,52 @@ public abstract class Grid2D extends AbstractGrid {
 	public int getSize() {
 		return getWidth()*getHeight();
 	}
+	
+	public int getTrueSize() {
+		return getTrueWidth()*getTrueHeight();
+	}
 
-	public int getWidth() {
+	public int getTrueWidth() {
 		return cells.get(0).size();
 	}
 
-	public int getHeight() {
+	public int getWidth() {
+		return getTrueWidth()-originCol;
+	}
+
+	public int getTrueHeight() {
 		return cells.size();
+	}
+	
+	public int getHeight() {
+		return getTrueHeight()-originRow;
 	}
 
 	public Cell get(int row, int col) {
 		try {
-			return cells.get(row+originRow).get(col + originCol);
+			return cells.get(row + originRow).get(col + originCol);
 		} catch (IndexOutOfBoundsException e) {
-			if(!infinite)
-				return null; // Intentionally treats out of bounds as null cells
-			else {
-				stretchTo(row+originRow, col+originCol);
-				return get(row, col);
-			}
+			return null; // Intentionally treats out of bounds as null
 		} catch (NullPointerException e) {
 			throw new NullPointerException(errors.getString("SGGetError"));
 		}
 	}
-	
-	private void stretchTo(int row, int col) {
-		if(row > getHeight())
+
+	//If on the border, extend
+	protected void stretchTo(int row, int col) {
+		if (row >= getTrueHeight() - 1)
 			extendRows(true);
-		if(col > getWidth())
+		if (col >= getTrueWidth() - 1)
 			extendCols(true);
-		if(row < 0)
+		if (row <= 0)
 			extendRows(false);
-		if(col < 0)
+		if (col <= 0)
 			extendCols(false);
 	}
 
 	private void extendCols(boolean right) {
-		for(List<Cell> row : cells) {
-			if(right)
+		for (List<Cell> row : cells) {
+			if (right)
 				row.add(emptyCell());
 			else {
 				row.add(0, emptyCell());
@@ -106,11 +113,11 @@ public abstract class Grid2D extends AbstractGrid {
 	}
 
 	private void extendRows(boolean down) {
-		List<Cell> newRow = new ArrayList<Cell>(getWidth());
-		for(int i = 0; i < getWidth(); i++) {
+		List<Cell> newRow = new ArrayList<Cell>(getTrueWidth());
+		for (int i = 0; i < getTrueWidth(); i++) {
 			newRow.add(emptyCell());
 		}
-		if(down)
+		if (down)
 			cells.add(newRow);
 		else {
 			cells.add(0, newRow);
@@ -124,25 +131,64 @@ public abstract class Grid2D extends AbstractGrid {
 
 	public void set(Cell input, int row, int col) {
 		try {
-			cells.get(row + originRow).set(col+originCol, input);
+			cells.get(row + originRow).set(col + originCol, input);
 		} catch (IndexOutOfBoundsException e) {
-			if(!infinite)
-				throw new IndexOutOfBoundsException(String.format(errors.getString("SGSetError"), row, col));
-			else {
-				stretchTo(row + originRow, col+originCol);
-				set(input, row, col);
-			}
+			throw new IndexOutOfBoundsException(String.format(errors.getString("SGSetError"), row, col));
 		}
+	}
+
+	public void setOrigin(int row, int col) {
+		setOriginNonRelative(row+originRow, col+originCol);
+	}
+	
+	public void setOriginNonRelative(int row, int col) {
+		if (isLegalOrigin(row, col)) {
+			originRow = row;
+			originCol = col;
+		}
+	}
+
+	private boolean isLegalOrigin(int row, int col) {
+		return row >= 0 && row <= getTrueHeight() && col >= 0 && col <= getTrueWidth();
 	}
 
 	public abstract List<Cell> getNeighbors(int row, int col);
 
 	protected List<Cell> extractNeighbors(List<Cell> neighborhood) {
 		List<Cell> newNeighbors = new ArrayList<Cell>();
-		for(int i : neighborIDs)
+		for (int i : neighborIDs)
 			newNeighbors.add(neighborhood.get(i));
 		return newNeighbors;
 	}
 
 	public abstract Pane getView(double width, double height);
+	
+	@Override
+	public Iterator<Cell> iterator() {
+		setOriginNonRelative(0,0);
+		return new Iterator<Cell>() {
+			private int row = 0;
+			private int col = 0;
+			
+			private int width = getWidth();
+			private int height = getHeight();
+
+			@Override
+			public boolean hasNext() {
+				return row < height;
+			}
+
+			@Override
+			public Cell next() {
+				Cell next = get(row, col);
+				col++;
+				if(col >= width) {
+					col = 0;
+					row++;
+				}
+				return next;
+			}
+
+		};
+	}
 }

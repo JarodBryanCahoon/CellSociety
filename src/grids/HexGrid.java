@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 public class HexGrid extends Grid2D {
 
 	public HexGrid(int rows, int cols, List<Integer> neighbors) {
-		super(rows, cols, neighbors, false);
+		super(rows, cols, neighbors);
 		if(neighbors.size() > 6) {
 			throw new IllegalArgumentException(ResourceBundle.getBundle("ErrorBundle").getString("LargeNeighborhood"));
 		}
