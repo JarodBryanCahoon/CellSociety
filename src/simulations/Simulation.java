@@ -27,7 +27,6 @@ public class Simulation {
 	 * 
 	 */
 	public void step() {
-		System.out.println(cells.getSize());
 		stepAllCells();
 		updateAllCells();
 	}

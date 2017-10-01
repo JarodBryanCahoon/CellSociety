@@ -71,7 +71,7 @@ public abstract class Grid2D extends AbstractGrid {
 	public Cell get(int row, int col) {
 		try {
 			return cells.get(row+originRow).get(col + originCol);
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e) {
 			if(!infinite)
 				return null; // Intentionally treats out of bounds as null cells
 			else {
@@ -125,7 +125,7 @@ public abstract class Grid2D extends AbstractGrid {
 	public void set(Cell input, int row, int col) {
 		try {
 			cells.get(row + originRow).set(col+originCol, input);
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e) {
 			if(!infinite)
 				throw new IndexOutOfBoundsException(String.format(errors.getString("SGSetError"), row, col));
 			else {
