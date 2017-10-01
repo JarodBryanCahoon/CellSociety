@@ -28,47 +28,48 @@ public class FileCreator {
 
 	public FileCreator(String neighborList, String simType, String gType, String defaultState,int numRows, int numColumns, int numStates, double[] parameters, List<Integer> gridLocations) {
 		//Intentionally left blank
-		xmlCreator(neighborList, simType, gType, defaultState, numRows, numColumns, numStates, parameters, gridLocations);
-
 	}
 	
-	public static void xmlCreator(String neighborList, String simType, String gType, String defaultState, int numRows, int numColumns, int numStates, double[] parameters, List<Integer> gridLocations) {
-		/* 
-		 * parameters will hold all other values 
-		 * e.g. Fire will need the double "probCatch"
-		 */
+	public static void xmlCreator(List<Integer> neighborList, String simType, String gType, String defaultState, int numRows, int numColumns, int numStates, double[] parameters, List<Integer> gridLocations) {
 		try {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
+		//creates a document with an initial element node
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("Simulation");
 		doc.appendChild(rootElement);
-		
+		//stores the name of the simulation type
 		Element simulation = doc.createElement("simulation");
 		simulation.appendChild(doc.createTextNode(simType));
 		rootElement.appendChild(simulation);
-		
+		//stores the grid type
 		Element gridType = doc.createElement("gridType");
 		gridType.appendChild(doc.createTextNode(gType));
 		rootElement.appendChild(gridType);
-		
+		//stores a default state 
 		Element state = doc.createElement("state");
 		state.appendChild(doc.createTextNode(defaultState));
 		rootElement.appendChild(state);
-		
+		//stores a string representing the list of noteworthy neighbors
 		Element neighbors = doc.createElement("neighbors");
-		neighbors.appendChild(doc.createTextNode(neighborList));
+		StringBuilder neighborString = new StringBuilder();
+		for(int i = 0; i < neighborList.size() - 1; i++) {
+			neighborString.append("" + neighborList.get(i) + ",");
+		}
+		if(neighborList.size() > 1) {
+		neighborString.append("" + neighborList.get(neighborList.size() - 1));
+		}
+		neighbors.appendChild(doc.createTextNode("" + neighborString.toString()));
 		rootElement.appendChild(neighbors);
-
+		//stores the number of rows in the initial simulation
 		Element rows = doc.createElement("rows");
 		rows.appendChild(doc.createTextNode("" + numRows));
 		rootElement.appendChild(rows);
-
+		//stores the initial number of columns in the simulation
 		Element columns = doc.createElement("columns");
 		columns.appendChild(doc.createTextNode("" + numColumns));
 		rootElement.appendChild(columns);
-
+		//catch-all array to store various values held in the different simulations
 		Element values = doc.createElement("values");
 		StringBuilder valueString = new StringBuilder();
 		for(int i = 0; i < parameters.length; i++) {
@@ -79,16 +80,21 @@ public class FileCreator {
 		}
 		values.appendChild(doc.createTextNode("" + valueString.toString()));
 		rootElement.appendChild(values);
-		
+		/*
+		 * stores the locations of the cells
+		 * generates a random grid if no grid is given
+		 */
 		Element locations = doc.createElement("locations");
 		if(!(gridLocations==null)) {
-			ArrayList<Integer> locationsAL = (ArrayList<Integer>) gridLocations;
-			for(int i = 0; i < 6 ; i++) {
-				locationsAL.add(i);
+			StringBuilder locationString = new StringBuilder();
+			for(int i = 0; i < gridLocations.size() - 1; i++) {
+				locationString.append("" + gridLocations.get(i) + ",");
 			}
-			String[] locArray = locationsAL.toString().split("\\[");
-			locArray[0] = locArray[1].split("]")[0];
-			locations.appendChild(doc.createTextNode(locArray[0]));
+			if(gridLocations.size() > 1) {
+			locationString.append("" + gridLocations.get(gridLocations.size() - 1));
+			}
+			locations.appendChild(doc.createTextNode("" + locationString.toString()));
+			rootElement.appendChild(locations);
 		}
 		else {
 			locations.appendChild(doc.createTextNode(xmlGridCreator(numRows, numColumns, numStates)));
@@ -108,7 +114,7 @@ public class FileCreator {
 		StringBuilder stateArray = new StringBuilder();
 		int state = 0;
 		Random stateGenerator = new Random();
-	
+		//creates a 
 		for (int i = 0; i < gridSize - 1; i++) {
 			state = stateGenerator.nextInt(numStates) ;
 			stateArray.append("" + state + ",");
