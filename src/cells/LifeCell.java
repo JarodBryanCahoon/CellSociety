@@ -48,4 +48,10 @@ public class LifeCell extends Cell {
 		nextState = getState() == DEAD? LIVING:DEAD;
 		update();
 	}
+	
+
+	@Override
+	public String getSimType() {
+		return "Life";
+	}
 }

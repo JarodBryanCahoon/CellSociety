@@ -28,4 +28,9 @@ public class InfiniteHexGrid extends HexGrid {
 		pane = super.getView(width, height);
 		return pane;
 	}
+	
+	@Override
+	public String getType() {
+		return "HexagonInf";
+	}
 }

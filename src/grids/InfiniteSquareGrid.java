@@ -24,4 +24,9 @@ public class InfiniteSquareGrid extends SquareGrid {
 		pane = super.getView(width, height);
 		return pane;
 	}
+	
+	@Override
+	public String getType() {
+		return "SquareInf";
+	}
 }

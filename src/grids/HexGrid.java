@@ -54,4 +54,9 @@ public class HexGrid extends Grid2D {
 	private double heightPerCellHeight() {
 		return (getHeight()+1)/2.0; //Again, not magic numbers -- This gives the height in terms of cellHeight
 	}
+	
+	@Override
+	public String getType() {
+		return "Hexagon";
+	}
 }

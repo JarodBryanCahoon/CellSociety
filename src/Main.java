@@ -20,7 +20,7 @@ public class Main {
 		double[] parameters = new double[1];
 		parameters[0] = 0.8;
 		List<Integer> gridLocations = null;
-		FileCreator.xmlCreator(neighbors, simType, gridType, defaultState, numRows, numColumns, numStates, parameters, gridLocations);
+		//FileCreator.xmlCreator(neighbors, simType, gridType, defaultState, numRows, numColumns, numStates, parameters, gridLocations);
 
 		//Application.launch(GUI.class, args);
 

@@ -1,7 +1,6 @@
 package userInterface;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -32,9 +31,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulations.Simulation;
@@ -180,7 +178,7 @@ public class SimulationInterface extends Application {
 		Pane pa = (Pane) guiLayout.getCenter();
 		Map<Paint, Integer> colorMap = new HashMap<>();
 		for (Node p : pa.getChildren()) {
-			Polygon poly = (Polygon) p;
+			Shape poly = (Shape) p;
 			totalCells++;
 			if (!colorMap.containsKey(poly.getFill()))
 				colorMap.put(poly.getFill(), 0);

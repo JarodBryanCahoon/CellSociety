@@ -49,4 +49,10 @@ public class FireCell extends Cell {
 			nextState = getState()+1;
 		update();
 	}
+	
+
+	@Override
+	public String getSimType() {
+		return "Fire";
+	}
 }
