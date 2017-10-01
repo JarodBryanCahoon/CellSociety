@@ -40,6 +40,7 @@ import javafx.util.Duration;
 import simulations.Simulation;
 
 public class SimulationInterface extends Application {
+	private static final int CHART_X_PLACEMENT = 50;
 	public static final double BUTTON_MAX_WIDTH = 170;
 	public static final double LABEL_Y_TRANSLATION = 4;
 	public static final double GRID_SIZE = 200;
@@ -164,17 +165,13 @@ public class SimulationInterface extends Application {
 	}
 
 	private void graphData(Pane pa) {
-		HashMap<Paint, XYChart.Series> map = new HashMap<>();
-		map.put(Color.WHEAT, new XYChart.Series<>());
-		for (Object p : mySeries.keySet()) {
-			myChart.getData().add(mySeries.get(p));
-		}
-		myChart.setTranslateX(50);
+		myChart.setTranslateX(CHART_X_PLACEMENT);
 		pa.getChildren().add(myChart);
 
 	}
 
 	private void populateData() {
+		totalCells = 0;
 		mySeries = new HashMap<Paint, XYChart.Series>();
 		Pane pa = (Pane) guiLayout.getCenter();
 		Map<Paint, Integer> colorMap = new HashMap<>();
@@ -183,8 +180,8 @@ public class SimulationInterface extends Application {
 			totalCells++;
 			if (!colorMap.containsKey(poly.getFill()))
 				colorMap.put(poly.getFill(), 0);
-			else
-				colorMap.put(poly.getFill(), colorMap.get(poly.getFill()) + 1);
+			
+			colorMap.put(poly.getFill(), colorMap.get(poly.getFill()) + 1);
 		}
 
 		for (Paint p : colorMap.keySet()) {
@@ -192,9 +189,17 @@ public class SimulationInterface extends Application {
 			series.getData().add(new XYChart.Data<>(stepNumber, colorMap.get(p) / totalCells));
 			mySeries.put((Paint) p, series);
 		}
+		
+		for (Object p : mySeries.keySet()) {
+			myChart.getData().add(mySeries.get((Paint)p));
+		}
 
 	}
-
+	
+	private void updateData() {
+		
+	}
+	
 	private TextInputControl makeTextBox() {
 		inputField = new TextField();
 		inputField.setPrefWidth(TEXT_FIELD_PREF_WIDTH);
@@ -255,6 +260,7 @@ public class SimulationInterface extends Application {
 		else {
 			currentSim.step();
 			populateData();
+			stepNumber++;
 		}
 	}
 
