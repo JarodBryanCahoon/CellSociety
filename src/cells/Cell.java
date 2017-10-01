@@ -46,8 +46,13 @@ public abstract class Cell {
 	 * Updates state to nextState
 	 */
 	public void update() {
+		updateState();
+		if(image != null)
+			image.setFill(getColor());
+	}
+	
+	public void updateState() {
 		state = nextState;
-		image.setFill(getColor());
 	}
 
 	public int getState() {

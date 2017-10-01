@@ -10,7 +10,7 @@ import cells.Cell;
  * @author Ian Eldridge-Allegra
  *
  */
-public class ToroidalSquareGrid extends GeneralSquareGrid {
+public class ToroidalSquareGrid extends SquareGrid {
 
 	public ToroidalSquareGrid(int rows, int cols, List<Integer> neighbors) {
 		super(rows, cols, neighbors);
