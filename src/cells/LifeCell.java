@@ -42,4 +42,10 @@ public class LifeCell extends Cell {
 		}
 		return living;
 	}
+
+	@Override
+	protected void cycle() {
+		nextState = getState() == DEAD? LIVING:DEAD;
+		update();
+	}
 }

@@ -38,6 +38,8 @@ public class SimulationInterface extends Application {
 	public static final double BORDER_FRACTION = .05;
 	public static final double BUTTON_SPACING = 13;
 	public static final double[] SPEEDS = { 1, .5, .25 };
+	private static final double PARAMETER_PANE_WIDTH = 150;
+	private static final double PARAMETER_PANE_HEIGHT = 150;
 
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
@@ -50,6 +52,7 @@ public class SimulationInterface extends Application {
 	private TextField inputField;
 	private Pane centerPane;
 	private String mySimUrl;
+	private Pane rightPane;
 
 	@Override
 	public void start(Stage pStage) throws Exception {
@@ -194,7 +197,8 @@ public class SimulationInterface extends Application {
 	}
 
 	public void update() {
-		currentSim.step();
+		if(currentSim != null)
+			currentSim.step();
 	}
 
 	public void simPlay() {
@@ -226,6 +230,8 @@ public class SimulationInterface extends Application {
 		guiLayout.setLeft(leftBox());
 		centerPane = currentSim.getView(GRID_SIZE, GRID_SIZE);
 		guiLayout.setCenter(centerPane);
+		rightPane = currentSim.getParameterPane(PARAMETER_PANE_WIDTH, PARAMETER_PANE_HEIGHT);
+		guiLayout.setRight(rightPane);
 	}
 	
 	private Pane leftBox() {

@@ -46,4 +46,14 @@ public class RockPaperScissorsCell extends Cell {
 	private int maxDepth() {
 		return (int)parameters.getParameter(0);
 	}
+
+	@Override
+	protected void cycle() {
+		if(getState() == SCISSORS)
+			nextState = EMPTY;
+		else
+			nextState = getState()+1;
+		depth = 0;
+		update();
+	}
 }

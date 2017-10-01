@@ -40,4 +40,13 @@ public class FireCell extends Cell {
 			}
 		}
 	}
+
+	@Override
+	protected void cycle() {
+		if(getState() == BURNING)
+			nextState = EMPTY;
+		else
+			nextState = getState()+1;
+		update();
+	}
 }

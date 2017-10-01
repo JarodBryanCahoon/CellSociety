@@ -42,7 +42,6 @@ public abstract class GeneralSquareGrid extends Grid2D {
 				Rectangle rect = new Rectangle(cellWidth, cellHeight);
 				rect.setLayoutX(cellWidth * col);
 				rect.setLayoutY(cellHeight * row);
-				//rect.setStroke(Color.BLACK);
 				get(row, col).acceptImage(rect);
 				pane.getChildren().add(rect);
 			}

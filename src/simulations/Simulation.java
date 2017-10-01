@@ -47,7 +47,7 @@ public class Simulation {
 	}
 	
 	public Pane getParameterPane(double width, double height) {
-		return cells.getView(width, height);
+		return parameters.getOptionPane(width, height);
 	}
 
 	public Pane getView(double width, double height) {
