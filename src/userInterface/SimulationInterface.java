@@ -45,7 +45,7 @@ public class SimulationInterface extends Application {
 	public static final double LABEL_Y_TRANSLATION = 4;
 	public static final double GRID_SIZE = 200;
 	public static final double GUI_WIDTH = 650;
-	public static final double GUI_HEIGHT = 320;
+	public static final double GUI_HEIGHT = 400;
 	public static final double INSET_DISTANCE = (GUI_WIDTH - GRID_SIZE) / 2;
 	public static final double TEXT_FIELD_PREF_WIDTH = 300;
 	public static final double BORDER_FRACTION = .05;
@@ -53,6 +53,7 @@ public class SimulationInterface extends Application {
 	public static final double[] SPEEDS = { 1, .5, .25 };
 	private static final double PARAMETER_PANE_WIDTH = 150;
 	private static final double PARAMETER_PANE_HEIGHT = 150;
+	private static final double CHART_WIDTH = 4*GUI_WIDTH/5;
 
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
@@ -70,6 +71,9 @@ public class SimulationInterface extends Application {
 	private double totalCells = 0;
 	private Axis xAxis;
 	private Axis yAxis;
+	private Pane rightPane;
+	private int stepNumber = 0;
+	
 
 	@Override
 	public void start(Stage pStage) throws Exception {
