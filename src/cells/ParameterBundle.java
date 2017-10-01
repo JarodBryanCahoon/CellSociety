@@ -62,7 +62,6 @@ public class ParameterBundle {
 			slider.setBlockIncrement(.01);
 			slider.valueProperty().addListener((a,b,newValue)-> {
 				parameters[index] = newValue;
-				System.out.println(index + " : " + parameters[index]);
 			});
 		}
 		slider.setShowTickLabels(true);

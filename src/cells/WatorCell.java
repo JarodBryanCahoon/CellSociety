@@ -129,4 +129,16 @@ public class WatorCell extends Cell {
 		cell.toNextSpawn = toNextSpawn;
 		cell.update();
 	}
+
+	@Override
+	protected void cycle() {
+		if(getState() == SHARK)
+			nextState = EMPTY;
+		else
+			nextState = getState()+1;
+		
+		update();
+		energy = (int)parameters.getParameter(SHARKLIFE);
+		toNextSpawn = initialSpawnTime();
+	}
 }
