@@ -30,7 +30,7 @@ public class FileCreator {
 		//Intentionally left blank
 	}
 	
-	public static void xmlCreator(String fileName, List<Integer> neighborList, String simType, String gType, int numRows, int numColumns, double[] parameters, List<Integer> gridLocations) {
+	public static void xmlCreator(String fileName, List<Integer> neighborList, String simType, String gType, int numRows, int numColumns, Object[] parameters, List<Integer> gridLocations) {
 		try {
 		//value necessary for simulations like life which have no inherent parameters
 		String parameterString = "99";
@@ -59,14 +59,17 @@ public class FileCreator {
 		}
 		neighbors.appendChild(doc.createTextNode("" + neighborString.toString()));
 		rootElement.appendChild(neighbors);
+		
 		//stores the number of rows in the initial simulation
 		Element rows = doc.createElement("rows");
 		rows.appendChild(doc.createTextNode("" + numRows));
 		rootElement.appendChild(rows);
+		
 		//stores the initial number of columns in the simulation
 		Element columns = doc.createElement("columns");
 		columns.appendChild(doc.createTextNode("" + numColumns));
 		rootElement.appendChild(columns);
+		
 		//catch-all array to store various values held in the different simulations
 		Element values = doc.createElement("values");
 		StringBuilder valueString = new StringBuilder();
@@ -83,6 +86,7 @@ public class FileCreator {
 		}
 		values.appendChild(doc.createTextNode("" + valueString.toString()));
 		rootElement.appendChild(values);
+		
 		/*
 		 * stores the locations of the cells
 		 * generates a random grid if no grid is given
