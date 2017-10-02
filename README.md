@@ -13,6 +13,7 @@ Keegan: XMl File Handling
 September 14 - October 2
 
 LangtonRules file from http://golly.cvs.sourceforge.net/viewvc/golly/golly/src/Rules/Langtons-Loops.table 
+
 How to change the color of a series found at - https://stackoverflow.com/questions/11153370/how-to-set-specific-color-to-javafx-xychart-series
 
 File to start the project:
@@ -38,9 +39,10 @@ Decisions, assumptions, or simplifications you made to handle vague, ambiguous, 
 Known bugs, crashes, or problems with the project's functionality
 * Some of the errors with file reading are misdiagnosed, but still addressed. 
 * Infinite Grids are not compatible with charts, so the charts are disabled by default.
+* Sometimes when a pop-up window is triggered, it automatically opens two instead of one.
 
 Any extra features included in the project
 * We researched reflection to make our program more flexible and avoid switch-cases.
 
 Your impressions of the assignment to help improve it in the future
-* It would have been nice to discuss a separation of back-end and front-end and the trade-offs with getters/setters earlier in the project.
+* It would have been nice to discuss a separation of back-end and front-end and the trade-offs with getters/setters earlier in the project. It was kind of difficult to go back and re-evaluate how you would complete the project assuming that using getters/setters was discouraged, and it would probably be more helpful to understand why that was the case earlier in the course.
