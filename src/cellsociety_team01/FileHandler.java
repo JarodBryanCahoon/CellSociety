@@ -1,7 +1,6 @@
 package cellsociety_team01;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import org.xml.sax.SAXException;
 import cells.ParameterBundle;
 import grids.AbstractGrid;
 import simulations.Simulation;
-import cellsociety_team01.FileCreator;
 
 
 /**
@@ -52,7 +50,6 @@ public class FileHandler {
 		List<Integer> neighbors = new ArrayList<Integer>();
 		String simulation = null;
 		String gridType = null;
-		int defaultState = 0;
 		int rows = 0;
 		int columns = 0;
 		String[] locations = null;

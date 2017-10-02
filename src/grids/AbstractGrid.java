@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import cells.Cell;
-import cellsociety_team01.FileCreator;
 import javafx.scene.layout.Pane;
 
 /**

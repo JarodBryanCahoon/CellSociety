@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,7 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class GUI extends Application {
 	public static final double BUTTON_MAX_WIDTH = 130;
@@ -27,9 +24,6 @@ public class GUI extends Application {
 
 	private int speedIndex = 1;
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
-	private Timeline myAnimation;
-	private KeyFrame myFrame;
-	private double updateRate = .5;
 	private Stage mainStage;
 	private Scene mainScene;
 	private Pane guiLayout;
@@ -138,7 +132,7 @@ public class GUI extends Application {
 			s.update();
 			} catch (NullPointerException e) {
 				e.printStackTrace();
-				NoSimulationsOpenBox bx = new NoSimulationsOpenBox();
+				new NoSimulationsOpenBox();
 			}
 		}
 	}

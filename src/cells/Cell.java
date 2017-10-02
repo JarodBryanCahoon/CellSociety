@@ -2,7 +2,6 @@ package cells;
 
 import java.util.List;
 
-import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 

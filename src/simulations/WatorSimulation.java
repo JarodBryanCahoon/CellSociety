@@ -7,7 +7,6 @@ import java.util.List;
 import cells.ParameterBundle;
 import cells.WatorCell;
 import grids.AbstractGrid;
-import grids.Grid2D;
 
 /**
  * @author Ian Eldridge-Allegra

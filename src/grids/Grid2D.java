@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import cells.Cell;
 import cellsociety_team01.FileCreator;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public abstract class Grid2D extends AbstractGrid {
