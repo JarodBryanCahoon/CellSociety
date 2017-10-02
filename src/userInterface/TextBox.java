@@ -5,12 +5,12 @@ import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ErrorBox implements AlertBox {
+public class TextBox implements AlertBox{
 	public static final ResourceBundle GUI_TEXT = ResourceBundle.getBundle("resources/GuiNameBundle");
 	public static final double BOX_WIDTH = 500;
 	public static final double BUTTON_SPACING = 10;
@@ -18,17 +18,12 @@ public class ErrorBox implements AlertBox {
 	private String myTitle;
 	private String myMessage;
 
-	public ErrorBox() {
+	public TextBox() {
 		display();
 	}
-	
-	/**
-	 * Gets the specific text of the type of error, and displays it on the screen
-	 * Creates buttons for closing
-	 * 
-	 */
-	public void display(){
-		// TODO Auto-generated method stub
+
+	@Override
+	public void display() {
 		myTitle = GUI_TEXT.getString(this.getClass().getSimpleName() + "Title");
 		myMessage = GUI_TEXT.getString(this.getClass().getSimpleName() + "Message");
 		myStage = new Stage();
@@ -36,14 +31,14 @@ public class ErrorBox implements AlertBox {
 		myStage.setTitle(myTitle);
 		myStage.setWidth(BOX_WIDTH);
 		
-		Label label = new Label();
-		label.setText(myMessage);
+		TextField tic = new TextField();
+		tic.setPromptText(myMessage);
 		
 		Button cb = new Button(GUI_TEXT.getString("CloseButton"));
 		cb.setOnAction((event) -> close());
 		
 		VBox layout = new VBox(BUTTON_SPACING);
-		layout.getChildren().addAll(label, cb);
+		layout.getChildren().addAll(tic, cb);
 		layout.setAlignment(Pos.CENTER);
 		layout.setPrefWidth(BOX_WIDTH);
 		
@@ -52,14 +47,14 @@ public class ErrorBox implements AlertBox {
 		
 		myStage.setScene(newScene);
 		myStage.showAndWait();
+		
 	}
 
-
-	/**
-	 * Closes the application
-	 */
+	@Override
 	public void close() {
-		myStage.close();
+		// TODO Auto-generated method stub
+		
 	}
+	
 
 }
