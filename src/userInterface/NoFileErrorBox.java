@@ -11,6 +11,9 @@ public class NoFileErrorBox extends ErrorBox{
 	private Stage myStage;
 	private String myMessage;
 	
+	/**
+	 * For specifically when a File is not found
+	 */
 	public NoFileErrorBox(){
 		display();
 	}

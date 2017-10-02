@@ -11,6 +11,10 @@ public class SaxErrorBox extends ErrorBox{
 	private Stage myStage;
 	private String myMessage;
 	
+	/**
+	 * Not really sure when this error pops up, but when it does, this box will be
+	 * here!!
+	 */
 	public SaxErrorBox(){
 		display();
 	}
