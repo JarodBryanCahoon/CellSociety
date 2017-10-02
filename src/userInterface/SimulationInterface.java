@@ -1,7 +1,6 @@
 package userInterface;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -53,7 +52,7 @@ public class SimulationInterface extends Application {
 	public static final double[] SPEEDS = { 1, .5, .25 };
 	private static final double PARAMETER_PANE_WIDTH = 150;
 	private static final double PARAMETER_PANE_HEIGHT = 150;
-	private static final double CHART_WIDTH = 4*GUI_WIDTH/5;
+	private static final double CHART_WIDTH = 4 * GUI_WIDTH / 5;
 
 	private ResourceBundle GuiText = ResourceBundle.getBundle("resources/GuiNameBundle");
 	private Timeline myAnimation;
@@ -73,7 +72,6 @@ public class SimulationInterface extends Application {
 	private Axis yAxis;
 	private Pane rightPane;
 	private int stepNumber = 0;
-	
 
 	@Override
 	public void start(Stage pStage) throws Exception {
@@ -184,7 +182,7 @@ public class SimulationInterface extends Application {
 			totalCells++;
 			if (!colorMap.containsKey(poly.getFill()))
 				colorMap.put(poly.getFill(), 0);
-			
+
 			colorMap.put(poly.getFill(), colorMap.get(poly.getFill()) + 1);
 		}
 
@@ -192,18 +190,36 @@ public class SimulationInterface extends Application {
 			XYChart.Series<Object, Object> series = new XYChart.Series<>();
 			series.getData().add(new XYChart.Data<>(stepNumber, colorMap.get(p) / totalCells));
 			mySeries.put((Paint) p, series);
+			colorCodeSeries(series, p);
 		}
-		
-		for (Object p : mySeries.keySet()) {
-			myChart.getData().add(mySeries.get((Paint)p));
+
+		for (Paint p : mySeries.keySet()) {
+			colorCodeSeries(mySeries.get(p), p);
+			myChart.getData().add(mySeries.get(p));
 		}
 
 	}
-	
+
 	private void updateData() {
-		
+		Pane pa = (Pane) guiLayout.getCenter();
+		Map<Paint, Integer> colorMap = new HashMap<>();
+		for (Node p : pa.getChildren()) {
+			Polygon poly = (Polygon) p;
+			totalCells++;
+			if (!colorMap.containsKey(poly.getFill()))
+				colorMap.put(poly.getFill(), 0);
+
+			colorMap.put(poly.getFill(), colorMap.get(poly.getFill()) + 1);
+		}
+
+		for (Paint p : colorMap.keySet()) {
+			mySeries.get(p).getData().add(new XYChart.Data<>(stepNumber, colorMap.get(p) / totalCells));
+
+		}
 	}
+
 	
+
 	private TextInputControl makeTextBox() {
 		inputField = new TextField();
 		inputField.setPrefWidth(TEXT_FIELD_PREF_WIDTH);
@@ -263,9 +279,18 @@ public class SimulationInterface extends Application {
 			throw new NullPointerException("Current Sim Null");
 		else {
 			currentSim.step();
-			populateData();
 			stepNumber++;
+			updateData();
 		}
+	}
+
+	public void colorCodeSeries(Series ser, Paint paint) {
+		Node line = ser.getNode().lookup(".default-color0.chart-series-area-fill");
+		Color c = (Color) Paint.valueOf(paint.toString());
+		String hex = String.format("#%02X%02X%02X", (int) (c.getRed() * 255), (int) (c.getGreen() * 255),
+				(int) (c.getBlue() * 255));
+
+		line.setStyle("-fx-stroke: rgba(" + hex + ", 1.0);");
 	}
 
 	public void simPlay() {
