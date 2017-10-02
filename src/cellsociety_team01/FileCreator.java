@@ -30,24 +30,39 @@ public class FileCreator {
 		//Intentionally left blank
 	}
 	
+	/**
+	 * creates an xml file that can be run using the simulation type given
+	 * @param fileName  the name of the saved file
+	 * @param neighborList  the list of important neighbors
+	 * @param simType the type of simulation
+	 * @param gType the type of grid used in the simulation
+	 * @param numRows the number of rows
+	 * @param numColumns the number of columns
+	 * @param parameters  the set of parameters specific to the simulation type
+	 * @param gridLocations  the list that corresponds to the grid of cell states
+	 */
 	public static void xmlCreator(String fileName, List<Integer> neighborList, String simType, String gType, int numRows, int numColumns, Object[] parameters, List<Integer> gridLocations) {
 		try {
 		//value necessary for simulations like life which have no inherent parameters
 		String parameterString = "99";
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+		
 		//creates a document with an initial element node
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("Simulation");
 		doc.appendChild(rootElement);
+		
 		//stores the name of the simulation type
 		Element simulation = doc.createElement("simulation");
 		simulation.appendChild(doc.createTextNode(simType));
 		rootElement.appendChild(simulation);
+		
 		//stores the grid type
 		Element gridType = doc.createElement("gridType");
 		gridType.appendChild(doc.createTextNode(gType));
 		rootElement.appendChild(gridType);
+		
 		//stores a string representing the list of noteworthy neighbors
 		Element neighbors = doc.createElement("neighbors");
 		StringBuilder neighborString = new StringBuilder();
@@ -115,8 +130,11 @@ public class FileCreator {
 			System.out.println("Check the number and type of values given to this class");
 		} 
 	}
-	/*
+	/**
 	 * creates a random grid of locations for randomized testing or default if no grid is initially given to this class
+	 * @param rows
+	 * @param columns
+	 * @return
 	 */
 	public static String xmlGridCreator(int rows, int columns) {
 		int gridSize = rows*columns;
@@ -137,15 +155,18 @@ public class FileCreator {
 		return stateArray.toString();
 	}
 
-	/*
+	/**
 	 * writes the data from fileCreator into an xml file
+	 * @param doc  the document to be translated into xml
+	 * @param fileName  the string that will become the new files name
 	 */
 	public static void writeXml(Document doc, String fileName) {
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			//saves the file as simulationtypeSaved.xml
+			
+			//saves the file according to input text
 			StreamResult result = new StreamResult(new File("data\\" + fileName + ".xml"));
 			transformer.transform(source, result);
 		}
