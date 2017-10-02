@@ -152,11 +152,11 @@ public class SimulationInterface extends Application {
 		} catch (NullPointerException np) {
 			new ResetErrorBox();
 		} catch (ParserConfigurationException e) {
-			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+			new XmlReaderErrorBox();
 		} catch (SAXException e) {
-			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+			new XmlReaderErrorBox();
 		} catch (IOException e) {
-			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+			new XmlReaderErrorBox();
 		}
 	}
 	

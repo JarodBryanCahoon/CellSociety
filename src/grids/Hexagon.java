@@ -2,17 +2,34 @@ package grids;
 
 import javafx.scene.shape.Polygon;
 
+/**
+ * A hexagon
+ * 
+ * depends on polygon
+ * 
+ * Assumes legal width and height
+ * 
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public class Hexagon extends Polygon {
 
 	public static final int NUM_SIDES = 6;
 	public static final double ANGLE = 2 * Math.PI / NUM_SIDES;
 
+	/**
+	 * @param xCenter
+	 * @param yCenter
+	 * @param width
+	 * @param height
+	 */
 	public Hexagon(double xCenter, double yCenter, double width, double height) {
 		super(getVertexLocations(xCenter, yCenter, width, height));
 	}
 
 	/**
-	 * Why is this static? This does not depend on the state of the object, so there
+	 * Why is this static? Well:
+	 * This does not depend on the state of the object, so there
 	 * is no reason it needs to be non-static, and by making it static, it can be
 	 * called directly and used as a parameter for super().
 	 */

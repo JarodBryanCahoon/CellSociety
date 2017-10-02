@@ -4,6 +4,14 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 
+/**
+ * A cell from the Rock Paper Scissors Simulation
+ * 
+ * Depends on Lists, Colors, Cell, ParameterBundle.
+ * 
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public class RockPaperScissorsCell extends Cell {
 
 	public static final int EMPTY = 0;
@@ -14,10 +22,17 @@ public class RockPaperScissorsCell extends Cell {
 
 	private int depth = 0;
 
+	/**
+	 * @param initialState
+	 * @param pars EMPTY
+	 */
 	public RockPaperScissorsCell(int initialState, ParameterBundle pars) {
 		super(initialState, pars, COLORS);
 	}
 
+	/**
+	 * @see cells.Cell#step(java.util.List)
+	 */
 	@Override
 	public void step(List<Cell> neighborhood) {
 		RockPaperScissorsCell other = (RockPaperScissorsCell) neighborhood
@@ -47,6 +62,9 @@ public class RockPaperScissorsCell extends Cell {
 		return (int)parameters.getParameter(0);
 	}
 
+	/**
+	 * @see cells.Cell#cycle()
+	 */
 	@Override
 	protected void cycle() {
 		if(getState() == SCISSORS)
@@ -58,6 +76,9 @@ public class RockPaperScissorsCell extends Cell {
 	}
 	
 
+	/**
+	 * @see cells.Cell#getSimType()
+	 */
 	@Override
 	public String getSimType() {
 		return "RPS";

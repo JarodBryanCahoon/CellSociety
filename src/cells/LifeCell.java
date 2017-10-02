@@ -5,6 +5,10 @@ import java.util.List;
 import javafx.scene.paint.Color;
 
 /**
+ * A cell in the well-known Game of Life
+ * 
+ * Dependent On List, Color, Cell, ParameterBundle
+ * 
  * @author Ian Eldridge-Allegra
  *
  */
@@ -16,6 +20,7 @@ public class LifeCell extends Cell {
 	
 	/**
 	 * @param initialState
+	 * @param pars Empty
 	 */
 	public LifeCell(int initialState, ParameterBundle pars) {
 		super(initialState, pars, COLORS);
@@ -43,6 +48,9 @@ public class LifeCell extends Cell {
 		return living;
 	}
 
+	/**
+	 * @see cells.Cell#cycle()
+	 */
 	@Override
 	protected void cycle() {
 		nextState = getState() == DEAD? LIVING:DEAD;
@@ -50,6 +58,9 @@ public class LifeCell extends Cell {
 	}
 	
 
+	/**
+	 * @see cells.Cell#getSimType()
+	 */
 	@Override
 	public String getSimType() {
 		return "Life";

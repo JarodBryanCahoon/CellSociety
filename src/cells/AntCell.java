@@ -5,6 +5,20 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 
+/**
+ * WORK IN PROGRESS -- Untested
+ * 
+ * This is not included as a final version, and should not be viewed as working
+ * without significant testing
+ * 
+ * This represents a cell in the foraging ants simulation
+ * 
+ * Depends on colors, lists. Assumes step and update will be called by external
+ * source.
+ * 
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public class AntCell extends Cell {
 
 	// Parameters
@@ -47,6 +61,9 @@ public class AntCell extends Cell {
 		return super.getColor();
 	}
 
+	/**
+	 * Spawns new ants in nests, steps all ants
+	 */
 	@Override
 	public void step(List<Cell> neighborhood) {
 		if (getState() == NEST)
@@ -55,6 +72,9 @@ public class AntCell extends Cell {
 			ants.get(i).step(this, neighborhood);
 	}
 
+	/**
+	 * Updates all ants
+	 */
 	public void update() {
 		for (Ant a : ants)
 			a.update();
@@ -191,7 +211,7 @@ public class AntCell extends Cell {
 			return cell.getState() != OBSTACLE && cell.ants.size() < (int) parameters.getParameter(MAXANTS);
 		}
 	}
-	
+
 	@Override
 	public String getSimType() {
 		return "Ant";

@@ -9,6 +9,8 @@ import cells.WatorCell;
 import grids.AbstractGrid;
 
 /**
+ * Like normal simulation, but handles motion of cells and cannot run in parallel due to conflicting rules
+ * 
  * @author Ian Eldridge-Allegra
  *
  */

@@ -9,6 +9,20 @@ import cells.Cell;
 import cellsociety_team01.FileCreator;
 import javafx.scene.layout.Pane;
 
+/**
+ * Represents a less abstract grid confined to two dimensions, but still
+ * extendable to allow infinite grids
+ * 
+ * Depends on List, Cell, Pane, ResourceBundle, AbstractGrid
+ * 
+ * Uses ErrorBundle
+ * 
+ * Assumes proper extension -- in particular, the resizeability is easy to get
+ * wrong
+ * 
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public abstract class Grid2D extends AbstractGrid {
 	private List<List<Cell>> cells;
 	protected int originRow = 0;
@@ -25,6 +39,9 @@ public abstract class Grid2D extends AbstractGrid {
 	 *            height
 	 * @param cols
 	 *            width
+	 * @param neighbors
+	 *            The neighbors, going clockwise from the upper left, that should be
+	 *            used
 	 */
 	public Grid2D(int rows, int cols, List<Integer> neighbors) {
 		constructCells(rows, cols);
@@ -58,6 +75,11 @@ public abstract class Grid2D extends AbstractGrid {
 		return getNeighbors(index / getWidth(), index % getWidth());
 	}
 
+	/**
+	 * @see grids.AbstractGrid#getSize()
+	 * 
+	 * Excludes negatively indexed cells (ie cells in the 2-4th quadrant relative to origin
+	 */
 	@Override
 	public int getSize() {
 		return getWidth() * getHeight();
@@ -71,6 +93,9 @@ public abstract class Grid2D extends AbstractGrid {
 		return cells.get(0).size();
 	}
 
+	/* 
+	 * Excludes negatively indexed cells (ie cells in the 2-4th quadrant relative to origin
+	 */
 	public int getWidth() {
 		return getTrueWidth() - originCol;
 	}
@@ -79,10 +104,18 @@ public abstract class Grid2D extends AbstractGrid {
 		return cells.size();
 	}
 
+	/* 
+	 * Excludes negatively indexed cells (ie cells in the 2-4th quadrant relative to origin
+	 */
 	public int getHeight() {
 		return getTrueHeight() - originRow;
 	}
 
+	/**
+	 * @param row relative to origin
+	 * @param col relative to origin
+	 * @return null when out of bounds
+	 */
 	public Cell get(int row, int col) {
 		try {
 			return cells.get(row + originRow).get(col + originCol);
@@ -140,6 +173,11 @@ public abstract class Grid2D extends AbstractGrid {
 		return get(0).getEmptyInstance();
 	}
 
+	/**
+	 * @param input
+	 * @param row relative to origin
+	 * @param col relative to origin
+	 */
 	public void set(Cell input, int row, int col) {
 		try {
 			cells.get(row + originRow).set(col + originCol, input);
@@ -148,6 +186,10 @@ public abstract class Grid2D extends AbstractGrid {
 		}
 	}
 
+	/**
+	 * @param row relative to origin
+	 * @param col relative to origin
+	 */
 	public void setOrigin(int row, int col) {
 		setOriginNonRelative(row + originRow, col + originCol);
 	}
@@ -163,6 +205,11 @@ public abstract class Grid2D extends AbstractGrid {
 		return row >= 0 && row <= getTrueHeight() && col >= 0 && col <= getTrueWidth();
 	}
 
+	/**
+	 * @param row
+	 * @param col
+	 * @return The neighbors of the cell at row, col relative to origin
+	 */
 	public abstract List<Cell> getNeighbors(int row, int col);
 
 	protected List<Cell> extractNeighbors(List<Cell> neighborhood) {
@@ -172,6 +219,9 @@ public abstract class Grid2D extends AbstractGrid {
 		return newNeighbors;
 	}
 
+	/**
+	 * @see grids.AbstractGrid#getView(double, double)
+	 */
 	public abstract Pane getView(double width, double height);
 
 	@Override
@@ -203,11 +253,15 @@ public abstract class Grid2D extends AbstractGrid {
 		};
 	}
 
+	/**
+	 * @see grids.AbstractGrid#save(java.lang.String, java.lang.Object[])
+	 */
 	@Override
 	public void save(String file, Object[] parameters) {
 		List<Integer> states = new ArrayList<Integer>();
 		for (Cell c : this)
 			states.add(c.getState());
-		FileCreator.xmlCreator(file, neighborIDs, get(0).getSimType(), getType(), getTrueHeight(), getTrueWidth(), parameters, states);
+		FileCreator.xmlCreator(file, neighborIDs, get(0).getSimType(), getType(), getTrueHeight(), getTrueWidth(),
+				parameters, states);
 	}
 }

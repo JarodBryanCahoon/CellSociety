@@ -9,6 +9,8 @@ import cells.SegCell;
 import grids.AbstractGrid;
 
 /**
+ * Like normal simulation, but handles motion of SegCells
+ * 
  * @author Ian Eldridge-Allegra
  *
  */

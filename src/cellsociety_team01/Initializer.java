@@ -18,6 +18,8 @@ public class Initializer {
 	/**
 	 * @param simType
 	 *            EG: 'Fire', 'Seg', 'Life', 'Wator'
+	 * @param gridType
+	 *            EG: Square, HexagonTor, HexagonInf
 	 */
 	public Initializer(String simType, String gridType) {
 		simulationType = simType;
