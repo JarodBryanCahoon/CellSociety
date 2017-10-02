@@ -2,7 +2,6 @@ package userInterface;
 
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

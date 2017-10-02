@@ -39,6 +39,7 @@ import javafx.util.Duration;
 import simulations.Simulation;
 
 public class SimulationInterface extends Application {
+	public static final boolean CHARTS_ENABLED = false;
 	private static final int CHART_X_PLACEMENT = 50;
 	public static final double BUTTON_MAX_WIDTH = 170;
 	public static final double LABEL_Y_TRANSLATION = 4;
@@ -68,15 +69,16 @@ public class SimulationInterface extends Application {
 	private LineChart<Number, Number> myChart;
 	private HashMap<Color, Series> mySeries;
 	private double totalCells = 0;
-	private Axis xAxis;
-	private Axis yAxis;
+	private Axis<Number> xAxis;
+	private Axis<Number> yAxis;
 	private Pane rightPane;
 	private int stepNumber = 0;
 
 	@Override
 	public void start(Stage pStage) throws Exception {
 		setMain(pStage);
-		// initializeCellGrid();
+		if(CHARTS_ENABLED)
+			initializeCellGrid();
 	}
 
 	/**
@@ -91,7 +93,7 @@ public class SimulationInterface extends Application {
 		simStage.show();
 
 		myFrame = new KeyFrame(Duration.seconds(updateRate), e -> update());
-		myAnimation = new Timeline();//
+		myAnimation = new Timeline();
 		myAnimation.setCycleCount(Timeline.INDEFINITE);
 		myAnimation.getKeyFrames().add(myFrame);
 	}
@@ -148,15 +150,15 @@ public class SimulationInterface extends Application {
 			myChart.getData().removeAll(myChart.getData());
 			populateData();
 		} catch (NullPointerException np) {
-			ResetErrorBox rse = new ResetErrorBox();
+			new ResetErrorBox();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+			// Intentionally Blank
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
+			// Intentionally Blank
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// Intentionally Blank
 			e.printStackTrace();
 		}
 	}
@@ -259,7 +261,8 @@ public class SimulationInterface extends Application {
 		inputField.setPromptText(GuiText.getString("PromptText"));
 		inputField.setOnAction((event) -> {
 			tryFile(inputField.getText());
-			//guiLayout.setBottom(setBottomBox());
+			if(CHARTS_ENABLED)
+				guiLayout.setBottom(setBottomBox());
 		});
 		return inputField;
 	}
@@ -269,9 +272,8 @@ public class SimulationInterface extends Application {
 	 * @param s name of file
 	 */
 	protected void tryFile(String s) {
-		NoTextEnteredBox tb;
 		if (s.equals(""))
-			tb = new NoTextEnteredBox();
+			new NoTextEnteredBox();
 		else {
 			try {
 				loadFile(s);
@@ -280,13 +282,13 @@ public class SimulationInterface extends Application {
 				inputField.clear();
 				myAnimation.stop();
 			} catch (NullPointerException e) {
-				NoTextEnteredBox nte = new NoTextEnteredBox();
+				new NoTextEnteredBox();
 			} catch (IOException e) {
-				XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+				new XmlReaderErrorBox();
 			} catch (ParserConfigurationException e) {
-				XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+				new XmlReaderErrorBox();
 			} catch (SAXException e) {
-				XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
+				new XmlReaderErrorBox();
 			}
 		}
 	}
@@ -320,7 +322,8 @@ public class SimulationInterface extends Application {
 		else {
 			currentSim.step();
 			stepNumber++;
-			//updateData();
+			if(CHARTS_ENABLED)
+				updateData();
 		}
 	}
 

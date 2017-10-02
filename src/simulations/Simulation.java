@@ -2,9 +2,7 @@ package simulations;
 
 import cells.Cell;
 import cells.ParameterBundle;
-import cellsociety_team01.FileCreator;
 import grids.AbstractGrid;
-import grids.Grid2D;
 import javafx.scene.layout.Pane;
 
 /**
