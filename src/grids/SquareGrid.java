@@ -8,8 +8,21 @@ import cells.Cell;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Square tiled Grid2D -- statically sized unless extended
+ * 
+ * Depends on list, Pane, Cell, Rectangle, ResourceBundle, Grid2D
+ * 
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public abstract class SquareGrid extends Grid2D {
 
+	/**
+	 * @param rows
+	 * @param cols
+	 * @param neighbors
+	 */
 	public SquareGrid(int rows, int cols, List<Integer> neighbors) {
 		super(rows, cols, neighbors);
 		if (neighbors.size() > 8) {
@@ -17,6 +30,9 @@ public abstract class SquareGrid extends Grid2D {
 		}
 	}
 
+	/**
+	 * @see grids.Grid2D#getNeighbors(int, int)
+	 */
 	@Override
 	public List<Cell> getNeighbors(int row, int col) {
 		List<Cell> neighbors = new ArrayList<Cell>();
@@ -31,6 +47,11 @@ public abstract class SquareGrid extends Grid2D {
 		return extractNeighbors(neighbors);
 	}
 
+	/**
+	 * @see grids.Grid2D#getView(double, double)
+	 * 
+	 * Represents Cells as rectangles
+	 */
 	public Pane getView(double width, double height) {
 		double cellWidth = width / getTrueWidth();
 		double cellHeight = height / getTrueHeight();

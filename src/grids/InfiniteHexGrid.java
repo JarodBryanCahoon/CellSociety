@@ -5,6 +5,12 @@ import java.util.List;
 import cells.Cell;
 import javafx.scene.layout.Pane;
 
+/**
+ * Extends HexGrid and is identical except it stretches when near the boundary
+ * 
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public class InfiniteHexGrid extends HexGrid {
 	
 	
@@ -12,6 +18,11 @@ public class InfiniteHexGrid extends HexGrid {
 		super(rows, cols, neighbors);
 	}
 
+	/**
+	 * @see grids.HexGrid#getNeighbors(int, int)
+	 * 
+	 * Extends the grid as needed
+	 */
 	@Override 
 	public List<Cell> getNeighbors(int row, int col) {
 		if(get(row,col) == null || get(row,col).getState() != Cell.EMPTY) {

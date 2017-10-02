@@ -14,6 +14,8 @@ import javafx.scene.layout.Pane;
  * 
  * The methods in this class are similar to those in a List
  * 
+ * Depends on List, Cell, Pane
+ * 
  * @author Ian Eldridge-Allegra
  *
  */
@@ -59,7 +61,16 @@ public abstract class AbstractGrid implements Iterable<Cell> {
 		};
 	}
 	
+	/**
+	 * This saves this grid of cells as a loadable XML
+	 * 
+	 * @param file file name
+	 * @param parameters the parameters of the simulation
+	 */
 	public abstract void save(String file, Object[] parameters);
 	
+	/**
+	 * Used for file saving
+	 */
 	public abstract String getType();
 }

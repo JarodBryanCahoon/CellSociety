@@ -10,6 +10,8 @@ import javafx.scene.layout.Pane;
  * 
  * Holds a grid of cells
  * 
+ * Depends on Cell, AbstractGrid, Pane, ParameterBundle
+ * 
  * @author Ian Eldridge-Allegra
  *
  */

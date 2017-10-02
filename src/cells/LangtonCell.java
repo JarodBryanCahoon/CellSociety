@@ -9,6 +9,16 @@ import java.util.Map;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Represents a cell in Langton's loop
+ * 
+ * Relies on a rule file at data/LangtonRules.
+ * Dependent on Lists, Maps, FileReading, Color, Cell, ParameterBundle
+ * Assumes nothing, but only produces an interesting simulation if in proper initial configuration
+ * 
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public class LangtonCell extends Cell {
 
 	private static final Color[] COLORS = new Color[] { Color.BLACK, Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW,
@@ -18,6 +28,10 @@ public class LangtonCell extends Cell {
 
 	private static final int MAX_STATE = 7;
 
+	/**
+	 * @param initialState
+	 * @param pars
+	 */
 	public LangtonCell(int initialState, ParameterBundle pars) {
 		super(initialState, pars, COLORS);
 	}
@@ -57,6 +71,9 @@ public class LangtonCell extends Cell {
 		return rules;
 	}
 
+	/**
+	 * @see cells.Cell#step(java.util.List)
+	 */
 	@Override
 	public void step(List<Cell> neighborhood) {
 		List<Integer> states = new ArrayList<Integer>();
@@ -72,6 +89,9 @@ public class LangtonCell extends Cell {
 			nextState = rules.get(states.toString());
 	}
 
+	/**
+	 * @see cells.Cell#cycle()
+	 */
 	@Override
 	protected void cycle() {
 		if(getState() == MAX_STATE)
@@ -82,6 +102,9 @@ public class LangtonCell extends Cell {
 	}
 	
 
+	/**
+	 * @see cells.Cell#getSimType()
+	 */
 	@Override
 	public String getSimType() {
 		return "Langton";

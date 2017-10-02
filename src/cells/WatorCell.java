@@ -6,6 +6,11 @@ import java.util.List;
 import javafx.scene.paint.Color;
 
 /**
+ * A single cell in the Wator Simulation
+ * 
+ * Depends on Lists, Colors, Cell, ParameterBundle
+ * Assumes pars contains 4 integers
+ * 
  * @author Ian Eldridge-Allegra
  *
  */
@@ -26,12 +31,7 @@ public class WatorCell extends Cell {
 	private static final int ENERGYGAIN = 3;
 	/**
 	 * @param initialState
-	 * @param sharkLife
-	 *            The life-span, in steps, of a shark without food
-	 * @param sharkSpawn
-	 *            The number of steps for a shark to spawn
-	 * @param fishSpawn
-	 *            The number of steps for a fish to spawn
+	 * @param pars 4 Integers -- Life time, Spawn times, Energy Gain
 	 */
 	public WatorCell(int initialState, ParameterBundle pars) {
 		super(initialState, pars, COLORS);
@@ -48,9 +48,6 @@ public class WatorCell extends Cell {
 
 	/**
 	 * This is not done in parallel, so it will call update as necessary
-	 * 
-	 * @param neighborhood
-	 *            The immediate neighborhood
 	 * 
 	 * @see cells.Cell#step(java.util.List)
 	 */
@@ -78,7 +75,6 @@ public class WatorCell extends Cell {
 
 	/**
 	 * @param neighborhood
-	 *            The immediate neighborhood (NWES) of the cell
 	 * @param priority
 	 *            What state to move towards
 	 * @return returns this cell when not moving, otherwise gives destination
@@ -130,6 +126,9 @@ public class WatorCell extends Cell {
 		cell.update();
 	}
 
+	/**
+	 * @see cells.Cell#cycle()
+	 */
 	@Override
 	protected void cycle() {
 		if(getState() == SHARK)
@@ -143,6 +142,9 @@ public class WatorCell extends Cell {
 	}
 	
 
+	/**
+	 * @see cells.Cell#getSimType()
+	 */
 	@Override
 	public String getSimType() {
 		return "Wator";

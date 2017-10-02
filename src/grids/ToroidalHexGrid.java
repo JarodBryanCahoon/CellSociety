@@ -5,6 +5,12 @@ import java.util.ResourceBundle;
 
 import cells.Cell;
 
+/**
+ * Hexagonal grid, but simulating periodic tiling
+ * 
+ * @author Ian Eldridge-Allegra
+ *
+ */
 public class ToroidalHexGrid extends HexGrid {
 
 	public ToroidalHexGrid(int rows, int cols, List<Integer> neighbors) {
