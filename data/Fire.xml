@@ -2,7 +2,6 @@
 <Simulation>
 <simulation>Fire</simulation>
 <gridType>Hexagon</gridType>
-<state>1</state>
 <neighbors>Hex</neighbors>
 <rows>10</rows>
 <columns>10</columns>
