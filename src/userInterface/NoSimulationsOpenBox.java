@@ -7,7 +7,7 @@ public class NoSimulationsOpenBox extends ErrorBox{
 	public static final double BOX_WIDTH = 200;
 	
 	/**
-	 * For when a simulation is called to move, but none are open
+	 * For when a simulation is called to move, but none are open.
 	 */
 	public NoSimulationsOpenBox(){
 		display();

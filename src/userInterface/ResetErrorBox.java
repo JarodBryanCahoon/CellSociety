@@ -8,7 +8,7 @@ public class ResetErrorBox extends ErrorBox{
 	
 	/**
 	 * For when you attempt to reset the simulation when no previous simulation
-	 * Has been ran
+	 * Has been ran, this box pops up
 	 */
 	public ResetErrorBox() {
 		display();
