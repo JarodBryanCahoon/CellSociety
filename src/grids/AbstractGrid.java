@@ -33,6 +33,12 @@ public abstract class AbstractGrid implements Iterable<Cell> {
 	 */
 	public abstract int getSize();
 	
+	
+	/**
+	 * @param width  The width of the desired Pane
+	 * @param height The height of the desired Pane
+	 * @return A Pane containing the grid's image
+	 */
 	public abstract Pane getView(double width, double height);
 	
 	public Iterator<Cell> iterator() {

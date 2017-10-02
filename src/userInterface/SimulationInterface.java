@@ -31,6 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
@@ -232,7 +233,7 @@ public class SimulationInterface extends Application {
 		Pane pa = (Pane) guiLayout.getCenter();
 		Map<Color, Integer> colorMap = new HashMap<>();
 		for (Node p : pa.getChildren()) {
-			Polygon poly = (Polygon) p;
+			Shape poly = (Shape) p;
 			totalCells++;
 			if (!colorMap.containsKey(poly.getFill()))
 				colorMap.put((Color)poly.getFill(), 0);
@@ -258,7 +259,7 @@ public class SimulationInterface extends Application {
 		inputField.setPromptText(GuiText.getString("PromptText"));
 		inputField.setOnAction((event) -> {
 			tryFile(inputField.getText());
-			guiLayout.setBottom(setBottomBox());
+			//guiLayout.setBottom(setBottomBox());
 		});
 		return inputField;
 	}
@@ -319,7 +320,7 @@ public class SimulationInterface extends Application {
 		else {
 			currentSim.step();
 			stepNumber++;
-			updateData();
+			//updateData();
 		}
 	}
 

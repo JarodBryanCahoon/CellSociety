@@ -1,6 +1,5 @@
 package grids;
 
-import java.security.Policy.Parameters;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.ResourceBundle;
 
 import cells.Cell;
 import cellsociety_team01.FileCreator;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public abstract class Grid2D extends AbstractGrid {
@@ -18,7 +18,7 @@ public abstract class Grid2D extends AbstractGrid {
 	protected Pane pane;
 	protected double paneWidth;
 	protected double paneHeight;
-	
+
 	protected List<Integer> neighborIDs;
 
 	/**
@@ -61,11 +61,11 @@ public abstract class Grid2D extends AbstractGrid {
 
 	@Override
 	public int getSize() {
-		return getWidth()*getHeight();
+		return getWidth() * getHeight();
 	}
-	
+
 	public int getTrueSize() {
-		return getTrueWidth()*getTrueHeight();
+		return getTrueWidth() * getTrueHeight();
 	}
 
 	public int getTrueWidth() {
@@ -73,15 +73,15 @@ public abstract class Grid2D extends AbstractGrid {
 	}
 
 	public int getWidth() {
-		return getTrueWidth()-originCol;
+		return getTrueWidth() - originCol;
 	}
 
 	public int getTrueHeight() {
 		return cells.size();
 	}
-	
+
 	public int getHeight() {
-		return getTrueHeight()-originRow;
+		return getTrueHeight() - originRow;
 	}
 
 	public Cell get(int row, int col) {
@@ -94,7 +94,7 @@ public abstract class Grid2D extends AbstractGrid {
 		}
 	}
 
-	//If on the border, extend
+	// If on the border, extend
 	protected void stretchTo(int row, int col) {
 		int width = getTrueWidth();
 		int height = getTrueHeight();
@@ -108,7 +108,7 @@ public abstract class Grid2D extends AbstractGrid {
 			extendCols(true);
 		if (pane != null && (getTrueWidth() != width || getTrueHeight() != height)) {
 			pane.getChildren().clear();
-			pane.getChildren().addAll(getView(paneWidth, paneHeight).getChildren());
+			pane.getChildren().addAll(getView(paneWidth, paneHeight));
 		}
 	}
 
@@ -120,7 +120,7 @@ public abstract class Grid2D extends AbstractGrid {
 				row.add(0, emptyCell());
 			}
 		}
-		if(!right)
+		if (!right)
 			originCol++;
 	}
 
@@ -150,9 +150,9 @@ public abstract class Grid2D extends AbstractGrid {
 	}
 
 	public void setOrigin(int row, int col) {
-		setOriginNonRelative(row+originRow, col+originCol);
+		setOriginNonRelative(row + originRow, col + originCol);
 	}
-	
+
 	public void setOriginNonRelative(int row, int col) {
 		if (isLegalOrigin(row, col)) {
 			originRow = row;
@@ -174,14 +174,14 @@ public abstract class Grid2D extends AbstractGrid {
 	}
 
 	public abstract Pane getView(double width, double height);
-	
+
 	@Override
 	public Iterator<Cell> iterator() {
-		setOriginNonRelative(0,0);
+		setOriginNonRelative(0, 0);
 		return new Iterator<Cell>() {
 			private int row = 0;
 			private int col = 0;
-			
+
 			private int width = getWidth();
 			private int height = getHeight();
 
@@ -194,7 +194,7 @@ public abstract class Grid2D extends AbstractGrid {
 			public Cell next() {
 				Cell next = get(row, col);
 				col++;
-				if(col >= width) {
+				if (col >= width) {
 					col = 0;
 					row++;
 				}
@@ -203,11 +203,11 @@ public abstract class Grid2D extends AbstractGrid {
 
 		};
 	}
-	
+
 	@Override
 	public void save(String file, double[] parameters) {
 		List<Integer> states = new ArrayList<Integer>();
-		for(Cell c : this)
+		for (Cell c : this)
 			states.add(c.getState());
 		FileCreator.xmlCreator(file, neighborIDs, get(0).getSimType(), getType(), getTrueHeight(), getTrueWidth(), parameters, states);
 	}
