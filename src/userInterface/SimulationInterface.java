@@ -150,14 +150,11 @@ public class SimulationInterface extends Application {
 		} catch (NullPointerException np) {
 			ResetErrorBox rse = new ResetErrorBox();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			XmlReaderErrorBox xeBox = new XmlReaderErrorBox();
 		}
 	}
 	

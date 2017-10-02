@@ -11,6 +11,10 @@ public class ResetErrorBox extends ErrorBox{
 	private Stage myStage;
 	private String myMessage;
 	
+	/**
+	 * For when you attempt to reset the simulation when no previous simulation
+	 * Has been ran
+	 */
 	public ResetErrorBox() {
 		display();
 	}

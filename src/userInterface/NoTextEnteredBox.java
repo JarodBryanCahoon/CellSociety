@@ -11,6 +11,9 @@ public class NoTextEnteredBox extends ErrorBox {
 	private Stage myStage;
 	private String myMessage;
 	
+	/**
+	 * For when no text is entered into the box, but it is called
+	 */
 	public NoTextEnteredBox(){
 		display();
 	}

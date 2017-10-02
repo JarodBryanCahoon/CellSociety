@@ -11,6 +11,9 @@ public class NoSimulationsOpenBox extends ErrorBox{
 	private Stage myStage;
 	private String myMessage;
 	
+	/**
+	 * For when a simulation is called to move, but none are open
+	 */
 	public NoSimulationsOpenBox(){
 		display();
 	}

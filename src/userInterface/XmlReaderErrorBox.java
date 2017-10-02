@@ -11,6 +11,10 @@ public class XmlReaderErrorBox extends ErrorBox{
 	private Stage myStage;
 	private String myMessage;
 	
+	/**
+	 * When something goes wrong with the code that isn't one of the other errors
+	 * it is probably something to do with the XML reader or the XML file itself.
+	 */
 	public XmlReaderErrorBox(){
 		display();
 	}
