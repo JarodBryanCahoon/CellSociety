@@ -391,6 +391,11 @@ public class SimulationInterface extends Application {
 		leftPane.setAlignment(Pos.TOP_CENTER);
 		leftPane.setPrefWidth(INSET_DISTANCE);
 		Button eButton = new Button(GuiText.getString("ExportButton"));
+		eButton.setOnAction(e->{
+			if(currentSim != null) {
+				currentSim.save(inputField.getText());
+			}
+		});
 		leftPane.getChildren().addAll(eButton);
 		return leftPane;
 	}

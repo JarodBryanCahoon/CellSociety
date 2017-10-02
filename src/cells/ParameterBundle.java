@@ -69,11 +69,7 @@ public class ParameterBundle {
 		return slider;
 	}
 	
-	public double[] toDoubleArray() {
-		double[] result = new double[parameters.length];
-		for(int i = 0; i < result.length; i++) {
-			result[i] = (double)parameters[i];
-		}
-		return result;
+	public Object[] getParameters() {
+		return parameters.clone();
 	}
 }

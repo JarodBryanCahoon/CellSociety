@@ -205,7 +205,7 @@ public abstract class Grid2D extends AbstractGrid {
 	}
 
 	@Override
-	public void save(String file, double[] parameters) {
+	public void save(String file, Object[] parameters) {
 		List<Integer> states = new ArrayList<Integer>();
 		for (Cell c : this)
 			states.add(c.getState());
