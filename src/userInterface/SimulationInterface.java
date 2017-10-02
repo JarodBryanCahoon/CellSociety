@@ -66,7 +66,7 @@ public class SimulationInterface extends Application {
 	private Pane centerPane;
 	private String mySimUrl;
 	private LineChart<Number, Number> myChart;
-	private HashMap<Paint, Series> mySeries;
+	private HashMap<Color, Series> mySeries;
 	private double totalCells = 0;
 	private Axis xAxis;
 	private Axis yAxis;
@@ -133,6 +133,8 @@ public class SimulationInterface extends Application {
 			loadFile(mySimUrl);
 			initializeCellGrid();
 			myAnimation.stop();
+			myChart.getData().removeAll(myChart.getData());
+			populateData();
 		} catch (NullPointerException np) {
 			ResetErrorBox rse = new ResetErrorBox();
 		} catch (ParserConfigurationException e) {
@@ -174,42 +176,42 @@ public class SimulationInterface extends Application {
 
 	private void populateData() {
 		totalCells = 0;
-		mySeries = new HashMap<Paint, XYChart.Series>();
+		mySeries = new HashMap<Color, XYChart.Series>();
 		Pane pa = (Pane) guiLayout.getCenter();
-		Map<Paint, Integer> colorMap = new HashMap<>();
+		Map<Color, Integer> colorMap = new HashMap<>();
 		for (Node p : pa.getChildren()) {
 			Polygon poly = (Polygon) p;
 			totalCells++;
 			if (!colorMap.containsKey(poly.getFill()))
-				colorMap.put(poly.getFill(), 0);
+				colorMap.put((Color) poly.getFill(), 0);
 
-			colorMap.put(poly.getFill(), colorMap.get(poly.getFill()) + 1);
+			colorMap.put((Color)poly.getFill(), colorMap.get(poly.getFill()) + 1);
 		}
 
-		for (Paint p : colorMap.keySet()) {
+		for (Color p : colorMap.keySet()) {
 			XYChart.Series<Object, Object> series = new XYChart.Series<>();
 			series.getData().add(new XYChart.Data<>(stepNumber, colorMap.get(p) / totalCells));
-			mySeries.put((Paint) p, series);
-			colorCodeSeries(series, p);
+			mySeries.put(p, series);
 		}
 
-		for (Paint p : mySeries.keySet()) {
-			colorCodeSeries(mySeries.get(p), p);
+		for (Color p : mySeries.keySet()) {
 			myChart.getData().add(mySeries.get(p));
+			colorCodeSeries(mySeries.get(p), p);
 		}
-
+		myChart.setCreateSymbols(false);
 	}
 
 	private void updateData() {
+		totalCells = 0;
 		Pane pa = (Pane) guiLayout.getCenter();
-		Map<Paint, Integer> colorMap = new HashMap<>();
+		Map<Color, Integer> colorMap = new HashMap<>();
 		for (Node p : pa.getChildren()) {
 			Polygon poly = (Polygon) p;
 			totalCells++;
 			if (!colorMap.containsKey(poly.getFill()))
-				colorMap.put(poly.getFill(), 0);
+				colorMap.put((Color)poly.getFill(), 0);
 
-			colorMap.put(poly.getFill(), colorMap.get(poly.getFill()) + 1);
+			colorMap.put((Color)poly.getFill(), colorMap.get(poly.getFill()) + 1);
 		}
 
 		for (Paint p : colorMap.keySet()) {
@@ -276,7 +278,7 @@ public class SimulationInterface extends Application {
 
 	public void update() throws NullPointerException {
 		if (currentSim == null)
-			throw new NullPointerException("Current Sim Null");
+			throw new NullPointerException();
 		else {
 			currentSim.step();
 			stepNumber++;
@@ -284,13 +286,12 @@ public class SimulationInterface extends Application {
 		}
 	}
 
-	public void colorCodeSeries(Series ser, Paint paint) {
-		Node line = ser.getNode().lookup(".default-color0.chart-series-area-fill");
-		Color c = (Color) Paint.valueOf(paint.toString());
-		String hex = String.format("#%02X%02X%02X", (int) (c.getRed() * 255), (int) (c.getGreen() * 255),
-				(int) (c.getBlue() * 255));
+	public void colorCodeSeries(Series ser, Color col) {
+		Node line = ser.getNode().lookup(GuiText.getString("CSSLine"));
+		String hex = String.format(GuiText.getString("tripleD"), (int) (col.getRed() * 255), (int) (col.getGreen() * 255),
+				(int) (col.getBlue() * 255));
 
-		line.setStyle("-fx-stroke: rgba(" + hex + ", 1.0);");
+		line.setStyle(String.format(GuiText.getString("setLineColor"), hex));
 	}
 
 	public void simPlay() {
