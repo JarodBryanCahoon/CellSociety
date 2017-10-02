@@ -108,7 +108,7 @@ public abstract class Grid2D extends AbstractGrid {
 			extendCols(true);
 		if (pane != null && (getTrueWidth() != width || getTrueHeight() != height)) {
 			pane.getChildren().clear();
-			pane.getChildren().addAll(getView(paneWidth, paneHeight));
+			pane.getChildren().addAll(getView(paneWidth, paneHeight).getChildren());
 		}
 	}
 
