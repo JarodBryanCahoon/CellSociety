@@ -64,8 +64,14 @@ public class FileHandler {
 				columns = Integer.parseInt(eElement.getElementsByTagName("columns").item(0).getTextContent());
 				//gets a list of states
 				locations = eElement.getElementsByTagName("locations").item(0).getTextContent().split(",");
+				/*
+				 * gets the list of important neighbors
+				 * will be in a style file for our created files
+				 * will be contained in the original file if this is going through a saved file
+				 */
 				String neighborType = eElement.getElementsByTagName("neighbors").item(0).getTextContent();
 				String[] neighborArray = neighborType.split(",");
+				//indirectly checks to see if the file is saved by checking the type of information stored in neighbors
 				if(neighborArray.length > 1) {
 					for(int i = 0; i < neighborArray.length; i++) {
 							neighbors.add(Integer.parseInt(neighborArray[i]));
@@ -74,6 +80,8 @@ public class FileHandler {
 				else {
 					neighbors = getNeighborList(neighborType);
 				}
+				//obtains a list of values used in the simulaion, such as probCatch
+				//some values are ints and some are doubles, so they need to be parsed using both types
 				String values = eElement.getElementsByTagName("values").item(0).getTextContent();
 				if(!(values.equals(LifeString))) {
 					String[] valueArray = values.split(","); 
@@ -88,17 +96,21 @@ public class FileHandler {
 				}
 			}
 		}
+		//creates an initilaizer object to help in creating
 		Initializer init = new Initializer(simulation, gridType);
 		
 		Object[] argumentArray = initial.toArray();
+		//creates a bundle of parameters that are necessary for the given simulation type
 		ParameterBundle parameters = new ParameterBundle(simulation, argumentArray);
-		//need to change the array to exclude parameters
+		//creates an abstract grid to pass to the simulation
 		AbstractGrid cells = arrayCreator(neighbors, parameters, init, rows, columns, locations);
-		//need to change to add in parameters
+		//creates a simulation
 		sim = init.getSimulation(cells, parameters);
 		return sim;
 	}
-
+	/*
+	 * given a file name, it gives back a nodeList corresponding to the elements in the file
+	 */
 	private static NodeList nodeList(String file) throws ParserConfigurationException, SAXException, IOException {
 		File fXmlFile = new File(file);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -109,7 +121,7 @@ public class FileHandler {
 		NodeList nList = xmlDoc.getElementsByTagName("Simulation");
 		return nList;
 	}
-
+	// creates a grid based upon the initial conditions provided by the xml file
 	public static AbstractGrid arrayCreator(List<Integer> neighbors, ParameterBundle parameters, Initializer init, int rows, int columns, String[] locations) {
 		
 		AbstractGrid cellArray = init.getGrid(rows, columns, neighbors);
@@ -122,7 +134,7 @@ public class FileHandler {
 		
 		return cellArray;
 	}
-	
+	// used to read in the list of neighbors from a style file 
 	public static List<Integer> getNeighborList(String fileName) throws ParserConfigurationException, SAXException, IOException {
 		List<Integer> neighbors = new ArrayList<Integer>();
 		String neighborString = null;

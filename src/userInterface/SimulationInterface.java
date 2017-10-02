@@ -66,7 +66,7 @@ public class SimulationInterface extends Application {
 	private Pane centerPane;
 	private String mySimUrl;
 	private LineChart<Number, Number> myChart;
-	private HashMap<Paint, Series> mySeries;
+	private HashMap<Color, Series> mySeries;
 	private double totalCells = 0;
 	private Axis xAxis;
 	private Axis yAxis;
@@ -79,6 +79,9 @@ public class SimulationInterface extends Application {
 		// initializeCellGrid();
 	}
 
+	/**
+	 * Constructor of the Simulation interface
+	 */
 	public SimulationInterface() {
 		setLayout();
 		mainScene = new Scene(guiLayout, GUI_WIDTH, GUI_HEIGHT);
@@ -113,7 +116,10 @@ public class SimulationInterface extends Application {
 		guiLayout.setTop(setTopBox());
 		guiLayout.setLeft(setLeftBox());
 	}
-
+	/**
+	 * sets the TopBox of the borderpane
+	 * @return returns the pane
+	 */
 	private Pane setTopBox() {
 		HBox topBox = new HBox();
 		topBox.setPadding(new Insets(BUTTON_SPACING, BUTTON_SPACING, BUTTON_SPACING, BUTTON_SPACING));
@@ -121,18 +127,26 @@ public class SimulationInterface extends Application {
 		topBox.getChildren().addAll(makeLabel(), makeTextBox(), makeResetButton());
 		return topBox;
 	}
-
+	/**
+	 * Creates the reset button
+	 * @return returns the button after creation
+	 */
 	private ButtonBase makeResetButton() {
 		Button resetButton = new Button(GuiText.getString("ResetButton"));
 		resetButton.setOnAction((event) -> reset());
 		return resetButton;
 	}
-
+	
+	/**
+	 * Resets the simulation back to its initial state
+	 */
 	protected void reset() {
 		try {
 			loadFile(mySimUrl);
 			initializeCellGrid();
 			myAnimation.stop();
+			myChart.getData().removeAll(myChart.getData());
+			populateData();
 		} catch (NullPointerException np) {
 			ResetErrorBox rse = new ResetErrorBox();
 		} catch (ParserConfigurationException e) {
@@ -146,13 +160,20 @@ public class SimulationInterface extends Application {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Makes the label for the top box
+	 * @return Label
+	 */
 	private Label makeLabel() {
 		Label insLabel = new Label(GuiText.getString("XmlLabel"));
 		insLabel.setTranslateY(LABEL_Y_TRANSLATION);
 		return insLabel;
 	}
-
+	/**
+	 * Sets the bottom box of the BorderPane
+	 * @return Pane which is the bottom box
+	 */
 	private Pane setBottomBox() {
 		Pane p = new Pane();
 		xAxis = new NumberAxis();
@@ -165,51 +186,59 @@ public class SimulationInterface extends Application {
 		return p;
 
 	}
-
+	/**
+	 * Places the data onto the graph
+	 * @param pa Pane where the graph is to be places
+	 */
 	private void graphData(Pane pa) {
 		myChart.setTranslateX(CHART_X_PLACEMENT);
 		pa.getChildren().add(myChart);
 
 	}
-
+	/**
+	 * Initially populates the chart with Data
+	 */
 	private void populateData() {
 		totalCells = 0;
-		mySeries = new HashMap<Paint, XYChart.Series>();
+		mySeries = new HashMap<Color, XYChart.Series>();
 		Pane pa = (Pane) guiLayout.getCenter();
-		Map<Paint, Integer> colorMap = new HashMap<>();
+		Map<Color, Integer> colorMap = new HashMap<>();
 		for (Node p : pa.getChildren()) {
 			Shape poly = (Shape) p;
 			totalCells++;
 			if (!colorMap.containsKey(poly.getFill()))
-				colorMap.put(poly.getFill(), 0);
+				colorMap.put((Color) poly.getFill(), 0);
 
-			colorMap.put(poly.getFill(), colorMap.get(poly.getFill()) + 1);
+			colorMap.put((Color)poly.getFill(), colorMap.get(poly.getFill()) + 1);
 		}
 
-		for (Paint p : colorMap.keySet()) {
+		for (Color p : colorMap.keySet()) {
 			XYChart.Series<Object, Object> series = new XYChart.Series<>();
 			series.getData().add(new XYChart.Data<>(stepNumber, colorMap.get(p) / totalCells));
-			mySeries.put((Paint) p, series);
-			colorCodeSeries(series, p);
+			mySeries.put(p, series);
 		}
 
-		for (Paint p : mySeries.keySet()) {
-			colorCodeSeries(mySeries.get(p), p);
+		for (Color p : mySeries.keySet()) {
 			myChart.getData().add(mySeries.get(p));
+			colorCodeSeries(mySeries.get(p), p);
 		}
-
+		myChart.setCreateSymbols(false);
 	}
-
+	
+	/**
+	 * Updates all of the data for the chart
+	 */
 	private void updateData() {
+		totalCells = 0;
 		Pane pa = (Pane) guiLayout.getCenter();
-		Map<Paint, Integer> colorMap = new HashMap<>();
+		Map<Color, Integer> colorMap = new HashMap<>();
 		for (Node p : pa.getChildren()) {
 			Shape poly = (Shape) p;
 			totalCells++;
 			if (!colorMap.containsKey(poly.getFill()))
-				colorMap.put(poly.getFill(), 0);
+				colorMap.put((Color)poly.getFill(), 0);
 
-			colorMap.put(poly.getFill(), colorMap.get(poly.getFill()) + 1);
+			colorMap.put((Color)poly.getFill(), colorMap.get(poly.getFill()) + 1);
 		}
 
 		for (Paint p : colorMap.keySet()) {
@@ -219,7 +248,10 @@ public class SimulationInterface extends Application {
 	}
 
 	
-
+	/**
+	 * Makes text box for Interface
+	 * @return TextInputControl
+	 */
 	private TextInputControl makeTextBox() {
 		inputField = new TextField();
 		inputField.setPrefWidth(TEXT_FIELD_PREF_WIDTH);
@@ -232,6 +264,10 @@ public class SimulationInterface extends Application {
 		return inputField;
 	}
 
+	/**
+	 * Checks the string passed for validity before loading the file
+	 * @param s name of file
+	 */
 	protected void tryFile(String s) {
 		NoTextEnteredBox tb;
 		if (s.equals(""))
@@ -273,10 +309,14 @@ public class SimulationInterface extends Application {
 		guiLayout.setCenter(null);
 		currentSim = FileHandler.fileReader(s);
 	}
-
+	
+	/**
+	 * DOes all of the appropriate things to update the interface/Simulation
+	 * @throws NullPointerException if the current simulation is null
+	 */
 	public void update() throws NullPointerException {
 		if (currentSim == null)
-			throw new NullPointerException("Current Sim Null");
+			throw new NullPointerException();
 		else {
 			currentSim.step();
 			stepNumber++;
@@ -284,27 +324,44 @@ public class SimulationInterface extends Application {
 		}
 	}
 
-	public void colorCodeSeries(Series ser, Paint paint) {
-		Node line = ser.getNode().lookup(".default-color0.chart-series-area-fill");
-		Color c = (Color) Paint.valueOf(paint.toString());
-		String hex = String.format("#%02X%02X%02X", (int) (c.getRed() * 255), (int) (c.getGreen() * 255),
-				(int) (c.getBlue() * 255));
+	/**
+	 * Changes the Series of a Graph into a specific color
+	 * @param ser The series for which the color will be added
+	 * @param col the Color which the line of the series needs to be changed to
+	 */
+	public void colorCodeSeries(Series ser, Color col) {
+		Node line = ser.getNode().lookup(GuiText.getString("CSSLine"));
+		String hex = String.format(GuiText.getString("tripleD"), (int) (col.getRed() * 255), (int) (col.getGreen() * 255),
+				(int) (col.getBlue() * 255));
 
-		line.setStyle("-fx-stroke: rgba(" + hex + ", 1.0);");
+		line.setStyle(String.format(GuiText.getString("setLineColor"), hex));
 	}
 
+	/**
+	 * Plays the simulation
+	 */
 	public void simPlay() {
 		myAnimation.play();
 	}
 
+	/**
+	 * Pauses the simulation
+	 */
 	public void simPause() {
 		myAnimation.stop();
 	}
 
+	/**
+	 * Plays simulation
+	 */
 	public void simStop() {
 		myAnimation.stop();
 	}
-
+	
+	/**
+	 *  Updates the tick speed of the simulation
+	 * @param speed Speed which the Simulation will be updated to
+	 */
 	public void changeSpeed(double speed) {
 		updateRate = speed;
 		myAnimation.stop();
@@ -324,7 +381,11 @@ public class SimulationInterface extends Application {
 		rightPane = currentSim.getParameterPane(PARAMETER_PANE_WIDTH, PARAMETER_PANE_HEIGHT);
 		guiLayout.setRight(rightPane);
 	}
-
+	
+	/**
+	 * creates a Vertical Box which will then be attached into the borderPane
+	 * @return Pane
+	 */
 	private Pane setLeftBox() {
 		VBox leftPane = new VBox(BUTTON_SPACING);
 		leftPane.setAlignment(Pos.TOP_CENTER);

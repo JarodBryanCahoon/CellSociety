@@ -57,6 +57,9 @@ public class GUI extends Application {
 		simList = new ArrayList<SimulationInterface>();
 	}
 
+	/**
+	 * Creates the interface of the initial gui
+	 */
 	private void createInterface() {
 		guiLayout = new StackPane();
 
@@ -96,6 +99,9 @@ public class GUI extends Application {
 
 	}
 
+	/**
+	 *Increases speed of all of the simulations currently open
+	 */
 	private void speedUp() {
 		if (speedIndex < SPEEDS.length - 1)
 			speedIndex++;
@@ -104,12 +110,18 @@ public class GUI extends Application {
 
 	}
 
+	/**
+	 * Changes the speed of the simulations that are open
+	 * @param speed Update speed 
+	 */
 	private void speedChange(double speed) {
 		for (SimulationInterface s : simList) {
 			s.changeSpeed(speed);
 		}
 	}
-
+	/**
+	 * Slows all of the speeds of the simulations
+	 */
 	private void slow() {
 		if (speedIndex > 0)
 			speedIndex--;
@@ -117,6 +129,9 @@ public class GUI extends Application {
 
 	}
 
+	/**
+	 * Goes through and calls for all of the simulations to update
+	 */
 	private void update() {
 		for (SimulationInterface s : simList) {
 			try {
@@ -128,18 +143,28 @@ public class GUI extends Application {
 		}
 	}
 
+	/**
+	 * Plays all of the simulations
+	 */
 	private void play() {
 		for (SimulationInterface s : simList) {
 			s.simPlay();
 		}
 	}
 
+	/**
+	 * Pause all of the simulations
+	 */
 	private void pause() {
 		for (SimulationInterface s : simList) {
 			s.simPause();
 		}
 	}
 
+	/**
+	 * Main method
+	 * @param args from cmd line
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

@@ -30,7 +30,7 @@ public class FileCreator {
 		//Intentionally left blank
 	}
 	
-	public static void xmlCreator(List<Integer> neighborList, String simType, String gType, int numRows, int numColumns, double[] parameters, List<Integer> gridLocations) {
+	public static void xmlCreator(String fileName, List<Integer> neighborList, String simType, String gType, int numRows, int numColumns, double[] parameters, List<Integer> gridLocations) {
 		try {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -98,7 +98,7 @@ public class FileCreator {
 		rootElement.appendChild(locations);
 
 		// write the content into xml file
-		writeXml(doc, simType);
+		writeXml(doc, fileName);
 		} catch (ParserConfigurationException pce) {
 			System.out.println("Incorrect parameters provided");	
 			System.out.println("Check the number and type of values given to this class");
@@ -129,13 +129,13 @@ public class FileCreator {
 	/*
 	 * writes the data from fileCreator into an xml file
 	 */
-	public static void writeXml(Document doc, String simType) {
+	public static void writeXml(Document doc, String fileName) {
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			//saves the file as simulationtypeSaved.xml
-			StreamResult result = new StreamResult(new File("data\\" + simType + "Saved.xml"));
+			StreamResult result = new StreamResult(new File("data\\" + fileName + ".xml"));
 			transformer.transform(source, result);
 		}
 		catch (TransformerException tfe) {
