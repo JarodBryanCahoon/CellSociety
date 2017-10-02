@@ -5,7 +5,9 @@ CompSci 308 Cell Society Project
 Team 1 -- Keegan, Jarod, Ian
 
 Ian: Back-End
+
 Jarod: Front-End
+
 Keegan: XMl File Handling
 
 September 14 - October 2
