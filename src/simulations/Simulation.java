@@ -56,6 +56,6 @@ public class Simulation {
 	}
 	
 	public void save(String file) {
-		cells.save(file, parameters.toDoubleArray());
+		cells.save(file, parameters.getParameters());
 	}
 }

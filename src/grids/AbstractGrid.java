@@ -60,7 +60,7 @@ public abstract class AbstractGrid implements Iterable<Cell> {
 		};
 	}
 	
-	public abstract void save(String file, double[] parameters);
+	public abstract void save(String file, Object[] parameters);
 	
 	public abstract String getType();
 }
