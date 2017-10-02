@@ -32,6 +32,8 @@ public class FileCreator {
 	
 	public static void xmlCreator(String fileName, List<Integer> neighborList, String simType, String gType, int numRows, int numColumns, double[] parameters, List<Integer> gridLocations) {
 		try {
+		//value necessary for simulations like life which have no inherent parameters
+		String parameterString = "99";
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		//creates a document with an initial element node
@@ -68,11 +70,16 @@ public class FileCreator {
 		//catch-all array to store various values held in the different simulations
 		Element values = doc.createElement("values");
 		StringBuilder valueString = new StringBuilder();
-		for(int i = 0; i < parameters.length; i++) {
+		if(parameters.length < 1) {
+			valueString.append(parameterString);
+		}
+		else {
+		for(int i = 0; i < parameters.length - 1; i++) {
 			valueString.append("" + parameters[i] + ",");
 		}
 		if(parameters.length > 1) {
 		valueString.append("" + parameters[parameters.length - 1]);
+		}
 		}
 		values.appendChild(doc.createTextNode("" + valueString.toString()));
 		rootElement.appendChild(values);
