@@ -122,6 +122,7 @@ public class GUI extends Application {
 			try {
 			s.update();
 			} catch (NullPointerException e) {
+				e.printStackTrace();
 				NoSimulationsOpenBox bx = new NoSimulationsOpenBox();
 			}
 		}
