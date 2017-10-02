@@ -74,6 +74,9 @@ public class SimulationInterface extends Application {
 	private int stepNumber = 0;
 
 	@Override
+	/**
+	 * Literally starts the simulation
+	 */
 	public void start(Stage pStage) throws Exception {
 		setMain(pStage);
 		// initializeCellGrid();
